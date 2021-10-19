@@ -9,7 +9,7 @@ export const Router: FC = memo(() => {
     return (
         <Switch>
             <Route exact path="/login">
-                {localStorage.localJWT ? (
+                {!!localStorage.localJWT ? (
                     <Redirect to={'/home'} />
                 ) : (
                     <Login />
@@ -31,7 +31,11 @@ export const Router: FC = memo(() => {
                 </Switch>
             )} />
             <Route path="*">
-                <Page404 />
+                {!!localStorage.localJWT ? (
+                    <AuthLayout><Page404 /></AuthLayout>
+                ) : (
+                    <Page404 />
+                )}
             </Route>
         </Switch>
     )

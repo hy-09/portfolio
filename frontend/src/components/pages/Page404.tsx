@@ -1,15 +1,15 @@
-import { Button } from '@material-ui/core'
+import { Box, Button } from '@material-ui/core'
 import { useHistory } from 'react-router-dom'
 
 const Page404 = () => {
     const history = useHistory()
     return (
-        <div>
+        <Box m={!!localStorage.localJWT ? 0 : 2}>
             <p>
                 404page
             </p>
             {!!localStorage.localJWT || <Button onClick={() => history.push('/login')}>ログイン画面へ戻る</Button>}
-        </div>
+        </Box>
     )
 }
 
