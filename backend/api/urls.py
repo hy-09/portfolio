@@ -3,8 +3,9 @@ from . import views
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
+router.register('user', views.UserviewSet)
 router.register('profile', views.ProfileviewSet)
-router.register('post', views.PostViewSet)
+router.register('post', views.PostViewSet) 
 
 urlpatterns = [
     path('register/', views.CreateUserView.as_view()),

@@ -6,27 +6,32 @@ export interface File extends Blob {
 }
 
 // authSlice.ts
-export interface PROPS_AUTHEN {
+export type Authen = {
     email: string;
     password: string;
 }
 
-export interface PROPS_PROFILE {
+export type User = {
+    id: number;
+    email: string;
+}
+
+export type Profile = {
     id: number;
     name: string;
     img: File | null;
 }
 
-export interface PROPS_NAME {
+export type Name = {
     name: string;
 }
 
 // postSlice.ts
-export interface PROPS_NEWPOST {
+export type NewPost = {
     content: string;
 }
 
-export interface PROPS_LIKEUSERS {
+export type LikeUsers = {
     id: number;
     content: string;
     current: number[];
@@ -34,7 +39,7 @@ export interface PROPS_LIKEUSERS {
 }
 
 // Post.tsx
-export interface PROPS_POST {
+export type Post = {
     postId: number;
     loginId: number;
     postUser: number;

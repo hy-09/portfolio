@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState,} from '../../app/store';
-import { PROPS_AUTHEN, PROPS_PROFILE, PROPS_NAME } from '../types'
+import { Authen, Profile, Name } from '../types'
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
 export const fetchAsyncLogin = createAsyncThunk(
     'auth/post',
-    async (authen: PROPS_AUTHEN) => {
+    async (authen: Authen) => {
         const res = await axios.post(`${apiUrl}authen/jwt/create`, authen, {
             headers: {
                 'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export const fetchAsyncLogin = createAsyncThunk(
 
 export const fetchAsyncRegister = createAsyncThunk(
     'auth/register',
-    async (auth: PROPS_AUTHEN) => {
+    async (auth: Authen) => {
         const res = await axios.post(`${apiUrl}api/register/`, auth, {
             headers: {
                 'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export const fetchAsyncRegister = createAsyncThunk(
 
 export const fetchAsyncCreateProf = createAsyncThunk(
     'profile/post',
-    async (nickName: PROPS_NAME) => {
+    async (nickName: Name) => {
         const res = await axios.post(`${apiUrl}api/profile/`, nickName, {
             headers: {
                 'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export const fetchAsyncCreateProf = createAsyncThunk(
 
 export const fetchAsyncUpdateProf = createAsyncThunk(
     'profile/put',
-    async (profile: PROPS_PROFILE) => {
+    async (profile: Profile) => {
         const uploadData = new FormData()
         uploadData.append('name', profile.name)
         profile.img && uploadData.append('img', profile.img, profile.img.name)
@@ -55,6 +55,14 @@ export const fetchAsyncUpdateProf = createAsyncThunk(
                 Authorization: `JWT ${localStorage.localJWT}`
             }
         })
+        return res.data
+    }
+)
+
+export const fetchAsyncGetUsers = createAsyncThunk(
+    'users/get',
+    async () => {
+        const res = await axios.get(`${apiUrl}api/user/`)
         return res.data
     }
 )
@@ -85,6 +93,12 @@ export const fetchAsyncGetProfs = createAsyncThunk(
 
 
 const initialState = {
+    users: [
+        {
+            id: 0,
+            email: '',
+        }
+    ],
     openSignIn: true,
     openSignUp: false,
     openProfile: false,
@@ -154,6 +168,9 @@ export const authSlice = createSlice({
         })
         .addCase(fetchAsyncCreateProf.fulfilled, (state, action) => {
             state.myprofile = action.payload
+        })
+        .addCase(fetchAsyncGetUsers.fulfilled, (state, action) => {
+            state.users = action.payload
         })
         .addCase(fetchAsyncGetMyProf.fulfilled, (state, action) => {
             state.myprofile = action.payload

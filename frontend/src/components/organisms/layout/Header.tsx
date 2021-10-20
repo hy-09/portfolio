@@ -1,7 +1,8 @@
 import { AppBar, Button, Grid, Toolbar } from '@material-ui/core'
+import { FC } from 'react'
 import { useHistory } from 'react-router-dom'
 
-const Header = () => {
+const Header: FC = () => {
     const history = useHistory()
     return (
         <AppBar style={{position: 'sticky'}}>
@@ -14,7 +15,7 @@ const Header = () => {
                         <Button
                             onClick={() => {
                                 localStorage.removeItem('localJWT')
-                                history.push('/login')
+                                history.push('/login') 
                                 window.location.reload()
                             }}
                         >
