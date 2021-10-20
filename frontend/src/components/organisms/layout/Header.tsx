@@ -1,11 +1,21 @@
-import { AppBar, Button, Grid, Toolbar } from '@material-ui/core'
+import { AppBar, Button, Grid, makeStyles, Toolbar } from '@material-ui/core'
 import { FC } from 'react'
 import { useHistory } from 'react-router-dom'
 
+const useStyles = makeStyles(theme => ({
+    root: {
+        backgroundColor: 'white',
+        position: 'sticky',
+        boxShadow: 'none'
+    }
+}))
+
 const Header: FC = () => {
+    const classes = useStyles()
     const history = useHistory()
+
     return (
-        <AppBar style={{position: 'sticky'}}>
+        <AppBar className={classes.root}>
             <Toolbar>
                 <Grid
                     container

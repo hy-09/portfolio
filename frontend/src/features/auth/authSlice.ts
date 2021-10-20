@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { RootState,} from '../../app/store';
-import { Authen, Profile, Name } from '../types'
+import { Profile, Name, Auth } from '../types'
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
 export const fetchAsyncLogin = createAsyncThunk(
     'auth/post',
-    async (authen: Authen) => {
+    async (authen: Auth) => {
         const res = await axios.post(`${apiUrl}authen/jwt/create`, authen, {
             headers: {
                 'Content-Type': 'application/json',
@@ -19,7 +19,7 @@ export const fetchAsyncLogin = createAsyncThunk(
 
 export const fetchAsyncRegister = createAsyncThunk(
     'auth/register',
-    async (auth: Authen) => {
+    async (auth: Auth) => {
         const res = await axios.post(`${apiUrl}api/register/`, auth, {
             headers: {
                 'Content-Type': 'application/json',
@@ -97,6 +97,7 @@ const initialState = {
         {
             id: 0,
             email: '',
+            fund: 0,
         }
     ],
     openSignIn: true,

@@ -11,7 +11,9 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError('Email is required')
 
-        user = self.model(email=self.normalize_email(email))
+        user = self.model(
+            email = self.normalize_email(email)
+        )
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -26,6 +28,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=50, unique=True)
+    fund = models.BigIntegerField(default=10000000)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=True)
     
@@ -67,7 +70,7 @@ class Post(models.Model):
     likeUsers = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         related_name='likeUsers',
-        blank=True
+        blank=True,
     )
     
     def __str__(self):

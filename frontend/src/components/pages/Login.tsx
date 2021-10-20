@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, CircularProgress, Container, CssBaseline, Grid, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
+import { Avatar, Box, Button, CircularProgress, Container, CssBaseline, Grid, InputAdornment, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
 import { LockOutlined } from '@material-ui/icons'
 import { Formik } from 'formik'
 import { FC, useState } from 'react'
@@ -55,7 +55,7 @@ const useStyles = makeStyles(theme => ({
     error: {
         color: theme.palette.secondary.main,
         marginBottom: theme.spacing(1)
-    }
+    },
 }))
 
 const Login: FC = () => {
@@ -128,10 +128,9 @@ const Login: FC = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.email}
+                                    helperText={errors.email}
+                                    error={!!errors.email ? true : false}
                                 />
-                                {touched.email && errors.email ? (
-                                    <div className={classes.error}>{errors.email}</div>
-                                ) : null}
 
                                 <TextField
                                     variant="outlined"
@@ -143,10 +142,9 @@ const Login: FC = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.password}
+                                    helperText={errors.password}
+                                    error={!!errors.password ? true : false}
                                 />
-                                {touched.password && errors.password ? (
-                                    <div className={classes.error}>{errors.password}</div>
-                                ) : null}
                                 <Button
                                     className={classes.submit}
                                     fullWidth
@@ -206,9 +204,9 @@ const Login: FC = () => {
                                 ),
                             password: Yup.string().required('パスワードは必須です'),
                             passwordConfirm: Yup
-                            .string()
-                            .oneOf([Yup.ref('password')], 'パスワードが一致しません')
-                            .required('パスワードの再入力は必須です'),
+                                .string()
+                                .oneOf([Yup.ref('password')], 'パスワードが一致しません')
+                                .required('パスワードの再入力は必須です')
                         })}
                     >
                         {({
@@ -231,10 +229,9 @@ const Login: FC = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.email}
+                                    helperText={errors.email}
+                                    error={!!errors.email ? true : false}
                                 />
-                                {touched.email && errors.email ? (
-                                    <div className={classes.error}>{errors.email}</div>
-                                ) : null}
 
                                 <TextField
                                     variant="outlined"
@@ -246,10 +243,9 @@ const Login: FC = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.password}
+                                    helperText={errors.password}
+                                    error={!!errors.password ? true : false}
                                 />
-                                {touched.password && errors.password ? (
-                                    <div className={classes.error}>{errors.password}</div>
-                                ) : null}
 
                                 <TextField
                                     variant="outlined"
@@ -261,10 +257,10 @@ const Login: FC = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.passwordConfirm}
+                                    helperText={errors.passwordConfirm}
+                                    error={!!errors.passwordConfirm ? true : false}
                                 />
-                                {touched.passwordConfirm && errors.passwordConfirm ? (
-                                    <div className={classes.error}>{errors.passwordConfirm}</div>
-                                ) : null}
+
                                 <Button
                                     className={classes.submit}
                                     fullWidth
