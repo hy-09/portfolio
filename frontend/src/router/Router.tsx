@@ -12,13 +12,24 @@ const AuthRoute: FC<RouteProps> = memo(({...props}) => {
     }
 })
 
+const RedirectRoute: FC<RouteProps> = memo(() => {
+    if (!!localStorage.localJWT) {
+        return <Redirect to="/home" />
+    } else {
+        return <Login />
+    }
+})
+
 export const Router: FC = memo(() => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route exact path="/login">
-                    <Login />
+                <RedirectRoute path="/login" exact />
+
+                <Route path="/login/*">
+                    <Redirect to="/login" />
                 </Route>
+
                 <AuthRoute path="/home" render={({ match: { url } }) => (
                     <Switch>
                         <AuthLayout>
@@ -34,13 +45,9 @@ export const Router: FC = memo(() => {
                         </AuthLayout>
                     </Switch>
                 )} />
-                <Route path="*">
-                    {!!localStorage.localJWT ? (
-                        <Redirect to={'/home'} />
-                    ) : (
-                        <Redirect to={'/login'} />
-                    )}
-                </Route>
+
+                <RedirectRoute path="*" />
+                
             </Switch>
         </BrowserRouter>
     )
