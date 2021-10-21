@@ -1,20 +1,24 @@
 import { FC, memo } from "react";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, RouteProps } from "react-router-dom";
 import Login from "../components/pages/Login";
 import AuthLayout from "../components/templates/AuthLayout";
 import { HomeRoutes } from "./HomeRoutes";
+
+const AuthRoute: FC<RouteProps> = memo(({...props}) => {
+    if (!!localStorage.localJWT) {
+        return <Route {...props} />
+    } else {
+        return <Redirect to="/login" />
+    }
+})
 
 export const Router: FC = memo(() => {
     return (
         <Switch>
             <Route exact path="/login">
-                {!!localStorage.localJWT ? (
-                    <Redirect to={'/home'} />
-                ) : (
-                    <Login />
-                )}
+                <Login />
             </Route>
-            <Route path="/home" render={({ match: { url } }) => (
+            <AuthRoute path="/home" render={({ match: { url } }) => (
                 <Switch>
                     <AuthLayout>
                         {HomeRoutes.map((route) => (
