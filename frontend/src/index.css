@@ -1,8 +1,6 @@
-body {
-  margin: 0;
-}
 * {
   font-family: "Noto Sans JP", sans-serif !important;
+  margin: 0;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",

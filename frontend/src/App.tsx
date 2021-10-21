@@ -1,8 +1,7 @@
 
-import { BrowserRouter } from 'react-router-dom';
 import { Router } from './router/Router';
 import { ThemeProvider } from '@material-ui/styles';
-import { createTheme } from '@material-ui/core';
+import { createTheme, CssBaseline } from '@material-ui/core';
 import { useAppDispatch } from './app/hooks';
 import { useEffect } from 'react';
 import { fetchAsyncGetUsers } from './features/auth/authSlice';
@@ -27,9 +26,8 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            <BrowserRouter>
-                <Router />
-            </BrowserRouter>
+            <Router />
+            <CssBaseline />
         </ThemeProvider>
     );
 }
