@@ -1,9 +1,8 @@
 import { FC, memo } from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Login from "../components/pages/Login";
-import Page404 from "../components/pages/Page404";
 import AuthLayout from "../components/templates/AuthLayout";
-import { RootRoutes } from "./RootRoutes";
+import { HomeRoutes } from "./HomeRoutes";
 
 export const Router: FC = memo(() => {
     return (
@@ -18,7 +17,7 @@ export const Router: FC = memo(() => {
             <Route path="/home" render={({ match: { url } }) => (
                 <Switch>
                     <AuthLayout>
-                        {RootRoutes.map((route) => (
+                        {HomeRoutes.map((route) => (
                             <Route 
                                 key={route.path} 
                                 exact={route.exact} 
@@ -32,9 +31,9 @@ export const Router: FC = memo(() => {
             )} />
             <Route path="*">
                 {!!localStorage.localJWT ? (
-                    <AuthLayout><Page404 /></AuthLayout>
+                    <Redirect to={'/home'} />
                 ) : (
-                    <Page404 />
+                    <Redirect to={'/login'} />
                 )}
             </Route>
         </Switch>

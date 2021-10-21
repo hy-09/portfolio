@@ -1,7 +1,6 @@
 import Home from "../components/pages/Home";
-import Page404 from "../components/pages/Page404";
 
-export const RootRoutes = [
+export const HomeRoutes = [
     {
         path: '/',
         exact: true,
@@ -10,6 +9,6 @@ export const RootRoutes = [
     {
         path: '/*',
         exact: false,
-        children: <Page404 />
+        children: <Home />
     },
 ]

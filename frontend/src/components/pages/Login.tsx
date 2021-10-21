@@ -105,7 +105,7 @@ const Login: FC = () => {
                                 .string()
                                 .email('メールアドレスの形式で入力してください')
                                 .required('メールアドレスは必須です'),
-                            password: Yup.string().required('パスワードは必須です').min(4)
+                            password: Yup.string().required('パスワードは必須です')
                         })}
                     >
                         {({
@@ -114,7 +114,6 @@ const Login: FC = () => {
                             handleBlur,
                             values,
                             errors,
-                            touched,
                             isValid,
                         }) => 
                             <form onSubmit={handleSubmit} className={classes.form}>
@@ -215,7 +214,6 @@ const Login: FC = () => {
                             handleBlur,
                             values,
                             errors,
-                            touched,
                             isValid,
                         }) => 
                             <form onSubmit={handleSubmit} className={classes.form}>

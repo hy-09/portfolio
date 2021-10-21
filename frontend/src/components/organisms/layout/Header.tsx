@@ -25,7 +25,7 @@ const Header: FC = () => {
                         <Button
                             onClick={() => {
                                 localStorage.removeItem('localJWT')
-                                history.push('/login') 
+                                history.push('/') 
                                 window.location.reload()
                             }}
                         >
