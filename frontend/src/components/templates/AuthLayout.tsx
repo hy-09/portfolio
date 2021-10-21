@@ -12,18 +12,12 @@ const AuthLayout: FC<Props> = memo((props) => {
     
     return (
         <>
-            {localStorage.localJWT ? (
-            <>
-                <Header />
-                <Box m={2}>
-                    <Grid container>
-                        {children}
-                    </Grid>
-                </Box>
-            </>
-            ) : (
-                <Redirect to={'/login'} />
-            )}
+        <Header />
+        <Box m={2}>
+            <Grid container>
+                {children}
+            </Grid>
+        </Box>
         </>
     )
 })
