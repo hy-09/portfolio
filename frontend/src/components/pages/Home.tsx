@@ -3,7 +3,7 @@ import React, { FC } from 'react'
 const Home: FC = () => {
     return (
         <div>
-            HOME
+            HOME   これはホーム画面です
         </div>
     )
 }

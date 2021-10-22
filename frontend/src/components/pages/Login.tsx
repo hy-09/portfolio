@@ -20,7 +20,7 @@ import {
     selectOpenSignUp,
     setOpenSignIn,
     setOpenSignUp
-} from '../../features/auth/authSlice'
+} from '../../slices/authSlice'
 
 const useStyles = makeStyles(theme => ({
     paper: {

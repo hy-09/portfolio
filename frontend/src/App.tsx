@@ -2,10 +2,11 @@
 import { Router } from './router/Router';
 import { ThemeProvider } from '@material-ui/styles';
 import { createTheme, CssBaseline } from '@material-ui/core';
-import { useAppDispatch } from './app/hooks';
+import { useAppDispatch, useAppSelector } from './app/hooks';
 import { useEffect } from 'react';
-import { fetchAsyncGetUsers } from './features/auth/authSlice';
+import { fetchAsyncGetUsers } from './slices/authSlice';
 import { cyan } from '@material-ui/core/colors';
+import Modal from './components/organisms/Modal'
 
 const theme = createTheme({
     palette: {
@@ -21,6 +22,8 @@ const theme = createTheme({
 
 function App() {
     const dispatch = useAppDispatch()
+    const modalOpen = useAppSelector(state => state.component.modalOpen)
+
     useEffect(() => {
         dispatch(fetchAsyncGetUsers())
     }, [])
@@ -28,6 +31,7 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <Router />
+            <Modal open={modalOpen} /> 
             <CssBaseline />
         </ThemeProvider>
     );

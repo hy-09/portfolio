@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { RootState,} from '../../app/store';
-import { Profile, Name, Auth } from '../types'
+import { RootState,} from '../app/store';
+import { Profile, Name, Auth } from '../types/user'
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 

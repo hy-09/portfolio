@@ -30,7 +30,6 @@ const AuthLayout: FC<Props> = memo((props) => {
     
     return (
         <div className={classes.root}>
-            <CssBaseline />
             <Header handleDrawerToggle={handleDrawerToggle} />
             <Sidebar 
                 mobileOpen={mobileOpen}

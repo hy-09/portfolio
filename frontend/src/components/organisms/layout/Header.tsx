@@ -1,10 +1,14 @@
 import { AppBar, Avatar, Badge, Button, IconButton, makeStyles, Toolbar } from '@material-ui/core'
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
-import React, { FC, ReactNode } from 'react'
+import React, { FC, ReactNode, useState } from 'react'
 import { drawerWidth } from '../../../config';
-import MenuListComposition from '../MenuListComposition';
+import MenuList from '../MenuList';
 import { useHistory } from 'react-router';
+import Dialog from '../Dialog';
+import Modal from '../Modal';
+import { handleModalOpen } from '../../../slices/componentSlice';
+import { useAppDispatch } from '../../../app/hooks';
 
 type Props = {
     handleDrawerToggle: () => void;
@@ -36,24 +40,43 @@ const useStyles = makeStyles(theme => ({
     avatar: {
         width: theme.spacing(3),
         height: theme.spacing(3),
-    }
+    },
+    menuListItem: {
+        color: theme.palette.grey[600],
+        fontSize: '0.875rem'
+    },
 }))
 
 const Header: FC<Props> = (props) => {
     const { handleDrawerToggle } = props
+    const dispatch = useAppDispatch()
     const history = useHistory()
     const classes = useStyles()
+
     const items = [
-        'プロフィール',
-        <div
-            onClick={() => {
-                localStorage.removeItem('localJWT')
-                history.push('/login')
-                window.location.reload()
-            }}
-        >
-            ログアウト
-        </div>
+        (  
+            <>
+            <div 
+                className={classes.menuListItem}
+                onClick={() => dispatch(handleModalOpen())}
+            >
+                プロフィール
+            </div>
+            </>
+        )
+        ,
+        (
+            <div 
+                className={classes.menuListItem}
+                onClick={() => {
+                    localStorage.removeItem('localJWT')
+                    history.push('/login')
+                    window.location.reload()
+                }}
+            >
+                ログアウト
+            </div>
+        )
     ]
 
     return (
@@ -74,7 +97,7 @@ const Header: FC<Props> = (props) => {
                         <NotificationsNoneOutlinedIcon className={classes.icon} />
                     </Badge>
                 </IconButton>
-                <MenuListComposition 
+                <MenuList 
                     Button={IconButton} 
                     ButtonContent={() => (
                         <Avatar alt="アバター" src="https://picsum.photos/200" className={classes.avatar} />

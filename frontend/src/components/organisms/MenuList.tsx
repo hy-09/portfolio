@@ -5,7 +5,7 @@ import Grow from '@material-ui/core/Grow';
 import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
+import { MenuList as MuiMenuList} from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { IconButton } from '@material-ui/core';
 
@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
         marginRight: theme.spacing(2),
         boxShadow: 'none',
-        border: '1px solid' + theme.palette.grey[300]
+        // border: '1px solid' + theme.palette.grey[300]
     },
     menuItem: {
-        '&:not(:last-of-type)': {
-            borderBottom: '1px solid' + theme.palette.grey[300]
-        }
+        // '&:not(:last-of-type)': {
+        //     borderBottom: '1px solid' + theme.palette.grey[300]
+        // }
     }
   }),
 );
@@ -33,7 +33,7 @@ type Props = {
     items: Array<any>;
 }
 
-const MenuListComposition: FC<Props> = (props) => {
+const MenuList: FC<Props> = (props) => {
   const { Button, ButtonContent, items } = props
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
@@ -72,7 +72,6 @@ const MenuListComposition: FC<Props> = (props) => {
     <div className={classes.root}>
         <Button
           ref={anchorRef}
-          aria-controls={open ? 'menu-list-grow' : undefined}
           aria-haspopup="true"
           onClick={handleToggle} 
         >
@@ -86,7 +85,7 @@ const MenuListComposition: FC<Props> = (props) => {
             >
               <Paper className={classes.paper}>
                 <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                  <MuiMenuList autoFocusItem={open} onKeyDown={handleListKeyDown}>
                       {items.map(item => (
                           <MenuItem
                             onClick={handleClose}
@@ -95,7 +94,7 @@ const MenuListComposition: FC<Props> = (props) => {
                               {item}
                           </MenuItem>
                       ))}
-                  </MenuList>
+                  </MuiMenuList>
                 </ClickAwayListener>
               </Paper>
             </Grow>
@@ -105,4 +104,4 @@ const MenuListComposition: FC<Props> = (props) => {
   );
 }
 
-export default MenuListComposition
+export default MenuList
