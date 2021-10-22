@@ -3,6 +3,8 @@ import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneO
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { FC, ReactNode } from 'react'
 import { drawerWidth } from '../../../config';
+import MenuListComposition from '../MenuListComposition';
+import { useHistory } from 'react-router';
 
 type Props = {
     handleDrawerToggle: () => void;
@@ -39,7 +41,20 @@ const useStyles = makeStyles(theme => ({
 
 const Header: FC<Props> = (props) => {
     const { handleDrawerToggle } = props
+    const history = useHistory()
     const classes = useStyles()
+    const items = [
+        'プロフィール',
+        <div
+            onClick={() => {
+                localStorage.removeItem('localJWT')
+                history.push('/login')
+                window.location.reload()
+            }}
+        >
+            ログアウト
+        </div>
+    ]
 
     return (
         <AppBar position="fixed" className={classes.appBar}>
@@ -59,9 +74,13 @@ const Header: FC<Props> = (props) => {
                         <NotificationsNoneOutlinedIcon className={classes.icon} />
                     </Badge>
                 </IconButton>
-                <IconButton>
-                    <Avatar alt="アバター" src="https://picsum.photos/200" className={classes.avatar} />
-                </IconButton>
+                <MenuListComposition 
+                    Button={IconButton} 
+                    ButtonContent={() => (
+                        <Avatar alt="アバター" src="https://picsum.photos/200" className={classes.avatar} />
+                    )}
+                    items={items}
+                />
             </div>
           </Toolbar>
         </AppBar>
