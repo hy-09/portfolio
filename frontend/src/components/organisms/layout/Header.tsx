@@ -1,4 +1,5 @@
-import { AppBar, IconButton, makeStyles, Toolbar } from '@material-ui/core'
+import { AppBar, Avatar, Badge, Button, IconButton, makeStyles, Toolbar } from '@material-ui/core'
+import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { FC, ReactNode } from 'react'
 import { drawerWidth } from '../../../config';
@@ -22,6 +23,18 @@ const useStyles = makeStyles(theme => ({
             display: 'none',
         },
     },
+    icons: {
+        alignItems: 'center',
+        display: 'flex',
+        marginLeft: 'auto'
+    },
+    icon: {
+        color: theme.palette.grey[500],
+    },
+    avatar: {
+        width: theme.spacing(3),
+        height: theme.spacing(3),
+    }
 }))
 
 const Header: FC<Props> = (props) => {
@@ -40,6 +53,16 @@ const Header: FC<Props> = (props) => {
             >
               <MenuIcon style={{color: '#aaa'}} />
             </IconButton>
+            <div className={classes.icons}>
+                <IconButton>
+                    <Badge badgeContent={2} color="secondary">
+                        <NotificationsNoneOutlinedIcon className={classes.icon} />
+                    </Badge>
+                </IconButton>
+                <IconButton>
+                    <Avatar alt="アバター" src="https://picsum.photos/200" className={classes.avatar} />
+                </IconButton>
+            </div>
           </Toolbar>
         </AppBar>
     )

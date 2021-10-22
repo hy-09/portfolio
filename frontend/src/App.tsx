@@ -5,15 +5,17 @@ import { createTheme, CssBaseline } from '@material-ui/core';
 import { useAppDispatch } from './app/hooks';
 import { useEffect } from 'react';
 import { fetchAsyncGetUsers } from './features/auth/authSlice';
+import { cyan } from '@material-ui/core/colors';
 
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#00899b',
+            main: cyan[700],
+            contrastText: '#efefef',
         },
         background: {
             default: '#f7fdff'
-        }
+        },
     }
 })
 

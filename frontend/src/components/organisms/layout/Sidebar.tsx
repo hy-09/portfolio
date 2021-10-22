@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme: Theme) =>
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor: theme.palette.primary.main,
+      backgroundColor: theme.palette.primary.light,
+      boxShadow: theme.shadows[1]
     },
     content: {
       flexGrow: 1,
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: theme.spacing(2),
     },
     listItemText: {
-        color: '#efefef'
+        color: theme.palette.primary.contrastText
     }
   }),
 );
@@ -51,7 +52,6 @@ export default function Sidebar(props: Props) {
   const { window, mobileOpen, handleDrawerToggle } = props;
   const classes = useStyles();
   const theme = useTheme();
-
 
   const items = [
       {
