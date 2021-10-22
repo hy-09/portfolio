@@ -7,8 +7,9 @@ import MenuList from '../MenuList';
 import { useHistory } from 'react-router';
 import Dialog from '../Dialog';
 import Modal from '../Modal';
-import { handleModalOpen } from '../../../slices/componentSlice';
+import { handleModalOpen, handleSetModalContent } from '../../../slices/componentSlice';
 import { useAppDispatch } from '../../../app/hooks';
+import ProfileForm from '../../molecules/ProfileForm';
 
 type Props = {
     handleDrawerToggle: () => void;
@@ -58,7 +59,10 @@ const Header: FC<Props> = (props) => {
             <>
             <div 
                 className={classes.menuListItem}
-                onClick={() => dispatch(handleModalOpen())}
+                onClick={() => {
+                    dispatch(handleSetModalContent({title: 'プロフィール編集', content: <ProfileForm />}))
+                    dispatch(handleModalOpen())
+                }}
             >
                 プロフィール
             </div>

@@ -1,24 +1,27 @@
 import React, { FC } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Modal as MuiModal} from '@material-ui/core';
+import { Modal as MuiModal, Paper} from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { handleModalClose } from '../../slices/componentSlice';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     modal: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     paper: {
-      backgroundColor: theme.palette.background.paper,
-      border: '2px solid #000',
-      boxShadow: theme.shadows[5],
-      padding: theme.spacing(2, 4, 3),
+        boxShadow: theme.shadows[0],
+        padding: theme.spacing(2, 4, 3),
+        margin: theme.spacing(0, 1)
     },
+    title: {
+        marginBottom: theme.spacing(2),
+        textAlign: 'center'
+    }
   }),
 );
 
@@ -28,6 +31,8 @@ type Props = {
 
 const Modal: FC<Props> = (props) => {
     const dispatch = useAppDispatch()
+    const title = useAppSelector(state => state.component.modal.title)
+    const content = useAppSelector(state => state.component.modal.content)
     const classes = useStyles();
     const { open } = props
   
@@ -41,14 +46,16 @@ const Modal: FC<Props> = (props) => {
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{
-            timeout: 500,
+                timeout: 300,
             }}
         >
             <Fade in={open}>
-            <div className={classes.paper}>
-                <h2 id="transition-modal-title">Transition modal</h2>
-                <p id="transition-modal-description">react-transition-group animates me.</p>
-            </div>
+                <Paper className={classes.paper}>
+                    {title != '' &&
+                        <h2 id="transition-modal-title" className={classes.title}>{title}</h2>
+                    }
+                    <div id="transition-modal-description">{content}</div>
+                </Paper>
             </Fade>
         </MuiModal>
     );

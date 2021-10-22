@@ -4,7 +4,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { createTheme, CssBaseline } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { useEffect } from 'react';
-import { fetchAsyncGetUsers } from './slices/authSlice';
+import { fetchAsyncGetMyProf, fetchAsyncGetUsers } from './slices/authSlice';
 import { cyan } from '@material-ui/core/colors';
 import Modal from './components/organisms/Modal'
 
@@ -22,10 +22,13 @@ const theme = createTheme({
 
 function App() {
     const dispatch = useAppDispatch()
-    const modalOpen = useAppSelector(state => state.component.modalOpen)
+    const modalOpen = useAppSelector(state => state.component.modal.open)
 
     useEffect(() => {
         dispatch(fetchAsyncGetUsers())
+        if(!!localStorage.localJWT) {
+            dispatch(fetchAsyncGetMyProf())
+        }
     }, [])
 
     return (

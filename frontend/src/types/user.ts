@@ -1,3 +1,8 @@
+export interface File extends Blob {
+    readonly lastModified: number;
+    readonly name: string;
+}
+
 export type Auth = {
     email: string;
     password: string;
