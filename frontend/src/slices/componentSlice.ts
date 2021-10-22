@@ -24,14 +24,14 @@ export const componentSlice = createSlice({
         handleModalClose(state) {
             state.modal.open = false
         },
-        handleSetModalContent(state, action) {
+        setModalContent(state, action) {
             state.modal = {
                 ...state.modal,
                 title: action.payload.title ? action.payload.title : '',
                 content: action.payload.content
             }
         },
-        handleResetModalContent(state) {
+        resetModalContent(state) {
             state.modal = {
                 ...state.modal,
                 title: '',
@@ -70,8 +70,8 @@ export const componentSlice = createSlice({
 export const { 
     handleModalOpen,
     handleModalClose,
-    handleSetModalContent,
-    handleResetModalContent,
+    setModalContent,
+    resetModalContent,
 } = componentSlice.actions;
 
 // The function below is called a selector and allows us to select a value from

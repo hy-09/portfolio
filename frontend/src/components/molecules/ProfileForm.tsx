@@ -26,14 +26,15 @@ const useStyles = makeStyles(theme => ({
 const ProfileForm: FC = () => {
     const dispatch = useAppDispatch()
     const classes = useStyles()
-    const profile = useAppSelector(state => state.auth.myprofile)
+    const myprofile = useAppSelector(state => state.auth.myprofile)
     const [image, setImage] = useState<File | null>(null)
+    const [previewImage, setPreviewImage] = useState<string | null>(null)
 
     const updateProfile = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault()
         const data = {
-            id: profile.id,
-            name: profile.name,
+            id: myprofile.id,
+            name: myprofile.name,
             img: image,
         }
 
@@ -42,13 +43,20 @@ const ProfileForm: FC = () => {
         await dispatch(fetchCredEnd())
     }
 
+    const handleSetPreviewImage = (img: File) => {
+        setImage(img)
+
+        const imgURL = URL.createObjectURL(img)
+        setPreviewImage(imgURL)
+    }
+
     return (
         <form>
             <div>
                 <TextField 
                     label="ユーザー名"
                     type="text"
-                    value={profile?.name}
+                    value={myprofile?.name}
                     onChange={e => dispatch(editName(e.target.value))}
                 />
             </div>
@@ -60,14 +68,19 @@ const ProfileForm: FC = () => {
                     画像を選択
                     <input
                         type="file"
+                        accept="image/*"
                         className={classes.fileInput}
-                        onChange={e => setImage(e.target.files![0])}
+                        onChange={(e) => handleSetPreviewImage(e.target.files![0])}
                     />
                 </Button>
-                <Avatar alt="アバター" src="https://picsum.photos/200" className={classes.avatar} />
+                {previewImage ? (
+                    <Avatar src={previewImage} />
+                ) : (
+                    <Avatar src={myprofile.img} className={classes.avatar} />
+                )}
             </div>
             <Button
-                disabled={!profile?.name}
+                disabled={!myprofile?.name}
                 variant="contained"
                 type="submit"
                 color="primary"

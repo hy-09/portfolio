@@ -31,8 +31,8 @@ export const fetchAsyncRegister = createAsyncThunk(
 
 export const fetchAsyncCreateProf = createAsyncThunk(
     'profile/post',
-    async (nickName: Name) => {
-        const res = await axios.post(`${apiUrl}api/profile/`, nickName, {
+    async (name: Name) => {
+        const res = await axios.post(`${apiUrl}api/profile/`, name, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.localJWT}`

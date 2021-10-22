@@ -7,9 +7,10 @@ import MenuList from '../MenuList';
 import { useHistory } from 'react-router';
 import Dialog from '../Dialog';
 import Modal from '../Modal';
-import { handleModalOpen, handleSetModalContent } from '../../../slices/componentSlice';
-import { useAppDispatch } from '../../../app/hooks';
+import { handleModalOpen, setModalContent } from '../../../slices/componentSlice';
+import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import ProfileForm from '../../molecules/ProfileForm';
+import { Person } from '@material-ui/icons';
 
 type Props = {
     handleDrawerToggle: () => void;
@@ -50,6 +51,7 @@ const useStyles = makeStyles(theme => ({
 
 const Header: FC<Props> = (props) => {
     const { handleDrawerToggle } = props
+    const myprofile = useAppSelector(state => state.auth.myprofile)
     const dispatch = useAppDispatch()
     const history = useHistory()
     const classes = useStyles()
@@ -60,7 +62,7 @@ const Header: FC<Props> = (props) => {
             <div 
                 className={classes.menuListItem}
                 onClick={() => {
-                    dispatch(handleSetModalContent({title: 'プロフィール編集', content: <ProfileForm />}))
+                    dispatch(setModalContent({title: 'プロフィール編集', content: <ProfileForm />}))
                     dispatch(handleModalOpen())
                 }}
             >
@@ -104,7 +106,7 @@ const Header: FC<Props> = (props) => {
                 <MenuList 
                     Button={IconButton} 
                     ButtonContent={() => (
-                        <Avatar alt="アバター" src="https://picsum.photos/200" className={classes.avatar} />
+                        <Avatar src={myprofile.img} className={classes.avatar} />
                     )}
                     items={items}
                 />
