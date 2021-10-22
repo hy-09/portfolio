@@ -24,10 +24,15 @@ import {
 
 const useStyles = makeStyles(theme => ({
     paper: {
-        paddingTop: theme.spacing(8),
+        padding: theme.spacing(4, 2),
+        [theme.breakpoints.up('sm')]: {
+            padding: theme.spacing(6)
+        },
+        marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        backgroundColor: 'white'
     },
     circularProgressWrapper: {
         position: 'fixed',
@@ -74,8 +79,7 @@ const Login: FC = () => {
             </div>
         )}
 
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
+        <Container component="main" maxWidth="sm">
 
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>

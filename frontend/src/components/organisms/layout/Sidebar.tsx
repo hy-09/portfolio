@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
       width: drawerWidth,
-      backgroundColor: theme.palette.primary.light,
+      backgroundColor: theme.palette.primary.main,
       boxShadow: theme.shadows[1]
     },
     content: {
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: Theme) =>
         marginLeft: theme.spacing(2),
     },
     listItemText: {
-        color: theme.palette.primary.contrastText
+        color: theme.palette.primary.contrastText,
     }
   }),
 );
