@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 services:
   backend:
@@ -35,7 +35,9 @@ services:
       MYSQL_USER: dbuser
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: root
+      TZ: "Asia/Tokyo"
     volumes:
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf
       - db_data:/var/lib/mysql
     ports:
       - 33066:3306

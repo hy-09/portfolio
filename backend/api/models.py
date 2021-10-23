@@ -78,3 +78,17 @@ class Post(models.Model):
     
     class Meta:
         db_table = 'posts'
+
+
+class Company(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        db_table = 'companies'
+
+
+class BoughtStockInfoList(models.Model):
+    pass

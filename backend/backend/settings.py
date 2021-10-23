@@ -87,6 +87,9 @@ DATABASES = {
         'PASSWORD': 'password',
         'HOST': 'mysql',
         'PORT': '3306',
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
 

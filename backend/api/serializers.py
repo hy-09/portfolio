@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import Profile, Post
+from .models import Company, Profile, Post
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,3 +35,10 @@ class PostSerializer(serializers.ModelSerializer):
         extra_kwargs = {
             'postUser': {'read_only': True}
         }
+
+
+class CompanySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Company
+        fields = ('id', 'name')
