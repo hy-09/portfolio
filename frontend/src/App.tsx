@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { fetchAsyncGetMyProf, fetchAsyncGetUsers } from './slices/authSlice';
 import { cyan } from '@material-ui/core/colors';
 import Modal from './components/organisms/Modal'
+import Snackbar from './components/atoms/Snackbar';
 
 const theme = createTheme({
     palette: {
@@ -22,7 +23,8 @@ const theme = createTheme({
 
 function App() {
     const dispatch = useAppDispatch()
-    const modalOpen = useAppSelector(state => state.component.modal.open)
+    const modal = useAppSelector(state => state.component.modal)
+    const notify = useAppSelector(state => state.component.notify)
 
     useEffect(() => {
         dispatch(fetchAsyncGetUsers())
@@ -34,7 +36,8 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <Router />
-            <Modal open={modalOpen} /> 
+            <Modal modal={modal} />
+            <Snackbar notify={notify} />
             <CssBaseline />
         </ThemeProvider>
     );

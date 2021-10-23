@@ -5,6 +5,7 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { handleModalClose } from '../../slices/componentSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { Modal as TypeModal } from '../../types/component';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -26,15 +27,15 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type Props = {
-    open: boolean;
+    modal: TypeModal;
 }
 
 const Modal: FC<Props> = (props) => {
     const dispatch = useAppDispatch()
-    const title = useAppSelector(state => state.component.modal.title)
-    const content = useAppSelector(state => state.component.modal.content)
     const classes = useStyles();
-    const { open } = props
+    const { modal: { title } } = props
+    const { modal: { content } } = props
+    const { modal: { open } } = props
   
     return (
         <MuiModal

@@ -1,7 +1,10 @@
 import { Box, Button, CssBaseline, Grid, makeStyles, Theme } from "@material-ui/core";
-import { FC, memo, ReactNode, useState } from "react";
+import { FC, memo, ReactNode, useEffect, useState } from "react";
 import Sidebar from "../organisms/layout/Sidebar";
 import Header from "../organisms/layout/Header";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { handleModalOpen, handleNotifyOpen } from "../../slices/componentSlice";
+import ProfileForm from "../molecules/ProfileForm";
 
 type Props = {
     children: ReactNode;
@@ -22,11 +25,26 @@ const useStyles = makeStyles((theme: Theme) => ({
 const AuthLayout: FC<Props> = memo((props) => {
     const { children } = props
     const classes = useStyles()
+    const dispatch = useAppDispatch()
+    const firstTimeAfterRegister = useAppSelector<boolean>(state => state.component.firstTimeAfterRegister)
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
         setMobileOpen(!mobileOpen);
     };
+
+    useEffect(() => {
+        if (firstTimeAfterRegister) {
+            dispatch(handleModalOpen({
+                title: 'プロフィール編集', 
+                content: <ProfileForm />
+            }))
+            dispatch(handleNotifyOpen({
+                message: 'まずはプロフィールを編集しましょう！',
+                type: 'success'
+            }))
+        }
+    }, [])
     
     return (
         <div className={classes.root}>

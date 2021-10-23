@@ -21,6 +21,8 @@ import {
     setOpenSignIn,
     setOpenSignUp
 } from '../../slices/authSlice'
+import { handleModalOpen, handleNotifyOpen, setFirstTimeAfterRegister } from '../../slices/componentSlice'
+import ProfileForm from '../molecules/ProfileForm'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -185,9 +187,9 @@ const Login: FC = () => {
                                 await dispatch(fetchAsyncGetProfs())
                                 // await dispatch(fetchAsyncGetPosts())
                                 await dispatch(fetchAsyncGetMyProf())
+                                await dispatch(setFirstTimeAfterRegister())
                             }
                             await dispatch(fetchCredEnd())
-                            await dispatch(resetOpenSignUp())
                             history.push('/home')
                         }}
                         validationSchema={Yup.object().shape({

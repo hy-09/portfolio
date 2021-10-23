@@ -2,6 +2,8 @@ import { Avatar, Button, makeStyles, TextField } from '@material-ui/core'
 import React, { FC, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { editName, fetchAsyncUpdateProf, fetchCredEnd, fetchCredStart, resetOpenProfile } from '../../slices/authSlice'
+import { handleModalClose, handleNotifyOpen } from '../../slices/componentSlice'
+import { Notify } from '../../types/component'
 import { File } from '../../types/user'
 
 
@@ -30,24 +32,29 @@ const ProfileForm: FC = () => {
     const [image, setImage] = useState<File | null>(null)
     const [previewImage, setPreviewImage] = useState<string | null>(null)
 
+    const handleSetPreviewImage = (img: File) => {
+        setImage(img)
+
+        const imgURL = URL.createObjectURL(img)
+        setPreviewImage(imgURL)
+    }
+    
     const updateProfile = async (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault()
-        const data = {
+        const profile = {
             id: myprofile.id,
             name: myprofile.name,
             img: image,
         }
 
         await dispatch(fetchCredStart())
-        await dispatch(fetchAsyncUpdateProf(data))
+        await dispatch(fetchAsyncUpdateProf(profile))
         await dispatch(fetchCredEnd())
-    }
-
-    const handleSetPreviewImage = (img: File) => {
-        setImage(img)
-
-        const imgURL = URL.createObjectURL(img)
-        setPreviewImage(imgURL)
+        dispatch(handleModalClose())
+        dispatch(handleNotifyOpen({
+            message: 'プロフィールを変更しました',
+            type: 'success'
+        }))
     }
 
     return (
@@ -73,11 +80,8 @@ const ProfileForm: FC = () => {
                         onChange={(e) => handleSetPreviewImage(e.target.files![0])}
                     />
                 </Button>
-                {previewImage ? (
-                    <Avatar src={previewImage} />
-                ) : (
-                    <Avatar src={myprofile.img} className={classes.avatar} />
-                )}
+                <Avatar src={previewImage ? previewImage : myprofile.img} className={classes.avatar} />
+
             </div>
             <Button
                 disabled={!myprofile?.name}
