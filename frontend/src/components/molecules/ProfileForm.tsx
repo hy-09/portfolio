@@ -1,7 +1,7 @@
 import { Avatar, Button, makeStyles, TextField } from '@material-ui/core'
 import React, { FC, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { editName, fetchAsyncUpdateProf, fetchCredEnd, fetchCredStart, resetOpenProfile } from '../../slices/authSlice'
+import { setName, fetchAsyncUpdateProf, fetchCredEnd, fetchCredStart, resetOpenProfile } from '../../slices/authSlice'
 import { handleModalClose, handleNotifyOpen } from '../../slices/componentSlice'
 import { Notify } from '../../types/component'
 import { File } from '../../types/user'
@@ -29,6 +29,7 @@ const ProfileForm: FC = () => {
     const dispatch = useAppDispatch()
     const classes = useStyles()
     const myprofile = useAppSelector(state => state.auth.myprofile)
+    const [nameInEdit, setNameInEdit] = useState<string>(myprofile.name)
     const [image, setImage] = useState<File | null>(null)
     const [previewImage, setPreviewImage] = useState<string | null>(null)
 
@@ -43,7 +44,7 @@ const ProfileForm: FC = () => {
         e.preventDefault()
         const profile = {
             id: myprofile.id,
-            name: myprofile.name,
+            name: nameInEdit,
             img: image,
         }
 
@@ -63,8 +64,10 @@ const ProfileForm: FC = () => {
                 <TextField 
                     label="ユーザー名"
                     type="text"
-                    value={myprofile?.name}
-                    onChange={e => dispatch(editName(e.target.value))}
+                    value={nameInEdit}
+                    onChange={e => {
+                        setNameInEdit(e.target.value)
+                    }}
                 />
             </div>
             <div className={classes.imageGroup}>
@@ -84,7 +87,7 @@ const ProfileForm: FC = () => {
 
             </div>
             <Button
-                disabled={!myprofile?.name}
+                disabled={!myprofile.name}
                 variant="contained"
                 type="submit"
                 color="primary"

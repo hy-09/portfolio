@@ -156,7 +156,7 @@ export const authSlice = createSlice({
         resetOpenProfile(state) {
             state.openProfile = false
         },
-        editName(state, action) {
+        setName(state, action) {
             state.myprofile.name = action.payload
         }
     },
@@ -197,7 +197,7 @@ export const {
     resetOpenSignUp, 
     setOpenProfile, 
     resetOpenProfile, 
-    editName,
+    setName,
 } = authSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
