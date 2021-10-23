@@ -1,9 +1,8 @@
 import { Avatar, Button, makeStyles, TextField } from '@material-ui/core'
 import React, { FC, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { setName, fetchAsyncUpdateProf, fetchCredEnd, fetchCredStart, resetOpenProfile } from '../../slices/authSlice'
+import { fetchAsyncUpdateProf, fetchCredEnd, fetchCredStart } from '../../slices/authSlice'
 import { handleModalClose, handleNotifyOpen } from '../../slices/componentSlice'
-import { Notify } from '../../types/component'
 import { File } from '../../types/user'
 
 

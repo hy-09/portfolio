@@ -13,16 +13,8 @@ import {
     fetchAsyncRegister,
     fetchCredEnd,
     fetchCredStart,
-    resetOpenSignIn,
-    resetOpenSignUp,
-    selectIsLoadingAuth, 
-    selectOpenSignIn, 
-    selectOpenSignUp,
-    setOpenSignIn,
-    setOpenSignUp
 } from '../../slices/authSlice'
-import { handleModalOpen, handleNotifyOpen, setFirstTimeAfterRegister } from '../../slices/componentSlice'
-import ProfileForm from '../molecules/ProfileForm'
+import { setFirstTimeAfterRegister } from '../../slices/componentSlice'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -69,13 +61,13 @@ const Login: FC = () => {
     const classes = useStyles()
     const history = useHistory()
     const dispatch = useAppDispatch()
-    const isLoadingAuth = useAppSelector(state => state.auth.isLoadingAuth)
+    const isLoading = useAppSelector(state => state.auth.isLoading)
     const users = useAppSelector(state => state.auth.users)
     const [isLoginForm, setIsLoginForm] = useState(true)
 
     return (
         <>
-        {isLoadingAuth && (
+        {isLoading && (
             <div className={classes.circularProgressWrapper}>
                 <CircularProgress className={classes.circularProgress}/>
             </div>
@@ -103,7 +95,6 @@ const Login: FC = () => {
                                 await dispatch(fetchAsyncGetMyProf())
                             }
                             await dispatch(fetchCredEnd())
-                            await dispatch(resetOpenSignIn())
                             history.push('/home')
                         }}
                         validationSchema={Yup.object().shape({
