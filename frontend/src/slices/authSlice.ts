@@ -93,6 +93,7 @@ export const fetchAsyncGetProfs = createAsyncThunk(
 
 
 const initialState = {
+    isLoading: false,
     users: [
         {
             id: 0,
@@ -100,7 +101,6 @@ const initialState = {
             fund: 0,
         }
     ],
-    isLoading: false,
     myprofile: {
         id: 0,
         name: '',

@@ -64,6 +64,7 @@ const Login: FC = () => {
     const isLoading = useAppSelector(state => state.auth.isLoading)
     const users = useAppSelector(state => state.auth.users)
     const [isLoginForm, setIsLoginForm] = useState(true)
+    const [loginFailed, setLoginFailed] = useState(false)
 
     return (
         <>
@@ -93,9 +94,13 @@ const Login: FC = () => {
                                 await dispatch(fetchAsyncGetProfs())
                                 // await dispatch(fetchAsyncGetPosts())
                                 await dispatch(fetchAsyncGetMyProf())
+                                await dispatch(fetchCredEnd())
+                                history.push('/home')
+
+                            } else if (fetchAsyncLogin.rejected.match(result)) {
+                                setLoginFailed(true)
+                                await dispatch(fetchCredEnd())
                             }
-                            await dispatch(fetchCredEnd())
-                            history.push('/home')
                         }}
                         validationSchema={Yup.object().shape({
                             email: Yup
@@ -121,7 +126,10 @@ const Login: FC = () => {
                                     label="メールアドレス"
                                     type="input"
                                     name="email"
-                                    onChange={handleChange}
+                                    onChange={e => {
+                                        if (loginFailed) setLoginFailed(false)
+                                        handleChange(e)
+                                    }}
                                     onBlur={handleBlur}
                                     value={values.email}
                                     helperText={errors.email}
@@ -135,12 +143,18 @@ const Login: FC = () => {
                                     label="パスワード"
                                     type="password"
                                     name="password"
-                                    onChange={handleChange}
+                                    onChange={e => {
+                                        if (loginFailed) setLoginFailed(false)
+                                        handleChange(e)
+                                    }}
                                     onBlur={handleBlur}
                                     value={values.password}
                                     helperText={errors.password}
                                     error={!!errors.password ? true : false}
                                 />
+                                {loginFailed && (
+                                    <p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error">メールアドレスかパスワードが間違っています</p>
+                                )}
                                 <Button
                                     className={classes.submit}
                                     fullWidth
