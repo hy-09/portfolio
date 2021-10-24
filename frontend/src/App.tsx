@@ -4,10 +4,11 @@ import { ThemeProvider } from '@material-ui/styles';
 import { createTheme, CssBaseline } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { useEffect } from 'react';
-import { fetchAsyncGetMyProf, fetchAsyncGetUsers } from './slices/authSlice';
+import { fetchAsyncGetMyProf, fetchAsyncGetUsers, endLoading, startLoading } from './slices/authSlice';
 import { cyan } from '@material-ui/core/colors';
 import Modal from './components/organisms/Modal'
 import Snackbar from './components/atoms/Snackbar';
+import LoadingCircular from './components/organisms/LoadingCircular';
 
 const theme = createTheme({
     palette: {
@@ -23,18 +24,27 @@ const theme = createTheme({
 
 function App() {
     const dispatch = useAppDispatch()
+    const isLoading = useAppSelector(state => state.auth.isLoading)
     const modal = useAppSelector(state => state.component.modal)
     const notify = useAppSelector(state => state.component.notify)
 
     useEffect(() => {
-        dispatch(fetchAsyncGetUsers())
-        if(!!localStorage.localJWT) {
-            dispatch(fetchAsyncGetMyProf())
+        const f = async () => {
+            await dispatch(startLoading())
+            await dispatch(fetchAsyncGetUsers())
+            if(!!localStorage.localJWT) {
+                await dispatch(fetchAsyncGetMyProf())
+            }
+            await dispatch(endLoading())
         }
+        f()
     }, [])
 
     return (
         <ThemeProvider theme={theme}>
+            {isLoading && (
+                <LoadingCircular />
+            )}
             <Router />
             <Modal modal={modal} />
             <Snackbar notify={notify} />

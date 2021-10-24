@@ -11,8 +11,8 @@ import {
     fetchAsyncGetProfs,
     fetchAsyncLogin,
     fetchAsyncRegister,
-    fetchCredEnd,
-    fetchCredStart,
+    endLoading,
+    startLoading,
 } from '../../slices/authSlice'
 import { setFirstTimeAfterRegister } from '../../slices/componentSlice'
 
@@ -27,18 +27,6 @@ const useStyles = makeStyles(theme => ({
         flexDirection: 'column',
         alignItems: 'center',
         backgroundColor: 'white'
-    },
-    circularProgressWrapper: {
-        position: 'fixed',
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-        zIndex: 9999999,
-    },
-    circularProgress: {
-        position: 'absolute',
-        top: 'calc(50% - 25px)',
-        left: 'calc(50% - 25px)',
     },
     avatar: {
         margin: theme.spacing(1),
@@ -61,7 +49,6 @@ const Login: FC = () => {
     const classes = useStyles()
     const history = useHistory()
     const dispatch = useAppDispatch()
-    const isLoading = useAppSelector(state => state.auth.isLoading)
     const users = useAppSelector(state => state.auth.users)
     const [isLoginForm, setIsLoginForm] = useState(true)
     const [loginFailed, setLoginFailed] = useState(false) 
@@ -72,13 +59,6 @@ const Login: FC = () => {
     }
 
     return (
-        <>
-        {isLoading && (
-            <div className={classes.circularProgressWrapper}>
-                <CircularProgress className={classes.circularProgress}/>
-            </div>
-        )}
-
         <Container component="main" maxWidth="sm">
 
             <div className={classes.paper}>
@@ -92,19 +72,19 @@ const Login: FC = () => {
                     <Formik
                         initialValues={{email: '', password: ''}}  
                         onSubmit={async (values) => {
-                            await dispatch(fetchCredStart())
+                            await dispatch(startLoading())
                             const result = await dispatch(fetchAsyncLogin(values))
 
                             if (fetchAsyncLogin.fulfilled.match(result)) {
                                 await dispatch(fetchAsyncGetProfs())
                                 // await dispatch(fetchAsyncGetPosts())
                                 await dispatch(fetchAsyncGetMyProf())
-                                await dispatch(fetchCredEnd())
+                                await dispatch(endLoading())
                                 history.push('/home')
 
                             } else if (fetchAsyncLogin.rejected.match(result)) {
                                 setLoginFailed(true)
-                                await dispatch(fetchCredEnd())
+                                await dispatch(endLoading())
                             }
                         }}
                         validationSchema={Yup.object().shape({
@@ -216,7 +196,7 @@ const Login: FC = () => {
                     <Formik
                         initialValues={{email: '', password: '', passwordConfirm: ''}}
                         onSubmit={async (values) => {
-                            await dispatch(fetchCredStart())
+                            await dispatch(startLoading())
                             const resultReg = await dispatch(fetchAsyncRegister(values))
 
                             if (fetchAsyncRegister.fulfilled.match(resultReg)) {
@@ -228,7 +208,7 @@ const Login: FC = () => {
                                 await dispatch(fetchAsyncGetMyProf())
                                 await dispatch(setFirstTimeAfterRegister())
                             }
-                            await dispatch(fetchCredEnd())
+                            await dispatch(endLoading())
                             history.push('/home')
                         }}
                         validationSchema={Yup.object().shape({
@@ -331,7 +311,6 @@ const Login: FC = () => {
                 )}
             </div>
         </Container>
-        </>
     )
 }
 

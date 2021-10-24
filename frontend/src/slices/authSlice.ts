@@ -129,10 +129,10 @@ export const authSlice = createSlice({
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
-        fetchCredStart(state) {
+        startLoading(state) {
             state.isLoading = true
         },
-        fetchCredEnd(state) {
+        endLoading(state) {
             state.isLoading = false
         },
     },
@@ -165,8 +165,8 @@ export const authSlice = createSlice({
 });
 
 export const { 
-    fetchCredStart, 
-    fetchCredEnd,  
+    startLoading, 
+    endLoading,  
 } = authSlice.actions;
 
 // The function below is called a selector and allows us to select a value from
