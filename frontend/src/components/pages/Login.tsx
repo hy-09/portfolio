@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, CircularProgress, Container, CssBaseline, Grid, InputAdornment, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
+import { Avatar, Box, Button, ButtonGroup, CircularProgress, Container, CssBaseline, Divider, Grid, InputAdornment, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
 import { LockOutlined } from '@material-ui/icons'
 import { Formik } from 'formik'
 import { FC, useState } from 'react'
@@ -64,7 +64,12 @@ const Login: FC = () => {
     const isLoading = useAppSelector(state => state.auth.isLoading)
     const users = useAppSelector(state => state.auth.users)
     const [isLoginForm, setIsLoginForm] = useState(true)
-    const [loginFailed, setLoginFailed] = useState(false)
+    const [loginFailed, setLoginFailed] = useState(false) 
+
+    const setDammyUserLoginInfo = (email: string) => {
+        (document.getElementById('loginEmail') as HTMLInputElement).value = email;
+        (document.getElementById('loginPassword') as HTMLInputElement).value = 'dammy';
+    }
 
     return (
         <>
@@ -85,7 +90,7 @@ const Login: FC = () => {
                 </Typography>
                 {isLoginForm ? (
                     <Formik
-                        initialValues={{email: '', password: ''}}
+                        initialValues={{email: '', password: ''}}  
                         onSubmit={async (values) => {
                             await dispatch(fetchCredStart())
                             const result = await dispatch(fetchAsyncLogin(values))
@@ -120,6 +125,7 @@ const Login: FC = () => {
                         }) => 
                             <form onSubmit={handleSubmit} className={classes.form}>
                                 <TextField
+                                    id="loginEmail"
                                     variant="outlined"
                                     margin="normal"
                                     fullWidth
@@ -137,6 +143,7 @@ const Login: FC = () => {
                                 />
 
                                 <TextField
+                                    id="loginPassword"
                                     variant="outlined"
                                     margin="normal"
                                     fullWidth
@@ -175,12 +182,37 @@ const Login: FC = () => {
                                 >
                                     アカウント作成はこちら
                                 </Link>
+                                <Divider style={{margin: '40px 0'}} />
+                                <p className={classes.error}>
+                                    ダミーユーザーでログイン
+                                </p>
+                                <Grid 
+                                    container 
+                                    spacing={2}
+                                >
+                                    {users.slice(0, 4).map((user, i) => (
+                                        <Grid item xs={3}>
+                                            <Button 
+                                                color="secondary"
+                                                variant="outlined"
+                                                fullWidth
+                                                onClick={() => {
+                                                    setDammyUserLoginInfo(user.email)
+                                                    values.email = user.email
+                                                    values.password = 'dammy'
+                                                }}
+                                            >
+                                                {i+1}
+                                            </Button>
+                                        </Grid>
+                                    ))}
+                                </Grid>
                             </form>
                         }
                     </Formik>
 
                 ) : (
-                    
+
                     <Formik
                         initialValues={{email: '', password: '', passwordConfirm: ''}}
                         onSubmit={async (values) => {
