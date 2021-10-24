@@ -1,10 +1,3 @@
-import os
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
-from django import setup
-setup()
-
-from api.models import Company
 
 
 companies = [
@@ -21,8 +14,3 @@ companies = [
     'エヌスリー(株)',
     '往友商事(株)'
 ]
-
-for company in companies:
-    Company.objects.create(
-        name=company
-    )
