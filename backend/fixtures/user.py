@@ -65,3 +65,15 @@ userNames = [
     'やまねこ'
 ]
 
+for i, name in enumerate(userNames):
+    user = User(
+        email = f'dammy{i+1}@dammy.com',
+    )
+    user.set_password('dammy')
+    user.save()
+
+    profile = Profile(
+        name = name,
+        user = user,
+    )
+    profile.save()

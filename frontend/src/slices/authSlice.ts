@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { Profile, Name, Auth, User } from '../types/user'
+import { EditProfile, Name, Auth, User, Profile } from '../types/user'
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
@@ -43,7 +43,7 @@ export const fetchAsyncCreateProf = createAsyncThunk(
 
 export const fetchAsyncUpdateProf = createAsyncThunk(
     'profile/put',
-    async (profile: Profile) => {
+    async (profile: EditProfile) => {
         const uploadData = new FormData()
         uploadData.append('name', profile.name)
         profile.img && uploadData.append('img', profile.img, profile.img.name)
@@ -61,7 +61,7 @@ export const fetchAsyncUpdateProf = createAsyncThunk(
 export const fetchAsyncGetUsers = createAsyncThunk(
     'users/get',
     async () => {
-        const res = await axios.get<Array<User>>(`${apiUrl}api/user/`)
+        const res = await axios.get(`${apiUrl}api/user/`)
         return res.data
     }
 )
@@ -90,8 +90,15 @@ export const fetchAsyncGetProfs = createAsyncThunk(
     }
 )
 
+type InitialState = {
+    firstTimeAfterRegister: boolean;
+    loginUser: User;
+    users: Array<User>;
+    myprofile: Profile;
+    profiles: Array<Profile>;
+}
 
-const initialState = {
+const initialState: InitialState = {
     firstTimeAfterRegister: false,
     loginUser: {
         id: 0,
@@ -156,10 +163,24 @@ export const authSlice = createSlice({
                 state.users = action.payload
             })
             .addCase(fetchAsyncGetMyProf.fulfilled, (state, action) => {
-                state.myprofile = action.payload
+                const profile = action.payload
+                state.myprofile = profile
+                const loginUser = state.users.find(user => user.id === state.myprofile.user )!
+                state.myprofile = {
+                    ...profile,
+                    img: loginUser!.email.startsWith('dammy') && profile.img == null ? `https://picsum.photos/${100+loginUser!.id}` : profile.img            
+                }
             })
             .addCase(fetchAsyncGetProfs.fulfilled, (state, action) => {
-                state.profiles = action.payload
+                const profiles: Array<Profile> = action.payload
+                state.profiles = profiles
+                state.profiles = profiles.map(profile => {
+                    const user = state.users.find(user => user.id === profile.user)
+                    return {
+                        ...profile,
+                        img: user!.email.startsWith('dammy') && profile.img == null ? `https://picsum.photos/${100+user!.id}` : profile.img
+                    }
+                })
             })
             .addCase(fetchAsyncUpdateProf.fulfilled, (state, action) => {
                 state.myprofile = action.payload

@@ -82,7 +82,7 @@ const ProfileForm: FC = () => {
                         onChange={(e) => handleSetPreviewImage(e.target.files![0])}
                     />
                 </Button>
-                <Avatar src={previewImage ? previewImage : myprofile.img} className={classes.avatar} />
+                <Avatar src={previewImage ? previewImage : myprofile.img === null ? undefined : myprofile.img} className={classes.avatar} />
 
             </div>
             <Button

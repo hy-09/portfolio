@@ -18,6 +18,14 @@ export type User = {
 export type Profile = {
     id: number;
     name: string;
+    img: string | null;
+    user: number;
+    created_at: string;
+}
+
+export type EditProfile = {
+    id: number;
+    name: string;
     img: File | null;
 }
 

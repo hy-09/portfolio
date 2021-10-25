@@ -108,7 +108,7 @@ const Header: FC<Props> = (props) => {
                 <MenuList 
                     Button={IconButton} 
                     ButtonContent={() => (
-                        <Avatar src={myprofile.img} className={classes.avatar} />
+                        <Avatar src={myprofile.img === null ? undefined : myprofile.img} className={classes.avatar} />
                     )}
                     items={items}
                 />
