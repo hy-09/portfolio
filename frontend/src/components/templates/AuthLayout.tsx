@@ -3,7 +3,7 @@ import { FC, memo, ReactNode, useEffect, useState } from "react";
 import Sidebar from "../organisms/layout/Sidebar";
 import Header from "../organisms/layout/Header";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { handleModalOpen, handleNotifyOpen } from "../../slices/componentSlice";
+import { handleModalOpen, handleNotifyOpen } from "../../slices/othersSlice";
 import ProfileForm from "../molecules/ProfileForm";
 
 type Props = {

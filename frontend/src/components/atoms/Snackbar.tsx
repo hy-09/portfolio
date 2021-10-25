@@ -2,8 +2,8 @@ import { makeStyles, Snackbar as MuiSnackbar } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
 import React, { FC } from 'react'
 import { useAppDispatch } from '../../app/hooks'
-import { handleNotifyClose } from '../../slices/componentSlice'
-import { Notify } from '../../types/component'
+import { handleNotifyClose } from '../../slices/othersSlice'
+import { Notify } from '../../types/others'
 
 const useStyles = makeStyles(theme => ({
     root: {

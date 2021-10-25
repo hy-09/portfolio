@@ -4,7 +4,7 @@ from django.conf import settings
 
 def upload_avatar_path(instance, filename):
     ext = filename.split('.')[-1]
-    return '/'.join(['avatars', str(instance.user.id)+str(instance.name)+str('.')+str(ext)])
+    return '/'.join(['avatars', str(instance.user.id)+str('_')+str(instance.id)+str('.')+str(ext)])
 # Create your models here.
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):

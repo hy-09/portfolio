@@ -1,8 +1,8 @@
 import { Avatar, Button, makeStyles, TextField } from '@material-ui/core'
 import React, { FC, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { fetchAsyncUpdateProf, endLoading, startLoading } from '../../slices/authSlice'
-import { handleModalClose, handleNotifyOpen } from '../../slices/componentSlice'
+import { fetchAsyncUpdateProf } from '../../slices/authSlice'
+import { endLoading, handleModalClose, handleNotifyOpen, startLoading } from '../../slices/othersSlice'
 import { File } from '../../types/user'
 
 

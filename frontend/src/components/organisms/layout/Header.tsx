@@ -7,7 +7,7 @@ import MenuList from '../MenuList';
 import { useHistory } from 'react-router';
 import Dialog from '../Dialog';
 import Modal from '../Modal';
-import { handleModalOpen } from '../../../slices/componentSlice';
+import { handleModalOpen } from '../../../slices/othersSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import ProfileForm from '../../molecules/ProfileForm';
 import { Person } from '@material-ui/icons';

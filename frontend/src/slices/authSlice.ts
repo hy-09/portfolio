@@ -93,7 +93,6 @@ export const fetchAsyncGetProfs = createAsyncThunk(
 
 const initialState = {
     firstTimeAfterRegister: false,
-    isLoading: false,
     loginUser: {
         id: 0,
         email: '',
@@ -139,12 +138,6 @@ export const authSlice = createSlice({
         setFirstTimeAfterRegister(state) {
             state.firstTimeAfterRegister = true
         },
-        startLoading(state) {
-            state.isLoading = true
-        },
-        endLoading(state) {
-            state.isLoading = false
-        },
         setLoginUser(state) {
             state.loginUser = state.users.find(user => user.id === state.myprofile.user )!
         }
@@ -179,8 +172,6 @@ export const authSlice = createSlice({
 
 export const { 
     setFirstTimeAfterRegister,
-    startLoading, 
-    endLoading,  
     setLoginUser,
 } = authSlice.actions;
 

@@ -3,9 +3,9 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Modal as MuiModal, Paper} from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { handleModalClose } from '../../slices/componentSlice';
+import { handleModalClose } from '../../slices/othersSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Modal as TypeModal } from '../../types/component';
+import { Modal as TypeModal } from '../../types/others';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

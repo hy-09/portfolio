@@ -11,12 +11,11 @@ import {
     fetchAsyncGetProfs,
     fetchAsyncLogin,
     fetchAsyncRegister,
-    endLoading,
-    startLoading,
     setLoginUser,
     fetchAsyncGetUsers,
 } from '../../slices/authSlice'
 import { setFirstTimeAfterRegister } from '../../slices/authSlice'
+import { endLoading, startLoading } from '../../slices/othersSlice'
 
 const useStyles = makeStyles(theme => ({
     paper: {
