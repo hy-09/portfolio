@@ -6,3 +6,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.MuiPaper-elevation1 {
+  box-shadow: rgb(0 92 96 / 2%) 0px 2px 5px -1px,
+    rgb(0 0 0 / 8%) 0px 1px 3px -1px !important;
+}

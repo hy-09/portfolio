@@ -1,4 +1,4 @@
-import { Avatar, Button, Container, Divider, Grid, Link, makeStyles, TextField, Typography } from '@material-ui/core'
+import { Avatar, Box, Button, Container, Divider, Grid, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
 import { LockOutlined } from '@material-ui/icons'
 import { Formik } from 'formik'
 import { FC, useState } from 'react'
@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor: 'white'
+        backgroundColor: 'white',
     },
     avatar: {
         margin: theme.spacing(1),
@@ -41,9 +41,13 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(3, 0, 2),
     },
     error: {
-        color: theme.palette.secondary.main,
-        marginBottom: theme.spacing(1)
-    },
+        color: '#f44336',
+        marginLeft: '14px',
+        marginRight: '14px',
+        fontSize: '0.75rem',
+        lineHeight: 1.66,
+        letterSpacing: '0.03333em',
+    }
 }))
 
 const Login: FC = () => {
@@ -53,16 +57,12 @@ const Login: FC = () => {
     const users = useAppSelector(state => state.auth.users)
     const [isLoginForm, setIsLoginForm] = useState(true)
     const [loginFailed, setLoginFailed] = useState(false) 
-
-    const setDammyUserLoginInfo = (email: string) => {
-        (document.getElementById('loginEmail') as HTMLInputElement).value = email;
-        (document.getElementById('loginPassword') as HTMLInputElement).value = 'dammy';
-    }
+    const [showDammyUserButton, setShowDammyUserButton] = useState(false)
 
     return (
         <Container component="main" maxWidth="sm">
 
-            <div className={classes.paper}>
+            <Paper className={classes.paper}>
                 <Avatar className={classes.avatar}>
                     <LockOutlined />
                 </Avatar>
@@ -73,6 +73,7 @@ const Login: FC = () => {
                     <Formik
                         initialValues={{email: '', password: ''}}  
                         onSubmit={async (values) => {
+                            console.log('onsubmit')
                             await dispatch(startLoading())
                             const result = await dispatch(fetchAsyncLogin(values))
 
@@ -106,9 +107,8 @@ const Login: FC = () => {
                             errors,
                             isValid,
                         }) => 
-                            <form onSubmit={handleSubmit} className={classes.form}>
+                            <form id="loginForm" onSubmit={handleSubmit} className={classes.form}>
                                 <TextField
-                                    id="loginEmail"
                                     variant="outlined"
                                     margin="normal"
                                     fullWidth
@@ -126,7 +126,6 @@ const Login: FC = () => {
                                 />
 
                                 <TextField
-                                    id="loginPassword"
                                     variant="outlined"
                                     margin="normal"
                                     fullWidth
@@ -143,7 +142,9 @@ const Login: FC = () => {
                                     error={errors.password && touched.password ? true : false}
                                 />
                                 {loginFailed && (
-                                    <p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error">メールアドレスかパスワードが間違っています</p>
+                                    <p className={classes.error}>
+                                        メールアドレスかパスワードが間違っています
+                                    </p>
                                 )}
                                 <Button
                                     className={classes.submit}
@@ -159,6 +160,8 @@ const Login: FC = () => {
                                     href="#"
                                     onClick={async () => {
                                         setIsLoginForm(false)
+                                        setLoginFailed(false)
+                                        setShowDammyUserButton(false)
                                         errors.email = ''
                                         errors.password = ''
                                     }}
@@ -166,30 +169,39 @@ const Login: FC = () => {
                                     アカウント作成はこちら
                                 </Link>
                                 <Divider style={{margin: '40px 0'}} />
-                                <p className={classes.error}>
-                                    ダミーユーザーでログイン
+                                <p>
+                                    <Link 
+                                        href="#" 
+                                        color="secondary"
+                                        onClick={() => setShowDammyUserButton(!showDammyUserButton)}    
+                                    >
+                                        ダミーユーザーでログイン
+                                    </Link>
                                 </p>
-                                <Grid 
-                                    container 
-                                    spacing={2}
-                                >
-                                    {users.slice(0, 4).map((user, i) => (
-                                        <Grid item xs={3}>
-                                            <Button 
-                                                color="secondary"
-                                                variant="outlined"
-                                                fullWidth
-                                                onClick={() => {
-                                                    setDammyUserLoginInfo(user.email)
-                                                    values.email = user.email
-                                                    values.password = 'dammy'
-                                                }}
-                                            >
-                                                {i+1}
-                                            </Button>
-                                        </Grid>
-                                    ))}
-                                </Grid>
+                                {showDammyUserButton && (
+                                    <Grid 
+                                        container 
+                                        spacing={2}
+                                        style={{marginTop: '10px'}}
+                                    >
+                                        {users.slice(0, 50).map((user, i) => (
+                                            <Grid item xs={3} key={user.id}>
+                                                <Button 
+                                                    color="secondary"
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    onClick={() => {
+                                                        values.email = user.email
+                                                        values.password = 'dammy'
+                                                        handleSubmit()
+                                                    }}
+                                                >
+                                                    {i+1}
+                                                </Button>
+                                            </Grid>
+                                        ))}
+                                    </Grid>
+                                )}
                             </form>
                         }
                     </Formik>
@@ -315,7 +327,8 @@ const Login: FC = () => {
                             }
                     </Formik>
                 )}
-            </div>
+            </Paper>
+
         </Container>
     )
 }

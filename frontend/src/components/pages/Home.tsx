@@ -1,9 +1,12 @@
+import { Paper } from '@material-ui/core'
 import React, { FC } from 'react'
 
 const Home: FC = () => {
     return (
         <div>
-            HOME   これはホーム画面です
+            <Paper style={{padding: '30px'}}>
+                home
+            </Paper>
         </div>
     )
 }

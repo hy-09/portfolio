@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Modal, Notify } from '../types/others';
 
-const initialState = {
+type InitialState = {
+    isLoading: boolean;
+    modal: Modal;
+    notify: Notify;
+}
+
+const initialState: InitialState = {
     isLoading: false,
     modal: {
         open: false,
