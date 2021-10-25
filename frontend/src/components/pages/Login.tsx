@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, ButtonGroup, CircularProgress, Container, CssBaseline, Divider, Grid, InputAdornment, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
+import { Avatar, Button, Container, Divider, Grid, Link, makeStyles, TextField, Typography } from '@material-ui/core'
 import { LockOutlined } from '@material-ui/icons'
 import { Formik } from 'formik'
 import { FC, useState } from 'react'
@@ -13,8 +13,10 @@ import {
     fetchAsyncRegister,
     endLoading,
     startLoading,
+    setLoginUser,
+    fetchAsyncGetUsers,
 } from '../../slices/authSlice'
-import { setFirstTimeAfterRegister } from '../../slices/componentSlice'
+import { setFirstTimeAfterRegister } from '../../slices/authSlice'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -79,6 +81,7 @@ const Login: FC = () => {
                                 await dispatch(fetchAsyncGetProfs())
                                 // await dispatch(fetchAsyncGetPosts())
                                 await dispatch(fetchAsyncGetMyProf())
+                                await dispatch(setLoginUser())
                                 await dispatch(endLoading())
                                 history.push('/home')
 
@@ -99,6 +102,7 @@ const Login: FC = () => {
                             handleSubmit,
                             handleChange,
                             handleBlur,
+                            touched,
                             values,
                             errors,
                             isValid,
@@ -118,8 +122,8 @@ const Login: FC = () => {
                                     }}
                                     onBlur={handleBlur}
                                     value={values.email}
-                                    helperText={errors.email}
-                                    error={!!errors.email ? true : false}
+                                    helperText={errors.email && touched.email && errors.email}
+                                    error={errors.email && touched.email ? true : false}
                                 />
 
                                 <TextField
@@ -136,8 +140,8 @@ const Login: FC = () => {
                                     }}
                                     onBlur={handleBlur}
                                     value={values.password}
-                                    helperText={errors.password}
-                                    error={!!errors.password ? true : false}
+                                    helperText={errors.password && touched.password && errors.password}
+                                    error={errors.password && touched.password ? true : false}
                                 />
                                 {loginFailed && (
                                     <p className="MuiFormHelperText-root MuiFormHelperText-contained Mui-error">メールアドレスかパスワードが間違っています</p>
@@ -206,6 +210,8 @@ const Login: FC = () => {
                                 await dispatch(fetchAsyncGetProfs())
                                 // await dispatch(fetchAsyncGetPosts())
                                 await dispatch(fetchAsyncGetMyProf())
+                                await dispatch(fetchAsyncGetUsers())
+                                await dispatch(setLoginUser())
                                 await dispatch(setFirstTimeAfterRegister())
                             }
                             await dispatch(endLoading())
@@ -237,6 +243,7 @@ const Login: FC = () => {
                             handleSubmit,
                             handleChange,
                             handleBlur,
+                            touched,
                             values,
                             errors,
                             isValid,
@@ -252,8 +259,8 @@ const Login: FC = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.email}
-                                    helperText={errors.email}
-                                    error={!!errors.email ? true : false}
+                                    helperText={errors.email && touched.email && errors.email}
+                                    error={errors.email && touched.email ? true : false}
                                 />
 
                                 <TextField
@@ -266,8 +273,8 @@ const Login: FC = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.password}
-                                    helperText={errors.password}
-                                    error={!!errors.password ? true : false}
+                                    helperText={errors.password && touched.password && errors.password}
+                                    error={errors.password && touched.password ? true : false}
                                 />
 
                                 <TextField
@@ -280,8 +287,8 @@ const Login: FC = () => {
                                     onChange={handleChange}
                                     onBlur={handleBlur}
                                     value={values.passwordConfirm}
-                                    helperText={errors.passwordConfirm}
-                                    error={!!errors.passwordConfirm ? true : false}
+                                    helperText={errors.passwordConfirm && touched.passwordConfirm && errors.passwordConfirm}
+                                    error={errors.passwordConfirm && touched.passwordConfirm ? true : false}
                                 />
 
                                 <Button

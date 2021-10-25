@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    firstTimeAfterRegister: false,
     modal: {
         open: false,
         title: '',
@@ -24,9 +23,6 @@ export const componentSlice = createSlice({
     initialState,
   // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
-        setFirstTimeAfterRegister(state) {
-            state.firstTimeAfterRegister = true
-        },
         handleModalOpen(state, action) {
             state.modal = {
                 open: true,
@@ -85,7 +81,6 @@ export const componentSlice = createSlice({
 });
 
 export const { 
-    setFirstTimeAfterRegister,
     handleModalOpen,
     handleModalClose,
     handleNotifyOpen,

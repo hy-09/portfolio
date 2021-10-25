@@ -11,6 +11,8 @@ export type Auth = {
 export type User = {
     id: number;
     email: string;
+    fund: number;
+    profile: number;
 }
 
 export type Profile = {

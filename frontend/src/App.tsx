@@ -4,7 +4,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { createTheme, CssBaseline } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { useEffect } from 'react';
-import { fetchAsyncGetMyProf, fetchAsyncGetUsers, endLoading, startLoading } from './slices/authSlice';
+import { fetchAsyncGetMyProf, fetchAsyncGetUsers, endLoading, startLoading, fetchAsyncGetProfs, setLoginUser } from './slices/authSlice';
 import { cyan } from '@material-ui/core/colors';
 import Modal from './components/organisms/Modal'
 import Snackbar from './components/atoms/Snackbar';
@@ -34,6 +34,8 @@ function App() {
             await dispatch(fetchAsyncGetUsers())
             if(!!localStorage.localJWT) {
                 await dispatch(fetchAsyncGetMyProf())
+                await dispatch(fetchAsyncGetProfs())
+                await dispatch(setLoginUser())
             }
             await dispatch(endLoading())
         }

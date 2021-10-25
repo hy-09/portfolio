@@ -26,7 +26,7 @@ const AuthLayout: FC<Props> = memo((props) => {
     const { children } = props
     const classes = useStyles()
     const dispatch = useAppDispatch()
-    const firstTimeAfterRegister = useAppSelector<boolean>(state => state.component.firstTimeAfterRegister)
+    const firstTimeAfterRegister = useAppSelector<boolean>(state => state.auth.firstTimeAfterRegister)
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {

@@ -20,7 +20,7 @@ for i, name in enumerate(userNames):
 
     profile = Profile(
         name = name,
-        profileUser = user
+        user = user
     )
     profile.save()
 

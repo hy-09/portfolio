@@ -4,7 +4,7 @@ from django.conf import settings
 
 def upload_avatar_path(instance, filename):
     ext = filename.split('.')[-1]
-    return '/'.join(['avatars', str(instance.profileUser.id)+str(instance.name)+str('.')+str(ext)])
+    return '/'.join(['avatars', str(instance.user.id)+str(instance.name)+str('.')+str(ext)])
 # Create your models here.
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
@@ -44,9 +44,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Profile(models.Model):
     name = models.CharField(max_length=20)
-    profileUser = models.OneToOneField(
+    user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
-        related_name='profileUser',
+        related_name='profile',
         on_delete=models.CASCADE
     )
     created_at = models.DateTimeField(auto_now_add=True)
@@ -59,27 +59,6 @@ class Profile(models.Model):
         db_table = 'profiles'
     
 
-class Post(models.Model):
-    content = models.CharField(max_length=200)
-    postUser = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        related_name='postUser',
-        on_delete=models.CASCADE
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    likeUsers = models.ManyToManyField(
-        settings.AUTH_USER_MODEL,
-        related_name='likeUsers',
-        blank=True,
-    )
-    
-    def __str__(self):
-        return self.content
-    
-    class Meta:
-        db_table = 'posts'
-
-
 class Company(models.Model):
     name = models.CharField(max_length=50)
 
@@ -90,5 +69,25 @@ class Company(models.Model):
         db_table = 'companies'
 
 
-class BoughtStockInfoList(models.Model):
-    pass
+# class BoughtStockInfoList(models.Model):
+#     pass
+
+class Post(models.Model):
+    content = models.CharField(max_length=200)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='posts',
+        on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    likeUsers = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='likePosts',
+        blank=True,
+    )
+    
+    def __str__(self):
+        return self.content
+    
+    class Meta:
+        db_table = 'posts'
