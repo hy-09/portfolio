@@ -10,6 +10,7 @@ import Modal from './components/organisms/Modal'
 import Snackbar from './components/atoms/Snackbar';
 import LoadingCircular from './components/organisms/LoadingCircular';
 import { endLoading, startLoading } from './slices/othersSlice';
+import { fetchAsyncGetCompanies } from './slices/stockSlice';
 
 const theme = createTheme({
     palette: {
@@ -33,9 +34,10 @@ function App() {
         const f = async () => {
             await dispatch(startLoading())
             await dispatch(fetchAsyncGetUsers())
+            await dispatch(fetchAsyncGetCompanies())
             if(!!localStorage.localJWT) {
-                await dispatch(fetchAsyncGetMyProf())
                 await dispatch(fetchAsyncGetProfs())
+                await dispatch(fetchAsyncGetMyProf())
                 await dispatch(setLoginUser())
             }
             await dispatch(endLoading())

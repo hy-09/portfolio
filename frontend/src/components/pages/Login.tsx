@@ -73,22 +73,20 @@ const Login: FC = () => {
                     <Formik
                         initialValues={{email: '', password: ''}}  
                         onSubmit={async (values) => {
-                            console.log('onsubmit')
                             await dispatch(startLoading())
                             const result = await dispatch(fetchAsyncLogin(values))
 
                             if (fetchAsyncLogin.fulfilled.match(result)) {
                                 await dispatch(fetchAsyncGetProfs())
-                                // await dispatch(fetchAsyncGetPosts())
                                 await dispatch(fetchAsyncGetMyProf())
                                 await dispatch(setLoginUser())
-                                await dispatch(endLoading())
+
                                 history.push('/home')
 
                             } else if (fetchAsyncLogin.rejected.match(result)) {
                                 setLoginFailed(true)
-                                await dispatch(endLoading())
                             }
+                            await dispatch(endLoading())
                         }}
                         validationSchema={Yup.object().shape({
                             email: Yup
@@ -219,10 +217,9 @@ const Login: FC = () => {
                                 await dispatch(fetchAsyncCreateProf({name: 'anonymous'}))
 
                                 await dispatch(fetchAsyncGetProfs())
-                                // await dispatch(fetchAsyncGetPosts())
                                 await dispatch(fetchAsyncGetMyProf())
-                                await dispatch(fetchAsyncGetUsers())
                                 await dispatch(setLoginUser())
+                                
                                 await dispatch(setFirstTimeAfterRegister())
                             }
                             await dispatch(endLoading())

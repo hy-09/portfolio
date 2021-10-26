@@ -86,8 +86,9 @@ const MenuList: FC<Props> = (props) => {
               <Paper className={classes.paper}>
                 <ClickAwayListener onClickAway={handleClose}>
                   <MuiMenuList autoFocusItem={open} onKeyDown={handleListKeyDown}>
-                      {items.map(item => (
+                      {items.map((item, i) => (
                           <MenuItem
+                            key={i}
                             onClick={handleClose}
                             className={classes.menuItem}
                           >
