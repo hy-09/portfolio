@@ -5,6 +5,7 @@ import { FC, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import * as Yup from "yup"
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { fetchAsyncGetDataFuncs } from '../../functions/fetchAsyncGetDataFuncs'
 import { 
     fetchAsyncCreateProf,
     fetchAsyncGetMyProf,
@@ -77,9 +78,9 @@ const Login: FC = () => {
                             const result = await dispatch(fetchAsyncLogin(values))
 
                             if (fetchAsyncLogin.fulfilled.match(result)) {
-                                await dispatch(fetchAsyncGetProfs())
-                                await dispatch(fetchAsyncGetMyProf())
-                                await dispatch(setLoginUser())
+                                for (const func of fetchAsyncGetDataFuncs) {
+                                    await dispatch((func as Function)())
+                                }
 
                                 history.push('/home')
 
@@ -216,9 +217,9 @@ const Login: FC = () => {
                                 await dispatch(fetchAsyncLogin(values))
                                 await dispatch(fetchAsyncCreateProf({name: 'anonymous'}))
 
-                                await dispatch(fetchAsyncGetProfs())
-                                await dispatch(fetchAsyncGetMyProf())
-                                await dispatch(setLoginUser())
+                                for (const func of fetchAsyncGetDataFuncs) {
+                                    await dispatch((func as Function)())
+                                }
                                 
                                 await dispatch(setFirstTimeAfterRegister())
                             }

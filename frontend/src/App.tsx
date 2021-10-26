@@ -11,6 +11,7 @@ import Snackbar from './components/atoms/Snackbar';
 import LoadingCircular from './components/organisms/LoadingCircular';
 import { endLoading, startLoading } from './slices/othersSlice';
 import { fetchAsyncGetCompanies } from './slices/stockSlice';
+import { fetchAsyncGetDataFuncs } from './functions/fetchAsyncGetDataFuncs'
 
 const theme = createTheme({
     palette: {
@@ -36,9 +37,9 @@ function App() {
             await dispatch(fetchAsyncGetUsers())
             await dispatch(fetchAsyncGetCompanies())
             if(!!localStorage.localJWT) {
-                await dispatch(fetchAsyncGetProfs())
-                await dispatch(fetchAsyncGetMyProf())
-                await dispatch(setLoginUser())
+                for (const func of fetchAsyncGetDataFuncs) {
+                    await dispatch((func as Function)())
+                }
             }
             await dispatch(endLoading())
         }
