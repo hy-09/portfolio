@@ -30,7 +30,8 @@ services:
       - frontend
 
   mysql:
-    image: mysql:5.7.22
+    build:
+      context: ./mysql
     restart: always
     environment:
       MYSQL_DATABASE: stock_trading
