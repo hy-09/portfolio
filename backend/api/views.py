@@ -1,5 +1,5 @@
-from rest_framework import generics
-from rest_framework import viewsets
+from rest_framework import generics, viewsets, status
+from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from . import serializers
 from .models import BoughtStockInfo, Company, Profile, Post, User
@@ -34,12 +34,6 @@ class BoughtStockInfoViewSet(viewsets.ModelViewSet):
     queryset = BoughtStockInfo.objects.all()
     serializer_class = serializers.BoughtStockInfoSerializer
     permission_classes = (AllowAny,)
-
-    def perform_create(self, serializer):
-        serializer.save(
-            user=self.request.user,
-            company=self.request.company    
-        )
     
 
 class PostViewSet(viewsets.ModelViewSet):
