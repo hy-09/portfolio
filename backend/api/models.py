@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.conf import settings
+from django.db.models.deletion import CASCADE
+from django.db.models.fields.related import ForeignKey
 
 def upload_avatar_path(instance, filename):
     ext = filename.split('.')[-1]
@@ -69,8 +71,25 @@ class Company(models.Model):
         db_table = 'companies'
 
 
-# class BoughtStockInfoList(models.Model):
-#     pass
+class BoughtStockInfo(models.Model):
+    price = models.IntegerField()
+    quantity= models.IntegerField()
+    remaining_quantity = models.IntegerField()
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='boughtStockInfoList',
+        on_delete=models.CASCADE
+    )
+    company = models.ForeignKey(
+        Company,
+        related_name='boughtStockInfoList',
+        on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = 'bought_stock_info_list'
+
 
 class Post(models.Model):
     content = models.CharField(max_length=200)
@@ -79,12 +98,18 @@ class Post(models.Model):
         related_name='posts',
         on_delete=models.CASCADE
     )
-    created_at = models.DateTimeField(auto_now_add=True)
+    company = models.ForeignKey(
+        Company,
+        related_name='posts',
+        on_delete=models.CASCADE
+    )
     likeUsers = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
         related_name='likePosts',
         blank=True,
     )
+    price = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return self.content

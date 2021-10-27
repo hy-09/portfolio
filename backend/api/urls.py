@@ -7,6 +7,7 @@ router.register('user', views.UserViewSet)
 router.register('profile', views.ProfileViewSet)
 router.register('post', views.PostViewSet) 
 router.register('company', views.CompanyViewSet) 
+router.register('boughtstockinfo', views.BoughtStockInfoViewSet) 
 
 urlpatterns = [
     path('register/', views.CreateUserView.as_view()),

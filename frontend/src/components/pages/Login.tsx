@@ -231,7 +231,7 @@ const Login: FC = () => {
                                 .string()
                                 .email('メールアドレスの形式で入力してください')
                                 .required('メールアドレスは必須です')
-                                .test('email-test',
+                                .test('email-used',
                                     'このメールアドレスは既に登録済みです',
                                     (value) => {
                                         if (users.find(user => user.email === value)) {

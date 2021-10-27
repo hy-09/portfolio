@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import Company, Profile, Post
+from .models import BoughtStockInfo, Company, Profile, Post
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -22,18 +22,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = Profile
         fields = ('id', 'user', 'created_at', 'name', 'img')
         extra_kwargs = {
-            'user': {'read_only': True}
-        }
-
-
-class PostSerializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
-
-    class Meta:
-        model = Post
-        fields = ('id', 'content', 'user', 'created_at', 'likeUsers')
-        extra_kwargs = {
-            'postUser': {'read_only': True}
+            'user': {'read_only': True},
         }
 
 
@@ -42,3 +31,26 @@ class CompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = ('id', 'name')
+
+
+class BoughtStockInfoSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
+
+    class Meta:
+        model = BoughtStockInfo
+        fields = ('id', 'price', 'quantity', 'remaining_quantity', 'user', 'company', 'created_at')
+        extra_kwargs = {
+            'user': {'read_only': True},
+            'company': {'read_only': True},
+        }
+
+
+class PostSerializer(serializers.ModelSerializer):
+    created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
+
+    class Meta:
+        model = Post
+        fields = ('id', 'content', 'user', 'company', 'likeUsers', 'price', 'created_at')
+        extra_kwargs = {
+            'user': {'read_only': True},
+        }
