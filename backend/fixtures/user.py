@@ -1,4 +1,5 @@
 import os
+import random
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
 from django import setup
@@ -68,6 +69,7 @@ userNames = [
 for i, name in enumerate(userNames):
     user = User(
         email = f'dammy{i+1}@dammy.com',
+        fund = random.randrange(10000, 40000000)
     )
     user.set_password('dammy')
     user.save()

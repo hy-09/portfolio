@@ -9,7 +9,7 @@ export type Company = {
     stockPriceDatas: Array<number>;
     StockPriceChangeRate: {
         rate: number;
-        plusOrMinus: string;
+        plusOrMinus: '+' | '-' | null;
     };
 }
 

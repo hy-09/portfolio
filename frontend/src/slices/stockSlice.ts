@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { stockPriceDataCount } from '../config';
 import { Company, CompanyNames, MyStockInfo } from '../types/stock';
-import thunk from 'redux-thunk'
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
@@ -28,7 +27,7 @@ const initialState: InitialState = {
             stockPriceDatas: [0],
             StockPriceChangeRate: {
                 rate: 0,
-                plusOrMinus: ''
+                plusOrMinus: null
             }
         }
     ],
@@ -50,12 +49,31 @@ export const stockSlice = createSlice({
     reducers: {
         updateStockPrices(state) {
             state.companies = state.companies.map(company => {
+                const oldStockPrice = company.stockPriceDatas.slice(-1)[0]
                 const newStockPrice = getNewStockPrice(company)
+                let plusOrMinus: '+' | '-' | null
+                let rate: number
+
+                if (newStockPrice > oldStockPrice) {
+                    plusOrMinus = '+'
+                    rate = Math.floor((newStockPrice / oldStockPrice - 1)*10000)/100
+                }else if (newStockPrice < oldStockPrice) {
+                    plusOrMinus = '-'
+                    rate = Math.floor((oldStockPrice / newStockPrice - 1)*10000)/100
+                }else {
+                    plusOrMinus = null
+                    rate = 0
+                }
+
                 
                 const [, ...data] = company.stockPriceDatas
                 return {
                     ...company,
-                    stockPriceDatas: [...data, newStockPrice]
+                    stockPriceDatas: [...data, newStockPrice],
+                    StockPriceChangeRate: {
+                        rate: rate,
+                        plusOrMinus: plusOrMinus
+                    }
                 } 
             })
         }
