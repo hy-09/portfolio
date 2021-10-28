@@ -4,13 +4,13 @@ import { ThemeProvider } from '@material-ui/styles';
 import { createTheme, CssBaseline } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { useEffect } from 'react';
-import { fetchAsyncGetMyProf, fetchAsyncGetUsers, fetchAsyncGetProfs, setLoginUser } from './slices/authSlice';
+import { fetchAsyncGetUsers } from './slices/authSlice';
 import { cyan } from '@material-ui/core/colors';
 import Modal from './components/organisms/Modal'
 import Snackbar from './components/atoms/Snackbar';
 import LoadingCircular from './components/organisms/LoadingCircular';
 import { endLoading, startLoading } from './slices/othersSlice';
-import { fetchAsyncGetCompanies } from './slices/stockSlice';
+import { fetchAsyncGetCompanies, updateStockPrices } from './slices/stockSlice';
 import { fetchAsyncGetDataFuncs } from './functions/fetchAsyncGetDataFuncs'
 
 const theme = createTheme({
@@ -36,6 +36,10 @@ function App() {
             await dispatch(startLoading())
             await dispatch(fetchAsyncGetUsers())
             await dispatch(fetchAsyncGetCompanies())
+            setInterval(() => {
+                dispatch(updateStockPrices())
+            }, 1500)
+
             if(!!localStorage.localJWT) {
                 for (const func of fetchAsyncGetDataFuncs) {
                     await dispatch((func as Function)())
@@ -44,7 +48,7 @@ function App() {
             await dispatch(endLoading())
         }
         f()
-    }, [])
+    }, [dispatch])
 
     return (
         <ThemeProvider theme={theme}>

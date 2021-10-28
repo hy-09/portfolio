@@ -34,12 +34,12 @@ class BoughtStockInfoSerializer(serializers.ModelSerializer):
     created_at = serializers.DateTimeField(format='%Y-%m-%d %H:%M', read_only=True)
 
     def create(self, validated_data):
-        user_data = validated_data.pop('user')
-        company_data = validated_data.pop('company')
+        user = validated_data.pop('user')
+        company = validated_data.pop('company')
 
         boughtStockInfo = BoughtStockInfo.objects.create(
-            user = user_data,
-            company = company_data,
+            user = user,
+            company = company,
             **validated_data
         )
         return boughtStockInfo

@@ -20,7 +20,7 @@ const RedirectRoute: FC<RouteProps> = memo(() => {
     }
 })
 
-export const Router: FC = memo(() => {
+export const Router: FC = memo(() => { 
     return (
         <BrowserRouter>
             <Switch>
