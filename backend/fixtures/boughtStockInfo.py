@@ -13,11 +13,11 @@ users = User.objects.all()
 companies = Company.objects.all()
 
 for user in users:
-    for _ in range(random.randrange(1, 6)):
+    for _ in range(random.randrange(1, 8)):
         quantity = random.randrange(1, 10)*100
 
         info = BoughtStockInfo(
-            price = random.randrange(500, 15000),
+            price = random.randrange(500, 12000),
             quantity = quantity,
             remaining_quantity = quantity,
             user = user,

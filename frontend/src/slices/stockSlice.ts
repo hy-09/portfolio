@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { stockPriceDataCount } from '../config';
-import { Company, CompanyNames, MyStockInfo } from '../types/stock';
+import { getChangeRate, getNewStockPrice } from '../functions/calculations';
+import { BoughtStockInfo, Company, CompanyNames, MyStockInfo, plusOrMinus } from '../types/stock';
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
@@ -13,6 +14,18 @@ export const fetchAsyncGetCompanies = createAsyncThunk(
     }
 )
 
+export const fetchAsyncGetMyBoughtStockInfoList = createAsyncThunk(
+    'stocks/get',
+    async () => {
+        const res = await axios.get(`${apiUrl}api/myboughtstockinfo/`, {
+            headers: {
+                Authorization: `JWT ${localStorage.localJWT}`
+            }
+        })
+        return res.data
+    }
+)
+
 
 type InitialState = {
     companies: Array<Company>;
@@ -20,26 +33,8 @@ type InitialState = {
 }
 
 const initialState: InitialState = {
-    companies: [
-        {
-            id: 0,
-            name: '',
-            stockPriceDatas: [0],
-            StockPriceChangeRate: {
-                rate: 0,
-                plusOrMinus: null
-            }
-        }
-    ],
-    myStockInfoList: [
-        {
-            companyId: 0,
-            holdingStocks: [{}],
-            profitOrLossPrice: 0,
-            totalQuantity: 0,
-            totalValue: 0
-        }
-    ]
+    companies: [],
+    myStockInfoList: []
 };
 
 
@@ -51,31 +46,34 @@ export const stockSlice = createSlice({
             state.companies = state.companies.map(company => {
                 const oldStockPrice = company.stockPriceDatas.slice(-1)[0]
                 const newStockPrice = getNewStockPrice(company)
-                let plusOrMinus: '+' | '-' | null
-                let rate: number
-
-                if (newStockPrice > oldStockPrice) {
-                    plusOrMinus = '+'
-                    rate = Math.floor((newStockPrice / oldStockPrice - 1)*10000)/100
-                }else if (newStockPrice < oldStockPrice) {
-                    plusOrMinus = '-'
-                    rate = Math.floor((oldStockPrice / newStockPrice - 1)*10000)/100
-                }else {
-                    plusOrMinus = null
-                    rate = 0
-                }
-
+                const StockPriceChangeRate = getChangeRate(oldStockPrice, newStockPrice)
                 
                 const [, ...data] = company.stockPriceDatas
                 return {
                     ...company,
                     stockPriceDatas: [...data, newStockPrice],
-                    StockPriceChangeRate: {
-                        rate: rate,
-                        plusOrMinus: plusOrMinus
-                    }
+                    StockPriceChangeRate: StockPriceChangeRate,
+                    nowPrice: newStockPrice
                 } 
             })
+
+            if (state.myStockInfoList.length > 0) {
+                state.myStockInfoList = state.myStockInfoList.map(info => {
+                    const company = state.companies.find(c => c.id === info.companyId)
+
+                    let totalOldValue = 0
+                    info.boughtStockInfoList.forEach(i => {
+                        totalOldValue += i.price * i.remaining_quantity
+                    })
+                    const totalNewValue = company!.nowPrice * info.totalQuantity
+                    
+                    return {
+                        ...info,
+                        profitOrLossPrice: totalNewValue - totalOldValue,
+                        totalValue: totalNewValue
+                    }
+                })
+            }
         }
     },
     extraReducers: (builder) => {
@@ -104,23 +102,35 @@ export const stockSlice = createSlice({
                 })
                 state.companies = companies 
             })
+
+            .addCase(fetchAsyncGetMyBoughtStockInfoList.fulfilled, (state, action) => {
+                if (action.payload.length === 0) return
+
+                let myStockInfoList: Array<MyStockInfo> = []
+                
+                state.companies.forEach(company => {
+                    const boughtStockInfoList = action.payload.filter((info: BoughtStockInfo) => info.company === company.id)
+
+                    if (boughtStockInfoList.length > 0) {
+                        const totalQuantity = boughtStockInfoList.reduce((sum: number, info: BoughtStockInfo) => {
+                            return sum + info.remaining_quantity
+                        }, 0)
+    
+                        myStockInfoList = [
+                            ...myStockInfoList,
+                            {
+                                ...initialState.myStockInfoList[0],
+                                companyId: company.id,
+                                boughtStockInfoList: boughtStockInfoList,
+                                totalQuantity: totalQuantity
+                            }
+                        ] 
+                    }
+                })
+                state.myStockInfoList = myStockInfoList
+            })
     },
 });
-
-function getNewStockPrice(company: Company) {
-    const latestStockPrice = company.stockPriceDatas.slice(-1)[0]
-
-    let changeRate;
-    if (latestStockPrice > 20000) {
-        changeRate = Math.floor((Math.random()*0.08 + (0.97-(latestStockPrice/2000000)))*1000)/1000;
-    }else if(latestStockPrice < 3000) {
-        changeRate = Math.floor((Math.random()*0.07 + (0.98-(latestStockPrice/300000)))*1000)/1000;
-    }else{
-        changeRate = Math.floor((Math.random()*0.0817 + 0.96)*1000)/1000;
-    }
-
-    return Math.floor(latestStockPrice * changeRate)
-}
 
 export const { 
     updateStockPrices

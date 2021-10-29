@@ -34,6 +34,14 @@ class BoughtStockInfoViewSet(viewsets.ModelViewSet):
     queryset = BoughtStockInfo.objects.all()
     serializer_class = serializers.BoughtStockInfoSerializer
     permission_classes = (AllowAny,)
+
+class MyBoughtStockInfoListView(generics.ListAPIView):
+    queryset = BoughtStockInfo.objects.all()
+    serializer_class = serializers.BoughtStockInfoSerializer
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user.id).all()
     
 
 class PostViewSet(viewsets.ModelViewSet):

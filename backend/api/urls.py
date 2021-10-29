@@ -12,5 +12,6 @@ router.register('boughtstockinfo', views.BoughtStockInfoViewSet)
 urlpatterns = [
     path('register/', views.CreateUserView.as_view()),
     path('myprofile/', views.MyProfileListView.as_view()),
+    path('myboughtstockinfo/', views.MyBoughtStockInfoListView.as_view()),
     path('', include(router.urls)),
 ]

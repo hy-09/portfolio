@@ -104,13 +104,7 @@ const initialState: InitialState = {
         email: '',
         fund: 0,
     },
-    users: [
-        {
-            id: 0,
-            email: '',
-            fund: 0,
-        }
-    ],
+    users: [],
     myprofile: {
         id: 0,
         name: '',
@@ -118,15 +112,7 @@ const initialState: InitialState = {
         created_at: '',
         img: '',
     },
-    profiles: [
-        {
-            id: 0,
-            name: '',
-            user: 0,
-            created_at: '',
-            img: '',
-        }
-    ]
+    profiles: []
 };
 
 
