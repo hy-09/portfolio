@@ -1,16 +1,13 @@
-import { AppBar, Avatar, Badge, Button, IconButton, makeStyles, Toolbar } from '@material-ui/core'
+import { AppBar, Avatar, Badge, Button, Divider, IconButton, makeStyles, Toolbar } from '@material-ui/core'
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { FC, ReactNode, useState } from 'react'
 import { drawerWidth } from '../../../config';
 import MenuList from '../MenuList';
 import { useHistory } from 'react-router';
-import Dialog from '../Dialog';
-import Modal from '../Modal';
 import { handleModalOpen } from '../../../slices/othersSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import ProfileForm from '../../molecules/ProfileForm';
-import { Person } from '@material-ui/icons';
 
 type Props = {
     handleDrawerToggle: () => void;
@@ -47,6 +44,9 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.grey[600],
         fontSize: '0.875rem'
     },
+    logout: {
+        color: theme.palette.secondary.light
+    }
 }))
 
 const Header: FC<Props> = (props) => {
@@ -58,7 +58,6 @@ const Header: FC<Props> = (props) => {
 
     const items = [
         (  
-            <>
             <div 
                 className={classes.menuListItem}
                 onClick={() => {
@@ -70,12 +69,11 @@ const Header: FC<Props> = (props) => {
             >
                 プロフィール
             </div>
-            </>
         )
         ,
         (
             <div 
-                className={classes.menuListItem}
+                className={classes.menuListItem + ' ' + classes.logout}
                 onClick={() => {
                     localStorage.removeItem('localJWT')
                     history.push('/login')
@@ -111,6 +109,7 @@ const Header: FC<Props> = (props) => {
                         <Avatar src={myprofile.img === null ? undefined : myprofile.img} className={classes.avatar} />
                     )}
                     items={items}
+                    classType='onClickAvatarIcon'
                 />
             </div>
           </Toolbar>
