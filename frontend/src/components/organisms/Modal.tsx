@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme: Theme) =>
     title: {
         marginBottom: theme.spacing(2),
         textAlign: 'center',
-        color: theme.palette.grey[700]
     }
   }),
 );

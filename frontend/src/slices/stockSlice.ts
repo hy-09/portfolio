@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { stockPriceDataCount } from '../config';
 import { getChangeRate, getNewStockPrice } from '../functions/calculations';
-import { BoughtStockInfo, Company, CompanyNames, MyStockInfo, plusOrMinus } from '../types/stock';
+import { BoughtStockInfo, Company, CompanyNames, MyStockInfo } from '../types/stock';
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
@@ -34,7 +34,7 @@ type InitialState = {
 
 const initialState: InitialState = {
     companies: [],
-    myStockInfoList: []
+    myStockInfoList: [],
 };
 
 

@@ -69,7 +69,7 @@ userNames = [
 for i, name in enumerate(userNames):
     user = User(
         email = f'dammy{i+1}@dammy.com',
-        fund = random.randrange(10000, 40000000)
+        fund = random.randrange(1000000, 30000000)
     )
     user.set_password('dammy')
     user.save()

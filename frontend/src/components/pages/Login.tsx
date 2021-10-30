@@ -87,7 +87,7 @@ const Login: FC = () => {
                             } else if (fetchAsyncLogin.rejected.match(result)) {
                                 setLoginFailed(true)
                             }
-                            await dispatch(endLoading())
+                            setTimeout(() => {dispatch(endLoading())}, 1000 ) 
                         }}
                         validationSchema={Yup.object().shape({
                             email: Yup
@@ -223,8 +223,8 @@ const Login: FC = () => {
                                 
                                 await dispatch(setFirstTimeAfterRegister())
                             }
-                            await dispatch(endLoading())
                             history.push('/home')
+                            setTimeout(() => {dispatch(endLoading())}, 1000 ) 
                         }}
                         validationSchema={Yup.object().shape({
                             email: Yup

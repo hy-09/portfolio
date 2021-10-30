@@ -1,3 +1,6 @@
+
+export type plusOrMinus = '+' | '-' | '';
+
 export type CompanyNames = {
     id: number;
     name: string;
@@ -28,5 +31,3 @@ export type MyStockInfo = {
     totalQuantity: number;
     totalValue: number;
 }
-
-export type plusOrMinus = '+' | '-' | '';

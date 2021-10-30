@@ -1,4 +1,4 @@
-import { Box, Button, CssBaseline, Grid, makeStyles, Theme } from "@material-ui/core";
+import { Box, Button, Container, CssBaseline, Grid, makeStyles, Theme } from "@material-ui/core";
 import { FC, memo, ReactNode, useEffect, useState } from "react";
 import Sidebar from "../organisms/layout/Sidebar";
 import Header from "../organisms/layout/Header";
@@ -17,6 +17,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     toolbar: theme.mixins.toolbar,
     content: {
         flexGrow: 1,
+        height: '100vh',
+        overflow: 'auto',
         padding: theme.spacing(3),
     },
 }))
@@ -55,7 +57,9 @@ const AuthLayout: FC<Props> = memo((props) => {
             />
             <main className={classes.content}>
                 <div className={classes.toolbar} />
-                {children}
+                <Grid container spacing={3}>
+                    {children}
+                </Grid>
             </main>
         </div>
     )

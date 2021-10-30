@@ -8,6 +8,7 @@ import { useHistory } from 'react-router';
 import { handleModalOpen } from '../../../slices/othersSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import ProfileForm from '../../molecules/ProfileForm';
+import clsx from 'clsx'
 
 type Props = {
     handleDrawerToggle: () => void;
@@ -15,7 +16,7 @@ type Props = {
 
 const useStyles = makeStyles(theme => ({
     appBar: {
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
           width: `calc(100% - ${drawerWidth}px)`,
           marginLeft: drawerWidth,
         },
@@ -24,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     },
     menuButton: {
         marginRight: theme.spacing(2),
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up('md')]: {
             display: 'none',
         },
     },
@@ -45,7 +46,7 @@ const useStyles = makeStyles(theme => ({
         fontSize: '0.875rem'
     },
     logout: {
-        color: theme.palette.secondary.light
+        color: theme.palette.secondary.main
     }
 }))
 
@@ -55,6 +56,7 @@ const Header: FC<Props> = (props) => {
     const dispatch = useAppDispatch()
     const history = useHistory()
     const classes = useStyles()
+    const logoutItem = clsx(classes.menuListItem, classes.logout)
 
     const items = [
         (  
@@ -73,7 +75,7 @@ const Header: FC<Props> = (props) => {
         ,
         (
             <div 
-                className={classes.menuListItem + ' ' + classes.logout}
+                className={logoutItem}
                 onClick={() => {
                     localStorage.removeItem('localJWT')
                     history.push('/login')

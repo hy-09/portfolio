@@ -4,9 +4,11 @@ import React, { FC } from 'react'
 const useStyles = makeStyles(theme => ({
     circularProgressWrapper: {
         position: 'fixed',
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: 'rgba(255, 255, 255, 1)',
         zIndex: 9999999,
     },
     circularProgress: {
