@@ -19,7 +19,13 @@ const useStyles = makeStyles((theme: Theme) => ({
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
-        padding: theme.spacing(3),
+        padding: theme.spacing(0, 2, 2, 0),
+        [theme.breakpoints.up('sm')]: {
+            padding: theme.spacing(0, 3, 3, 0),
+        },
+        [theme.breakpoints.up('lg')]: {
+            padding: theme.spacing(0, 6, 3, 3),
+        }
     },
 }))
 
@@ -57,7 +63,7 @@ const AuthLayout: FC<Props> = memo((props) => {
             />
             <main className={classes.content}>
                 <div className={classes.toolbar} />
-                <Grid container spacing={3}>
+                <Grid container>
                     {children}
                 </Grid>
             </main>

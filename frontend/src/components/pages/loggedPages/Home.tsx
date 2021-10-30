@@ -13,8 +13,15 @@ import Yen from '../../atoms/Yen'
 const useStyles = makeStyles(theme => ({
     totalProfitOrLossPriceStyle: {
         textAlign: 'right',
-        padding: theme.spacing(1, 2),
-        borderRadius: '5px',
+        [theme.breakpoints.up('lg')]: {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            width: '100%',
+            textAlign: 'center',
+            transform: 'translateY(-50%) translateX(-50%)',
+            padding: theme.spacing(0, 2)
+        }
     },
     up: {
         color: theme.palette.success.main,
@@ -52,6 +59,7 @@ const Home: FC = () => {
         <>
             <Grid item xs={12} lg={6}>
                 <Section 
+                    style={{position: 'relative'}}
                     className="emphasis-paper"
                     title="評価損益額" 
                     height="100%"
@@ -68,7 +76,7 @@ const Home: FC = () => {
                 >
                     <Typography 
                         component="div" 
-                        variant="h2" 
+                        variant="h3" 
                         className={
                             totalProfitOrLossPrice > 0 ? totalProfitOrLossPriceUp :
                             totalProfitOrLossPrice < 0 ? totalProfitOrLossPriceDown :
@@ -83,12 +91,12 @@ const Home: FC = () => {
             </Grid>
             <Grid item container direction="column" xs={12} lg={6}>
                 <Section title="所持金">
-                    <Typography component="div" variant="h3" style={{textAlign: 'right'}}>
+                    <Typography component="div" variant="h4" style={{textAlign: 'right'}}>
                         {loginUser.fund.toLocaleString()}<Yen />
                     </Typography>
                 </Section>
                 <Section title="総資産">
-                    <Typography component="div" variant="h3" style={{textAlign: 'right'}}>
+                    <Typography component="div" variant="h4" style={{textAlign: 'right'}}>
                         {totalAsset.toLocaleString()}<Yen />
                     </Typography>
                 </Section>

@@ -36,6 +36,13 @@ const useStyles = makeStyles(theme => ({
     },
     icon: {
         color: theme.palette.grey[500],
+        fontSize: '30px'
+    },
+    badge: {
+        '& .MuiBadge-anchorOriginTopRightRectangle': {
+            top: '4px',
+            right: '4px',
+        }
     },
     avatar: {
         width: theme.spacing(3),
@@ -101,7 +108,7 @@ const Header: FC<Props> = (props) => {
             </IconButton>
             <div className={classes.icons}>
                 <IconButton>
-                    <Badge badgeContent={2} color="secondary">
+                    <Badge badgeContent={2} color="secondary" className={classes.badge}>
                         <NotificationsNoneOutlinedIcon className={classes.icon} />
                     </Badge>
                 </IconButton>
