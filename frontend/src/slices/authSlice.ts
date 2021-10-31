@@ -5,9 +5,9 @@ import { EditProfile, Name, Auth, User, Profile } from '../types/user'
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
 export const fetchAsyncLogin = createAsyncThunk(
-    'auth/post',
-    async (authen: Auth) => {
-        const res = await axios.post(`${apiUrl}authen/jwt/create`, authen, {
+    'auth/login',
+    async (auth: Auth) => {
+        const res = await axios.post(`${apiUrl}authen/jwt/create`, auth, {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -153,7 +153,7 @@ export const authSlice = createSlice({
                 const loginUser = state.users.find(user => user.id === profile.user)
                 state.myprofile = {
                     ...profile,
-                    img: loginUser!.email.startsWith('dammy') && profile.img === null ? `https://picsum.photos/${100+loginUser!.id}` : profile.img            
+                    img: loginUser!.email.startsWith('vl2id0aow1qkrt') && profile.img === null ? `https://picsum.photos/${100+loginUser!.id}` : profile.img            
                 }
             })
             .addCase(fetchAsyncGetProfs.fulfilled, (state, action) => {
@@ -162,7 +162,7 @@ export const authSlice = createSlice({
                     const user = state.users.find(user => user.id === profile.user)
                     return {
                         ...profile,
-                        img: user!.email.startsWith('dammy') && profile.img == null ? `https://picsum.photos/${100+user!.id}` : profile.img
+                        img: user!.email.startsWith('vl2id0aow1qkrt') && profile.img == null ? `https://picsum.photos/${100+user!.id}` : profile.img
                     }
                 })
             })

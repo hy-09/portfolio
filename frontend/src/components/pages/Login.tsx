@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.secondary.main,
     },
     form: {
-        width: '100%', // Fix IE 11 issue.
+        width: '100%',
         marginTop: theme.spacing(1),
     },
     submit: {
@@ -87,7 +87,8 @@ const Login: FC = () => {
                             } else if (fetchAsyncLogin.rejected.match(result)) {
                                 setLoginFailed(true)
                             }
-                            setTimeout(() => {dispatch(endLoading())}, 1000 ) 
+                            dispatch(endLoading())
+                            
                         }}
                         validationSchema={Yup.object().shape({
                             email: Yup
@@ -222,9 +223,9 @@ const Login: FC = () => {
                                 }
                                 
                                 await dispatch(setFirstTimeAfterRegister())
+                                history.push('/home')
                             }
-                            history.push('/home')
-                            setTimeout(() => {dispatch(endLoading())}, 1000 ) 
+                            dispatch(endLoading())
                         }}
                         validationSchema={Yup.object().shape({
                             email: Yup

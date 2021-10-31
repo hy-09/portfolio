@@ -21,7 +21,7 @@ const Snackbar: FC<Props> = (props) => {
     const classes = useStyles()
 
     const handleClose = (event: React.SyntheticEvent | React.MouseEvent, reason?: string) => {
-        if (reason == 'clickaway') {
+        if (reason === 'clickaway') {
             return;
         }
         dispatch(handleNotifyClose())

@@ -54,7 +54,8 @@ function App() {
                     await dispatch((func as Function)())
                 }
             }
-            setTimeout(() => {dispatch(endLoading())}, 1000 ) 
+            // setTimeout(() => {dispatch(endLoading())}, 1000 ) 
+            dispatch(endLoading())
         }
         f()
     }, [dispatch])

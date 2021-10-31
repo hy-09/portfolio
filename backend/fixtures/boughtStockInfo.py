@@ -1,7 +1,8 @@
 import os
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'backend.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "backend.settings")
 from django import setup
+
 setup()
 
 from api.models import BoughtStockInfo
@@ -14,13 +15,13 @@ companies = Company.objects.all()
 
 for user in users:
     for _ in range(random.randrange(1, 8)):
-        quantity = random.randrange(1, 10)*100
+        quantity = random.randrange(1, 10) * 100
 
         info = BoughtStockInfo(
-            price = random.randrange(500, 12000),
-            quantity = quantity,
-            remaining_quantity = quantity,
-            user = user,
-            company = random.choice(companies)
+            price=random.randrange(500, 14000),
+            quantity=quantity,
+            remaining_quantity=quantity,
+            user=user,
+            company=random.choice(companies),
         )
         info.save()

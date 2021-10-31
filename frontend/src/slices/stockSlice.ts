@@ -101,6 +101,7 @@ export const stockSlice = createSlice({
                             newStockPrice
                         ]
                     })
+                    company.nowPrice = getNewStockPrice(company)
                     return company
                 })
                 state.companies = companies 
@@ -118,14 +119,23 @@ export const stockSlice = createSlice({
                         const totalQuantity = boughtStockInfoList.reduce((sum: number, info: BoughtStockInfo) => {
                             return sum + info.remaining_quantity
                         }, 0)
-    
+
+                        let totalOldValue = 0
+                        boughtStockInfoList.forEach((info: BoughtStockInfo) => {
+                            totalOldValue += info.price * info.remaining_quantity
+                        })
+
+                        const totalNewValue = company.nowPrice * totalQuantity
+                        
                         myStockInfoList = [
                             ...myStockInfoList,
                             {
                                 ...initialState.myStockInfoList[0],
                                 companyId: company.id,
                                 boughtStockInfoList: boughtStockInfoList,
-                                totalQuantity: totalQuantity
+                                totalQuantity: totalQuantity,
+                                totalValue: totalNewValue,
+                                profitOrLossPrice: totalNewValue - totalOldValue,
                             }
                         ] 
                     }
