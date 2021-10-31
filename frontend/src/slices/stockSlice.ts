@@ -74,6 +74,9 @@ export const stockSlice = createSlice({
                     }
                 })
             }
+        },
+        resetStockState(state) {
+            state.myStockInfoList = initialState.myStockInfoList
         }
     },
     extraReducers: (builder) => {
@@ -133,7 +136,8 @@ export const stockSlice = createSlice({
 });
 
 export const { 
-    updateStockPrices
+    updateStockPrices,
+    resetStockState,
 } = stockSlice.actions;
 
 export default stockSlice.reducer;

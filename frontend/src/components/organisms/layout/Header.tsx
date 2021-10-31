@@ -5,10 +5,12 @@ import React, { FC, ReactNode, useState } from 'react'
 import { drawerWidth } from '../../../config';
 import MenuList from '../MenuList';
 import { useHistory } from 'react-router';
-import { handleModalOpen } from '../../../slices/othersSlice';
+import { handleModalOpen, resetOthersState } from '../../../slices/othersSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import ProfileForm from '../../molecules/ProfileForm';
 import clsx from 'clsx'
+import { resetAuthState } from '../../../slices/authSlice';
+import { resetStockState } from '../../../slices/stockSlice';
 
 type Props = {
     handleDrawerToggle: () => void;
@@ -85,8 +87,11 @@ const Header: FC<Props> = (props) => {
                 className={logoutItem}
                 onClick={() => {
                     localStorage.removeItem('localJWT')
+                    dispatch(resetAuthState())
+                    dispatch(resetStockState())
+                    dispatch(resetOthersState())
                     history.push('/login')
-                    window.location.reload()
+                    // window.location.reload()
                 }}
             >
                 ログアウト

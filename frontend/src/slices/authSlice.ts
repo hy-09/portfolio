@@ -125,6 +125,12 @@ export const authSlice = createSlice({
         },
         setLoginUser(state) {
             state.loginUser = state.users.find(user => user.id === state.myprofile.user )!
+        },
+        resetAuthState(state) {
+            state.firstTimeAfterRegister = false
+            state.loginUser = initialState.loginUser
+            state.myprofile = initialState.myprofile
+            state.profiles = initialState.profiles
         }
     },
     extraReducers: (builder) => {
@@ -172,6 +178,7 @@ export const authSlice = createSlice({
 export const { 
     setFirstTimeAfterRegister,
     setLoginUser,
+    resetAuthState,
 } = authSlice.actions;
 
 export default authSlice.reducer;
