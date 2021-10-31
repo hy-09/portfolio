@@ -38,12 +38,12 @@ const useStyles = makeStyles(theme => ({
     },
     icon: {
         color: theme.palette.grey[500],
-        fontSize: '30px'
+        fontSize: '26px'
     },
     badge: {
         '& .MuiBadge-anchorOriginTopRightRectangle': {
-            top: '4px',
-            right: '4px',
+            top: '2px',
+            right: '2px',
         }
     },
     avatar: {
