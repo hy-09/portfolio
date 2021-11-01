@@ -45,16 +45,15 @@ function App() {
             await dispatch(startLoading())
             await dispatch(fetchAsyncGetUsers())
             await dispatch(fetchAsyncGetCompanies())
-            setInterval(() => {
-                dispatch(updateStockPrices())
-            }, 1500)
+            // setInterval(() => {
+            //     dispatch(updateStockPrices())
+            // }, 1500)
 
             if(!!localStorage.localJWT) {
                 for (const func of fetchAsyncGetDataFuncs) {
                     await dispatch((func as Function)())
                 }
             }
-            // setTimeout(() => {dispatch(endLoading())}, 1000 ) 
             dispatch(endLoading())
         }
         f()

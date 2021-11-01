@@ -5,7 +5,7 @@ import { TrendingDown, TrendingFlat, TrendingUp } from '@material-ui/icons'
 import { FC, useEffect, useState } from 'react'
 import { useAppSelector } from '../../../app/hooks'
 import { getChangeRate } from '../../../functions/calculations'
-import { MyStockInfo } from '../../../types/stock'
+import { Company, MyStockInfo } from '../../../types/stock'
 import ChangeRate from '../../atoms/ChangeRate'
 import Section from '../../organisms/Section'
 import Yen from '../../atoms/Yen'
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
     yen: {
         fontSize: '0.6em',
         marginLeft: '0.2em',
-    }
+    },
 }))
 
 const Home: FC = () => {
@@ -45,6 +45,7 @@ const Home: FC = () => {
     const totalProfitOrLossPriceDown = clsx(classes.totalProfitOrLossPriceStyle, classes.down)
     const totalProfitOrLossPriceFlat = clsx(classes.totalProfitOrLossPriceStyle, classes.flat)
 
+    const companies = useAppSelector(state => state.stock.companies)
     const myStockInfoList = useAppSelector(state => state.stock.myStockInfoList)
     const loginUser = useAppSelector(state => state.auth.loginUser)
 
@@ -99,6 +100,34 @@ const Home: FC = () => {
                     <Typography component="div" variant="h4" style={{textAlign: 'right'}}>
                         {totalAsset.toLocaleString()}<Yen />
                     </Typography>
+                </Section>
+            </Grid>
+            <Grid item xs={12}>
+                <Section title="保有銘柄">
+                    <Grid 
+                        container
+                        spacing={2} 
+                    >
+                            {myStockInfoList.map(myStockInfo => (
+                                <Grid 
+                                    item 
+                                    xs={12}
+                                    sm={6}
+                                    lg={3}
+                                    key={myStockInfo.companyId}
+                                >
+                                    <Section 
+                                        title={companies.find((company: Company) => company.id === myStockInfo.companyId)!.name}
+                                        noOuterPad={true}
+                                        className="emphasis-paper"
+                                    >
+                                        <div>
+                                            現在値：
+                                        </div>
+                                    </Section>
+                                </Grid>
+                            ))}
+                    </Grid>
                 </Section>
             </Grid>
         </>
