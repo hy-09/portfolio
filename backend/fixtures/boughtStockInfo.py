@@ -20,7 +20,6 @@ for user in users:
         info = BoughtStockInfo(
             price=random.randrange(500, 14000),
             quantity=quantity,
-            remaining_quantity=quantity,
             user=user,
             company=random.choice(companies),
         )

@@ -59,7 +59,7 @@ export default function Sidebar(props: Props) {
           icon: <HomeOutlined />
       },
       {
-          text: '株の購入',
+          text: '銘柄一覧',
           icon: <TrendingUp />
       },
       {

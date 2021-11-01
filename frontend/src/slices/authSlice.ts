@@ -108,7 +108,11 @@ const initialState: InitialState = {
     myprofile: {
         id: 0,
         name: '',
-        user: 0,
+        user: {
+            id: 0,
+            email: '',
+            fund: 0,
+        },
         created_at: '',
         img: '',
     },
@@ -124,7 +128,7 @@ export const authSlice = createSlice({
             state.firstTimeAfterRegister = true
         },
         setLoginUser(state) {
-            state.loginUser = state.users.find(user => user.id === state.myprofile.user )!
+            state.loginUser = state.users.find(user => user.id === state.myprofile.user.id )!
         },
         resetAuthState(state) {
             state.firstTimeAfterRegister = false
@@ -149,8 +153,8 @@ export const authSlice = createSlice({
                 state.users = action.payload
             })
             .addCase(fetchAsyncGetMyProf.fulfilled, (state, action) => {
-                const profile = action.payload
-                const loginUser = state.users.find(user => user.id === profile.user)
+                const profile: Profile = action.payload
+                const loginUser = state.users.find(user => user.id === profile.user.id)
                 state.myprofile = {
                     ...profile,
                     img: loginUser!.email.startsWith('vl2id0aow1qkrt') && profile.img === null ? `https://picsum.photos/${100+loginUser!.id}` : profile.img            
@@ -159,7 +163,7 @@ export const authSlice = createSlice({
             .addCase(fetchAsyncGetProfs.fulfilled, (state, action) => {
                 const profiles: Array<Profile> = action.payload
                 state.profiles = profiles.map(profile => {
-                    const user = state.users.find(user => user.id === profile.user)
+                    const user = state.users.find(user => user.id === profile.user.id)
                     return {
                         ...profile,
                         img: user!.email.startsWith('vl2id0aow1qkrt') && profile.img == null ? `https://picsum.photos/${100+user!.id}` : profile.img
@@ -167,9 +171,10 @@ export const authSlice = createSlice({
                 })
             })
             .addCase(fetchAsyncUpdateProf.fulfilled, (state, action) => {
-                state.myprofile = action.payload
-                state.profiles = state.profiles.map((prof) => 
-                    prof.id === action.payload.id ? action.payload : prof
+                const myprofile = action.payload
+                state.myprofile = myprofile
+                state.profiles = state.profiles.map((profile) => 
+                    profile.id === myprofile.id ? myprofile : profile
                 )
             })
     },

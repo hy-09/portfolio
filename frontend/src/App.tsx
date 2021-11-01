@@ -32,6 +32,15 @@ const theme = createTheme({
             default: '#f4f9f9'
         },
     },
+    breakpoints: {
+        values: {
+            xs: 0,
+            sm: 600,
+            md: 900,
+            lg: 1200,
+            xl: 1536,
+        },
+    }
 })
 
 function App() {
@@ -45,9 +54,9 @@ function App() {
             await dispatch(startLoading())
             await dispatch(fetchAsyncGetUsers())
             await dispatch(fetchAsyncGetCompanies())
-            // setInterval(() => {
-            //     dispatch(updateStockPrices())
-            // }, 1500)
+            setInterval(() => {
+                dispatch(updateStockPrices())
+            }, 1500)
 
             if(!!localStorage.localJWT) {
                 for (const func of fetchAsyncGetDataFuncs) {

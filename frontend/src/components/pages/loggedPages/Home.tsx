@@ -1,4 +1,4 @@
-import { Grid, makeStyles, Typography, useTheme } from '@material-ui/core'
+import { Box, Grid, makeStyles, Paper, Typography, useTheme } from '@material-ui/core'
 import clsx from 'clsx'
 import { green, grey } from '@material-ui/core/colors'
 import { TrendingDown, TrendingFlat, TrendingUp } from '@material-ui/icons'
@@ -9,6 +9,7 @@ import { Company, MyStockInfo } from '../../../types/stock'
 import ChangeRate from '../../atoms/ChangeRate'
 import Section from '../../organisms/Section'
 import Yen from '../../atoms/Yen'
+import HoldingStock from '../../organisms/HoldingStock'
 
 const useStyles = makeStyles(theme => ({
     totalProfitOrLossPriceStyle: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles(theme => ({
         color: theme.palette.secondary.main,
     },
     flat: {
-        color: grey[500],
+        color: theme.palette.text.secondary,
     },
     yen: {
         fontSize: '0.6em',
@@ -104,30 +105,29 @@ const Home: FC = () => {
             </Grid>
             <Grid item xs={12}>
                 <Section title="保有銘柄">
-                    <Grid 
-                        container
-                        spacing={2} 
-                    >
-                            {myStockInfoList.map(myStockInfo => (
-                                <Grid 
-                                    item 
-                                    xs={12}
-                                    sm={6}
-                                    lg={3}
-                                    key={myStockInfo.companyId}
-                                >
-                                    <Section 
-                                        title={companies.find((company: Company) => company.id === myStockInfo.companyId)!.name}
-                                        noOuterPad={true}
-                                        className="emphasis-paper"
+                    {myStockInfoList.length > 0 ? (
+                        <Grid 
+                            container
+                            spacing={2} 
+                        >
+                                {myStockInfoList.map(myStockInfo => (
+                                    <Grid 
+                                        item 
+                                        xs={12}
+                                        sm={6}
+                                        lg={4}
+                                        xl={3}
+                                        key={myStockInfo.company.id}
                                     >
-                                        <div>
-                                            現在値：
-                                        </div>
-                                    </Section>
-                                </Grid>
-                            ))}
-                    </Grid>
+                                        <HoldingStock myStockInfo={myStockInfo} />
+                                    </Grid>
+                                ))}
+                        </Grid>
+                    ) : (
+                        <p>
+                            保有している銘柄はございません
+                        </p>
+                    )}
                 </Section>
             </Grid>
         </>

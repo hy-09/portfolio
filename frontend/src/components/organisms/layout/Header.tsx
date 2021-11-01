@@ -11,6 +11,7 @@ import ProfileForm from '../../molecules/ProfileForm';
 import clsx from 'clsx'
 import { resetAuthState } from '../../../slices/authSlice';
 import { resetStockState } from '../../../slices/stockSlice';
+import { grey } from '@material-ui/core/colors';
 
 type Props = {
     handleDrawerToggle: () => void;
@@ -37,7 +38,7 @@ const useStyles = makeStyles(theme => ({
         marginLeft: 'auto'
     },
     icon: {
-        color: theme.palette.grey[500],
+        color: grey[500],
         fontSize: '26px'
     },
     badge: {

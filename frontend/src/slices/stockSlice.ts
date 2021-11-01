@@ -59,16 +59,18 @@ export const stockSlice = createSlice({
 
             if (state.myStockInfoList.length > 0) {
                 state.myStockInfoList = state.myStockInfoList.map(info => {
-                    const company = state.companies.find(c => c.id === info.companyId)
+                    const company = state.companies.find(c => c.id === info.company.id)!
 
                     let totalOldValue = 0
                     info.boughtStockInfoList.forEach(i => {
-                        totalOldValue += i.price * i.remaining_quantity
+                        totalOldValue += i.price * i.quantity
+                        i.profitOrLossPrice = (company.nowPrice - i.price) * i.quantity
                     })
                     const totalNewValue = company!.nowPrice * info.totalQuantity
                     
                     return {
                         ...info,
+                        company: company,
                         profitOrLossPrice: totalNewValue - totalOldValue,
                         totalValue: totalNewValue
                     }
@@ -113,16 +115,17 @@ export const stockSlice = createSlice({
                 let myStockInfoList: Array<MyStockInfo> = []
                 
                 state.companies.forEach(company => {
-                    const boughtStockInfoList = action.payload.filter((info: BoughtStockInfo) => info.company === company.id)
+                    const boughtStockInfoList = action.payload.filter((info: BoughtStockInfo) => info.company.id === company.id)
 
                     if (boughtStockInfoList.length > 0) {
                         const totalQuantity = boughtStockInfoList.reduce((sum: number, info: BoughtStockInfo) => {
-                            return sum + info.remaining_quantity
+                            return sum + info.quantity
                         }, 0)
 
                         let totalOldValue = 0
                         boughtStockInfoList.forEach((info: BoughtStockInfo) => {
-                            totalOldValue += info.price * info.remaining_quantity
+                            totalOldValue += info.price * info.quantity
+                            info.profitOrLossPrice = (company.nowPrice - info.price) * info.quantity
                         })
 
                         const totalNewValue = company.nowPrice * totalQuantity
@@ -131,7 +134,7 @@ export const stockSlice = createSlice({
                             ...myStockInfoList,
                             {
                                 ...initialState.myStockInfoList[0],
-                                companyId: company.id,
+                                company: company,
                                 boughtStockInfoList: boughtStockInfoList,
                                 totalQuantity: totalQuantity,
                                 totalValue: totalNewValue,

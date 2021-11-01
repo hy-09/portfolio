@@ -1,3 +1,4 @@
+import { User } from "./user";
 
 export type plusOrMinus = '+' | '-' | '';
 
@@ -18,14 +19,14 @@ export type BoughtStockInfo = {
     id: number;
     price: number;
     quantity: number;
-    remaining_quantity: number;
+    profitOrLossPrice: number;
     created_at: string;
-    user: number;
-    company: number;
+    user: User;
+    company: Company;
 }
 
 export type MyStockInfo = {
-    companyId: number;
+    company: Company;
     boughtStockInfoList: Array<BoughtStockInfo>;
     profitOrLossPrice: number;
     totalQuantity: number;

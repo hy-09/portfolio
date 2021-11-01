@@ -80,7 +80,6 @@ class Company(models.Model):
 class BoughtStockInfo(models.Model):
     price = models.IntegerField()
     quantity = models.IntegerField()
-    remaining_quantity = models.IntegerField()
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         related_name="boughtStockInfoList",

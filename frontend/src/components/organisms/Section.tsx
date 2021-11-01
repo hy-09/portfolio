@@ -10,7 +10,6 @@ type Props = {
     color?: string;
     className?: string;
     style?: CSSProperties;
-    noOuterPad?: boolean;
 }
 
 const useStyles = makeStyles<Theme, Props>(theme => ({
@@ -31,25 +30,15 @@ const useStyles = makeStyles<Theme, Props>(theme => ({
 
 const Section: FC<Props> = memo((props) => {
     const classes = useStyles(props)
-    const { children, title='', color, className=null, style=undefined, noOuterPad=false  } = props
+    const { children, title='', color, className=null, style=undefined } = props
 
-    const PaperComponent = () => {
-        return (
+    return (
+        <Box className={classes.box}>
             <Paper className={classes.paper + ' ' + className} style={style}>
                 <Title color={color}>{title}</Title>
                 {children}
             </Paper>
-        )
-    } 
-
-    return (
-        <>
-        {noOuterPad ? <PaperComponent /> : (
-            <Box className={classes.box}>
-                <PaperComponent />
-            </Box>
-        )}
-        </>
+        </Box>
     )
 })
 

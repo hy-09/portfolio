@@ -18,7 +18,7 @@ export type Profile = {
     id: number;
     name: string;
     img: string | null;
-    user: number;
+    user: User;
     created_at: string;
 }
 
