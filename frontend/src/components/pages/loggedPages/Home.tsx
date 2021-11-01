@@ -105,6 +105,7 @@ const Home: FC = () => {
             </Grid>
             <Grid item xs={12}>
                 <Section title="保有銘柄">
+                    <br />
                     {myStockInfoList.length > 0 ? (
                         <Grid 
                             container

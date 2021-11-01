@@ -1,32 +1,59 @@
-import { Box, Grid, makeStyles, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, Typography, useTheme } from '@material-ui/core'
+import { Box, Button, Grid, makeStyles, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, Typography, useTheme } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
 import { FC, memo } from 'react'
 import { MyStockInfo } from '../../types/stock'
 import ChangeRate from '../atoms/ChangeRate'
+import clsx from 'clsx'
 
 type Props = {
     myStockInfo: MyStockInfo;
 }
 
-const useStyles = makeStyles<Theme, Props>(theme => ({
-    table: {
-        '& th': {
-            color: grey[600],
-            padding: theme.spacing(0, 0, 0.5),
-        },
-        '& td': {
-            padding: theme.spacing(0.05, 0),
-        },
-        '& .MuiTableCell-root': {
-            border: 'none'
+const useStyles = makeStyles(theme => ({
+    profitOrLossPrice: {
+        padding: theme.spacing(0.3, 0.7),
+        borderRadius:  theme.spacing(0.5),
+        display: 'inline-flex',
+        alignItems: 'center',
+    },
+    plus: {
+        color: theme.palette.success.main,
+    },
+    minus: {
+        color: theme.palette.secondary.main,
+    },
+    flat: {
+        color: theme.palette.text.secondary,
+    },
+    // table: {
+    //     '& th': {
+    //         color: grey[600],
+    //         padding: theme.spacing(0, 0.5, 0.5),
+    //     },
+    //     '& td': {
+    //         padding: theme.spacing(0, 0.5),
+    //     },
+    //     '& .MuiTableCell-root': {
+    //         border: 'none'
+    //     }
+    // },
+    sellButton: {
+        marginTop: theme.spacing(2), 
+        backgroundColor: theme.palette.info.main, 
+        color: 'white',
+        '&:hover': {
+            backgroundColor: theme.palette.info.dark
         }
     }
 }))
 
 const HoldingStock: FC<Props> = memo((props) => {
-    const classes = useStyles(props)
+    const classes = useStyles()
     const theme = useTheme()
     const { myStockInfo  } = props
+    const profit = clsx(classes.profitOrLossPrice, classes.plus)
+    const loss = clsx(classes.profitOrLossPrice, classes.minus)
+    const noChange = clsx(classes.profitOrLossPrice, classes.flat)
 
     return (
         <Paper className="emphasis-paper">
@@ -49,28 +76,39 @@ const HoldingStock: FC<Props> = memo((props) => {
                 </div>
             </Box>
             <Box p={2}>
-                <TableContainer component="div">
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center">取得単価（株数）</TableCell>
-                                <TableCell align="center">評価損益額</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {myStockInfo.boughtStockInfoList.map(boughtStockInfo => (
-                                <TableRow key={boughtStockInfo.id}>
-                                    <TableCell align="center">
-                                        {boughtStockInfo.price.toLocaleString()}（{boughtStockInfo.quantity.toLocaleString()}株）
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {boughtStockInfo.profitOrLossPrice.toLocaleString()}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <div>
+                    <Grid container justifyContent="space-evenly" style={{color: grey[600], marginBottom: theme.spacing(1.2)}}>
+                        <Grid item>
+                            取得単価（株数）
+                        </Grid>
+                        <Grid item>
+                            評価損益額
+                        </Grid>
+                    </Grid>
+                    {myStockInfo.boughtStockInfoList.map(boughtStockInfo => (
+                        <Grid container justifyContent="space-evenly" style={{marginTop: '-6px'}}>
+                            <Grid item>
+                                {boughtStockInfo.price.toLocaleString()}（{boughtStockInfo.quantity.toLocaleString()}株）
+                            </Grid>
+                            <Grid item>
+                                <span
+                                    className={
+                                        boughtStockInfo.profitOrLossPrice > 0 ? profit :
+                                        boughtStockInfo.profitOrLossPrice < 0 ? loss :
+                                        noChange
+                                    }
+                                >
+                                    {boughtStockInfo.profitOrLossPrice > 0 && '+'}
+                                    {boughtStockInfo.profitOrLossPrice === 0 && '±'}
+                                    {boughtStockInfo.profitOrLossPrice.toLocaleString()}
+                                </span>
+                            </Grid>
+                        </Grid>
+                    ))}
+                </div>
+                <Button variant="contained" fullWidth size="small" className={classes.sellButton}>
+                    売却
+                </Button>
             </Box>
         </Paper>
     )
