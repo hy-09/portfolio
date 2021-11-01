@@ -86,7 +86,7 @@ const HoldingStock: FC<Props> = memo((props) => {
                         </Grid>
                     </Grid>
                     {myStockInfo.boughtStockInfoList.map(boughtStockInfo => (
-                        <Grid container justifyContent="space-evenly" style={{marginTop: '-6px'}}>
+                        <Grid container justifyContent="space-evenly" style={{marginTop: '-6px', fontSize: '0.8rem'}}>
                             <Grid item>
                                 {boughtStockInfo.price.toLocaleString()}（{boughtStockInfo.quantity.toLocaleString()}株）
                             </Grid>
