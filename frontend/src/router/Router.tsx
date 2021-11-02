@@ -27,17 +27,17 @@ export const Router: FC = memo(() => {
 
                 <AuthRoute path="/home" render={({ match: { url } }) => (
                     <Switch>
-                        <AuthLayout>
                             {HomeRoutes.map((route) => (
                                 <Route 
                                     key={route.path} 
                                     exact={route.exact} 
                                     path={url + route.path}
                                 >
-                                    {route.children}
+                                    <AuthLayout>
+                                        {route.children}
+                                    </AuthLayout>
                                 </Route>
                             ))}
-                        </AuthLayout>
                     </Switch>
                 )} />
 

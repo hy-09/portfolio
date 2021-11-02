@@ -1,3 +1,4 @@
+import { Redirect } from "react-router-dom";
 import Home from "../components/pages/loggedPages/Home";
 import Stocks from "../components/pages/loggedPages/Stocks";
 import Timeline from "../components/pages/loggedPages/Timeline";
@@ -21,6 +22,6 @@ export const HomeRoutes = [
     {
         path: '*',
         exact: false,
-        children: <Home />
+        children: <><Redirect to="/" /><Home /></>
     },
 ]
