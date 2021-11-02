@@ -124,8 +124,8 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setFirstTimeAfterRegister(state) {
-            state.firstTimeAfterRegister = true
+        setFirstTimeAfterRegister(state, action) {
+            state.firstTimeAfterRegister = action.payload
         },
         setLoginUser(state) {
             state.loginUser = state.users.find(user => user.id === state.myprofile.user.id )!

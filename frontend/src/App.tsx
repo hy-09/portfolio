@@ -29,7 +29,7 @@ const theme = createTheme({
             light: green[50],
         },
         background: {
-            default: '#f4f9f9'
+            default: 'rgba(0, 151, 167, 0.03)'
         },
     },
     breakpoints: {

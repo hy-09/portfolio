@@ -11,6 +11,7 @@ import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/sty
 import { ChatOutlined, HomeOutlined, TrendingUp } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import { drawerWidth } from '../../../config';
+import { HomeRoutes } from '../../../router/HomeRoutes';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -56,34 +57,16 @@ export default function Sidebar(props: Props) {
   const theme = useTheme();
   const history = useHistory()
 
-  const items = [
-      {
-          text: 'ホーム',
-          icon: <HomeOutlined />,
-          link: '/home'
-      },
-      {
-          text: '銘柄一覧',
-          icon: <TrendingUp />,
-          link: '/home/stocks'
-      },
-      {
-          text: 'タイムライン',
-          icon: <ChatOutlined />,
-          link: '/home/timeline'
-      },
-  ]
-
   const drawer = (
     <div>
       <div className={classes.toolbar} />
       <Divider />
       <List>
-            {items.map((item) => (
-                <Link onClick={() => history.push(item.link)}>
-                    <ListItem button key={item.text}>
-                            <ListItemIcon className={classes.listItemIcon}>{item.icon}</ListItemIcon>
-                            <ListItemText className={classes.listItemText} primary={item.text} />                 
+            {HomeRoutes.map((route) => (
+                <Link onClick={() => history.push(`/home${route.path}`)}>
+                    <ListItem button key={route.title}>
+                        <ListItemIcon className={classes.listItemIcon}>{route.icon}</ListItemIcon>
+                        <ListItemText className={classes.listItemText} primary={route.title} />                 
                     </ListItem>
                 </Link>
             ))}

@@ -33,6 +33,7 @@ const useStyles = makeStyles(theme => ({
     avatar: {
         margin: theme.spacing(1),
         backgroundColor: theme.palette.secondary.main,
+        color: 'white'
     },
     form: {
         width: '100%',
@@ -222,7 +223,7 @@ const Login: FC = () => {
                                     await dispatch((func as Function)())
                                 }
                                 
-                                await dispatch(setFirstTimeAfterRegister())
+                                await dispatch(setFirstTimeAfterRegister(true))
                                 history.push('/home')
                             }
                             dispatch(endLoading())

@@ -58,7 +58,7 @@ const HoldingStock: FC<Props> = memo((props) => {
     return (
         <Paper className="emphasis-paper">
             <Box pt={2} pb={1} px={2} style={{backgroundColor: grey[50]}}>
-                <Typography component="h3" variant="subtitle1" color="primary" >
+                <Typography component="h4" variant="subtitle1" color="primary" >
                     {myStockInfo.company.name}
                 </Typography>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>

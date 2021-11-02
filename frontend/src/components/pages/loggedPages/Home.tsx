@@ -2,7 +2,7 @@ import { Box, Grid, makeStyles, Paper, Typography, useTheme } from '@material-ui
 import clsx from 'clsx'
 import { green, grey } from '@material-ui/core/colors'
 import { TrendingDown, TrendingFlat, TrendingUp } from '@material-ui/icons'
-import { FC, useEffect, useState } from 'react'
+import { FC, memo, useEffect, useState } from 'react'
 import { useAppSelector } from '../../../app/hooks'
 import { getChangeRate } from '../../../functions/calculations'
 import { Company, MyStockInfo } from '../../../types/stock'
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const Home: FC = () => {
+const Home: FC = memo(() => {
     const classes = useStyles()
     const theme = useTheme()
     const totalProfitOrLossPriceUp = clsx(classes.totalProfitOrLossPriceStyle, classes.up)
@@ -104,8 +104,7 @@ const Home: FC = () => {
                 </Section>
             </Grid>
             <Grid item xs={12}>
-                <Section title="保有銘柄">
-                    <br />
+                <Section title="保有銘柄" backgroundColor="transparent" className="no-shadow">
                     {myStockInfoList.length > 0 ? (
                         <Grid 
                             container
@@ -133,6 +132,6 @@ const Home: FC = () => {
             </Grid>
         </>
     )
-}
+})
 
 export default Home

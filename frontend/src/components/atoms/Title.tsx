@@ -18,7 +18,7 @@ const Title: FC<Props> = (props) => {
     const classes = useStyles(props)
 
     return (
-        <Typography component="h2" variant="h6" gutterBottom className={classes.root} >
+        <Typography component="h3" variant="h6" gutterBottom className={classes.root} >
             {children}
         </Typography>
     )

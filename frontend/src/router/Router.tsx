@@ -33,7 +33,7 @@ export const Router: FC = memo(() => {
                                     exact={route.exact} 
                                     path={url + route.path}
                                 >
-                                    <AuthLayout>
+                                    <AuthLayout title={route.title}> 
                                         {route.children}
                                     </AuthLayout>
                                 </Route>

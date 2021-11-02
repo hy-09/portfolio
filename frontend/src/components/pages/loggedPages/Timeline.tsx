@@ -1,13 +1,13 @@
 import { Box, Grid, makeStyles, Paper, Typography, useTheme } from '@material-ui/core'
 import clsx from 'clsx'
-import { FC, useEffect, useState } from 'react'
+import { FC, memo, useEffect, useState } from 'react'
 import { useAppSelector } from '../../../app/hooks'
 
 const useStyles = makeStyles(theme => ({
     
 }))
 
-const Timeline: FC = () => {
+const Timeline: FC = memo(() => {
     const classes = useStyles()
     const theme = useTheme()
 
@@ -16,6 +16,6 @@ const Timeline: FC = () => {
             timeline
         </div>
     )
-}
+})
 
 export default Timeline
