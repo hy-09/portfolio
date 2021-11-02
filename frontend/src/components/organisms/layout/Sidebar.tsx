@@ -62,7 +62,7 @@ export default function Sidebar(props: Props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-            {HomeRoutes.map((route) => (
+            {HomeRoutes.slice(0,-1).map((route) => (
                 <Link onClick={() => history.push(`/home${route.path}`)}>
                     <ListItem button key={route.title}>
                         <ListItemIcon className={classes.listItemIcon}>{route.icon}</ListItemIcon>

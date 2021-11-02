@@ -4,6 +4,8 @@ import { FC, memo } from 'react'
 import { MyStockInfo } from '../../types/stock'
 import ChangeRate from '../atoms/ChangeRate'
 import clsx from 'clsx'
+import Title from '../atoms/Title'
+import NowPrice from '../molecules/NowPrice'
 
 type Props = {
     myStockInfo: MyStockInfo;
@@ -57,19 +59,12 @@ const HoldingStock: FC<Props> = memo((props) => {
 
     return (
         <Paper className="emphasis-paper">
-            <Box pt={2} pb={1} px={2} style={{backgroundColor: grey[50]}}>
-                <Typography component="h4" variant="subtitle1" color="primary" >
+            <Box pt={2} pb={1.5} px={2} style={{backgroundColor: grey[50]}}>
+                <Title component="h4" variant="subtitle1" color={theme.palette.primary.main}>
                     {myStockInfo.company.name}
-                </Typography>
+                </Title>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
-                    <div>
-                        <span style={{marginRight: theme.spacing(0.7)}}>
-                            現在値：{myStockInfo.company.nowPrice.toLocaleString()}
-                        </span>
-                        <ChangeRate
-                            rate={myStockInfo.company.StockPriceChangeRate}
-                        />
-                    </div>
+                    <NowPrice company={myStockInfo.company} />
                     <span style={{fontWeight: 'bold', color: theme.palette.text.secondary}}>
                         {myStockInfo.totalQuantity.toLocaleString()}株
                     </span>

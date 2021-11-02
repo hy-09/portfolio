@@ -92,7 +92,6 @@ const Header: FC<Props> = (props) => {
                     dispatch(resetStockState())
                     dispatch(resetOthersState())
                     history.push('/login')
-                    // window.location.reload()
                 }}
             >
                 ログアウト
