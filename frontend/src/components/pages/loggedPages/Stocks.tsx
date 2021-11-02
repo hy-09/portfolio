@@ -1,15 +1,22 @@
-import { Box, Grid, makeStyles, Paper, Typography, useTheme } from '@material-ui/core'
+import { Box, Button, Grid, makeStyles, Paper, Typography, useTheme } from '@material-ui/core'
 import clsx from 'clsx'
 import { FC, memo, useEffect, useState } from 'react'
 import { useAppSelector } from '../../../app/hooks'
 import DivWithPadding from '../../atoms/DivWithPadding'
 import Title from '../../atoms/Title'
 import NowPrice from '../../molecules/NowPrice'
-import Section from '../../organisms/Section'
+import LineChart from '../../organisms/LineChart'
 
 const useStyles = makeStyles(theme => ({
     paper: {
         padding: theme.spacing(2)
+    },
+    detailButton: {
+        backgroundColor: theme.palette.secondary.main, 
+        color: 'white',
+        '&:hover': {
+            backgroundColor: theme.palette.secondary.dark
+        }
     }
 }))
 
@@ -35,6 +42,12 @@ const Stocks: FC = memo(() => {
                             {company.name}
                         </Title>
                         <NowPrice company={company} />
+                        <Box mt={0.5}>
+                            <LineChart dataList={company.stockPriceDatas.slice(-20)} />
+                        </Box>
+                        <Button size="small" variant="outlined" fullWidth color="secondary">
+                            詳細
+                        </Button>
                     </Paper>
                 </DivWithPadding>
             </Grid>

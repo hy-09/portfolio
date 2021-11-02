@@ -1,4 +1,4 @@
-import { Box, Button, Grid, makeStyles, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, Typography, useTheme } from '@material-ui/core'
+import { Box, Button, Divider, Grid, makeStyles, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, Typography, useTheme } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
 import { FC, memo } from 'react'
 import { MyStockInfo } from '../../types/stock'
@@ -59,7 +59,7 @@ const HoldingStock: FC<Props> = memo((props) => {
 
     return (
         <Paper className="emphasis-paper">
-            <Box pt={2} pb={1.5} px={2} style={{backgroundColor: grey[50]}}>
+            <Box pt={2} pb={1.5} px={2}>
                 <Title component="h4" variant="subtitle1" color={theme.palette.primary.main}>
                     {myStockInfo.company.name}
                 </Title>
@@ -70,6 +70,7 @@ const HoldingStock: FC<Props> = memo((props) => {
                     </span>
                 </div>
             </Box>
+            <Divider />
             <Box p={2}>
                 <div>
                     <Grid container justifyContent="space-evenly" style={{color: grey[600], marginBottom: theme.spacing(1.2)}}>

@@ -90,6 +90,7 @@ const ProfileForm: FC = () => {
                 variant="contained"
                 type="submit"
                 color="primary"
+                size="small"
                 fullWidth
                 onClick={updateProfile}
             >
