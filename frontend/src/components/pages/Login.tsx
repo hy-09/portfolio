@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom'
 import * as Yup from "yup"
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { fetchAsyncGetDataFuncs } from '../../functions/fetchAsyncGetDataFuncs'
+import { homeURL } from '../../router/HomeRoutes'
 import { 
     fetchAsyncCreateProf,
     fetchAsyncGetMyProf,
@@ -83,7 +84,7 @@ const Login: FC = () => {
                                     await dispatch((func as Function)())
                                 }
 
-                                history.push('/home')
+                                history.push(homeURL)
 
                             } else if (fetchAsyncLogin.rejected.match(result)) {
                                 setLoginFailed(true)
@@ -224,7 +225,7 @@ const Login: FC = () => {
                                 }
                                 
                                 await dispatch(setFirstTimeAfterRegister(true))
-                                history.push('/home')
+                                history.push(homeURL)
                             }
                             dispatch(endLoading())
                         }}

@@ -3,13 +3,14 @@ import clsx from 'clsx'
 import { green, grey } from '@material-ui/core/colors'
 import { TrendingDown, TrendingFlat, TrendingUp } from '@material-ui/icons'
 import { FC, memo, useEffect, useState } from 'react'
-import { useAppSelector } from '../../../app/hooks'
-import { getChangeRate } from '../../../functions/calculations'
-import { Company, MyStockInfo } from '../../../types/stock'
-import ChangeRate from '../../atoms/ChangeRate'
-import Section from '../../organisms/Section'
-import Yen from '../../atoms/Yen'
-import HoldingStock from '../../organisms/HoldingStock'
+import { useAppSelector } from '../../../../app/hooks'
+import { getChangeRate } from '../../../../functions/calculations'
+import { Company, MyStockInfo } from '../../../../types/stock'
+import ChangeRate from '../../../atoms/ChangeRate'
+import Section from '../../../organisms/Section'
+import Yen from '../../../atoms/Yen'
+import HoldingStock from '../../../organisms/HoldingStock'
+import Main from '../../../organisms/layout/Main'
 
 const useStyles = makeStyles(theme => ({
     totalProfitOrLossPriceStyle: {
@@ -59,6 +60,7 @@ const Home: FC = memo(() => {
     }, 0)
     return (
         <>
+        <Main title="ホーム" >
             <Grid item xs={12} lg={6}>
                 <Section 
                     style={{position: 'relative'}}
@@ -130,6 +132,7 @@ const Home: FC = memo(() => {
                     )}
                 </Section>
             </Grid>
+        </Main>
         </>
     )
 })

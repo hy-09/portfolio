@@ -1,10 +1,15 @@
 import { ChatOutlined, HomeOutlined, TrendingUp } from "@material-ui/icons";
 import { Redirect } from "react-router-dom";
-import Home from "../components/pages/loggedPages/Home";
-import Stocks from "../components/pages/loggedPages/Stocks";
-import Timeline from "../components/pages/loggedPages/Timeline";
+import Home from "../components/pages/loggedPages/home/Home";
+import StockDetail from "../components/pages/loggedPages/stocks/StockDetail";
+import Stocks from "../components/pages/loggedPages/stocks/Stocks";
+import Timeline from "../components/pages/loggedPages/timeline/Timeline";
+import { RouteType } from "../types/others";
+import { StockRoutes, stockURL } from "./StockRoutes";
 
-export const HomeRoutes = [
+export const homeURL = '/home'
+
+export const HomeRoutes: Array<RouteType> = [
     {
         path: '/',
         title: 'ホーム',
@@ -13,11 +18,18 @@ export const HomeRoutes = [
         children: <Home />
     },
     {
-        path: '/stocks',
+        path: stockURL,
         title: '銘柄一覧',
         icon: <TrendingUp />,
         exact: true,
-        children: <Stocks />
+        children: <Stocks />,
+        routes: StockRoutes,
+    },
+    {
+        path: stockURL + '/:id',
+        exact: true,
+        children: <StockDetail />,
+        routes: StockRoutes,
     },
     {
         path: '/timeline',
@@ -29,6 +41,6 @@ export const HomeRoutes = [
     {
         path: '*',
         exact: false,
-        children: <><Redirect to="/" /><Home /></>
+        children: <><Redirect to={homeURL} /><Home /></>
     },
 ]
