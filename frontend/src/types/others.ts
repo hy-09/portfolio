@@ -1,10 +1,10 @@
 import { Color } from "@material-ui/lab";
 
 export type RouteType = {
+    name?: string;
     path: string,
     exact: boolean,
     children: JSX.Element,
-    routes?: Array<RouteType>,
 }
 
 export type Modal = {

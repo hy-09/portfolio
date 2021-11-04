@@ -11,9 +11,7 @@ import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/sty
 import { ChatOutlined, HomeOutlined, TrendingUp } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
 import { drawerWidth } from '../../../config';
-import { HomeRoutes, homeURL } from '../../../router/HomeRoutes';
-import { stockURL } from '../../../router/StockRoutes';
-import { timelineURL } from '../../../router/TimelineRoute';
+import { homeURL, stockURL, timelineURL } from '../../../router/AuthRoutes';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -60,7 +58,7 @@ export default function Sidebar(props: Props) {
   const history = useHistory()
   const routes = [
       {
-        path: '',
+        path: homeURL,
         title: 'ホーム',
         icon: <HomeOutlined />,
       },
@@ -82,7 +80,7 @@ export default function Sidebar(props: Props) {
       <Divider />
       <List>
             {routes.map((route) => (
-                <Link key={route.title} onClick={() => history.push(`${homeURL}${route.path}`)}>
+                <Link key={route.title} onClick={() => history.push(`${route.path}`)}>
                     <ListItem button>
                         <ListItemIcon className={classes.listItemIcon}>{route.icon}</ListItemIcon>
                         <ListItemText className={classes.listItemText} primary={route.title} />                 

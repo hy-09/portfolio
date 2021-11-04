@@ -3,8 +3,7 @@ import clsx from 'clsx'
 import { FC, memo, useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAppSelector } from '../../../../app/hooks'
-import { homeURL } from '../../../../router/HomeRoutes'
-import { stockURL } from '../../../../router/StockRoutes'
+import { getRoute } from '../../../../functions/router'
 import DivWithPadding from '../../../atoms/DivWithPadding'
 import PaperWithPadding from '../../../atoms/PaperWithPadding'
 import Title from '../../../atoms/Title'
@@ -54,7 +53,7 @@ const Stocks: FC = memo(() => {
                                 fullWidth 
                                 color="secondary"
                                 className={classes.detailButton}
-                                onClick={() => history.push(`${homeURL}${stockURL}/${company.id}`)}
+                                onClick={() => history.push(getRoute('stockDetail', company.id))}
                             >
                                 詳細
                             </Button>

@@ -9,8 +9,7 @@ import { handleModalOpen } from '../../slices/othersSlice'
 import { useAppDispatch } from '../../app/hooks'
 import StockChart from './StockChart'
 import { useHistory } from 'react-router-dom'
-import { homeURL } from '../../router/HomeRoutes'
-import { stockURL } from '../../router/StockRoutes'
+import { getRoute } from '../../functions/router'
 
 type Props = {
     myStockInfo: MyStockInfo;
@@ -51,15 +50,6 @@ const HoldingStock: FC<Props> = memo((props) => {
     const profit = clsx(classes.profitOrLossPrice, classes.plus)
     const loss = clsx(classes.profitOrLossPrice, classes.minus)
     const noChange = clsx(classes.profitOrLossPrice, classes.flat)
-    
-    const handleClickCompanyName = useCallback((company: Company) => {
-            dispatch(handleModalOpen({
-                title: company.name, 
-                content: <StockChart company={company} />
-            }))
-        }
-        ,[],
-    )
 
     return (
         <Paper className="emphasis-paper">
@@ -67,7 +57,7 @@ const HoldingStock: FC<Props> = memo((props) => {
                 <Title component="h4" variant="subtitle1" color={theme.palette.primary.main}>
                     <span 
                         style={{cursor: 'pointer'}}
-                        onClick={() => history.push(`${homeURL}${stockURL}/${myStockInfo.company.id}`)}
+                        onClick={() => history.push(getRoute('stockDetail', myStockInfo.company.id))}
                     >
                         {myStockInfo.company.name}
                     </span>

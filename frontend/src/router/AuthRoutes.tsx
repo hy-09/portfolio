@@ -5,30 +5,37 @@ import StockDetail from "../components/pages/loggedPages/stocks/StockDetail";
 import Stocks from "../components/pages/loggedPages/stocks/Stocks";
 import Timeline from "../components/pages/loggedPages/timeline/Timeline";
 import { RouteType } from "../types/others";
-import { StockRoutes, stockURL } from "./StockRoutes";
-import { timelineURL } from "./TimelineRoute";
 
 export const homeURL = '/home'
+export const stockURL = `${homeURL}/stocks`
+export const timelineURL = `${homeURL}/timeline`
 
-export const HomeRoutes: Array<RouteType> = [
+export const AuthRoutes: Array<RouteType> = [
     {
-        path: '/',
+        name: 'home',
+        path: homeURL,
         exact: true,
         children: <Home />
     },
     {
+        name: 'stocks',
         path: stockURL,
         exact: true,
         children: <Stocks />,
-        routes: StockRoutes,
     },
     {
-        path: stockURL + '/:id',
+        name: 'stockDetail',
+        path: `${stockURL}/:id`,
         exact: true,
-        children: <StockDetail />,
-        routes: StockRoutes,
+        children: <StockDetail />
     },
     {
+        path: `${stockURL}/:id/*`,
+        exact: false,
+        children: <><Redirect to="/" /><Home /></>
+    },
+    {
+        name: 'timeline',
         path: timelineURL,
         exact: true,
         children: <Timeline /> 

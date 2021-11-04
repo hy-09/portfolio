@@ -50,14 +50,14 @@ function App() {
     const notify = useAppSelector(state => state.others.notify)
 
     useEffect(() => {
-        const f = async () => {
+        const fetchBootLoader = async () => {
             await dispatch(startLoading())
             await dispatch(fetchAsyncGetUsers())
             await dispatch(fetchAsyncGetCompanies())
             setInterval(() => {
                 dispatch(updateStockPrices())
             }, 1500)
-
+    
             if(!!localStorage.localJWT) {
                 for (const func of fetchAsyncGetDataFuncs) {
                     await dispatch((func as Function)())
@@ -65,8 +65,9 @@ function App() {
             }
             dispatch(endLoading())
         }
-        f()
-    }, [dispatch])
+
+        fetchBootLoader()
+    }, [])
 
     return (
         <ThemeProvider theme={theme}>

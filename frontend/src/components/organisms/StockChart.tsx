@@ -1,8 +1,7 @@
 import { Button, Grid, makeStyles } from "@material-ui/core"
 import { FC } from "react"
 import { useHistory } from "react-router-dom"
-import { homeURL } from "../../router/HomeRoutes"
-import { stockURL } from "../../router/StockRoutes"
+import { stockURL } from "../../router/AuthRoutes"
 import { Company } from "../../types/stock"
 import NowPrice from "../molecules/NowPrice"
 import LineChart from "./LineChart"
@@ -46,7 +45,7 @@ const StockChart: FC<Props> = (props) => {
                     fullWidth 
                     variant="outlined" 
                     size="small"
-                    onClick={() => history.push(`${homeURL}${stockURL}`)}
+                    onClick={() => history.push(stockURL)}
                 >
                     銘柄一覧へ
                 </Button>

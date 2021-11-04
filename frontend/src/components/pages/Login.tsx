@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 import * as Yup from "yup"
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { fetchAsyncGetDataFuncs } from '../../functions/fetchAsyncGetDataFuncs'
-import { homeURL } from '../../router/HomeRoutes'
+import { homeURL } from '../../router/AuthRoutes'
 import { 
     fetchAsyncCreateProf,
     fetchAsyncGetMyProf,
