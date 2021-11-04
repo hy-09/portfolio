@@ -1,11 +1,16 @@
 import { Box, Button, Divider, Grid, makeStyles, Paper, Tab, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Theme, Typography, useTheme } from '@material-ui/core'
 import { grey } from '@material-ui/core/colors'
-import { FC, memo } from 'react'
-import { MyStockInfo } from '../../types/stock'
-import ChangeRate from '../atoms/ChangeRate'
+import { FC, memo, useCallback } from 'react'
+import { Company, MyStockInfo } from '../../types/stock'
 import clsx from 'clsx'
 import Title from '../atoms/Title'
 import NowPrice from '../molecules/NowPrice'
+import { handleModalOpen } from '../../slices/othersSlice'
+import { useAppDispatch } from '../../app/hooks'
+import StockChart from './StockChart'
+import { useHistory } from 'react-router-dom'
+import { homeURL } from '../../router/HomeRoutes'
+import { stockURL } from '../../router/StockRoutes'
 
 type Props = {
     myStockInfo: MyStockInfo;
@@ -27,18 +32,6 @@ const useStyles = makeStyles(theme => ({
     flat: {
         color: theme.palette.text.secondary,
     },
-    // table: {
-    //     '& th': {
-    //         color: grey[600],
-    //         padding: theme.spacing(0, 0.5, 0.5),
-    //     },
-    //     '& td': {
-    //         padding: theme.spacing(0, 0.5),
-    //     },
-    //     '& .MuiTableCell-root': {
-    //         border: 'none'
-    //     }
-    // },
     sellButton: {
         marginTop: theme.spacing(2), 
         backgroundColor: theme.palette.info.main, 
@@ -50,18 +43,34 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const HoldingStock: FC<Props> = memo((props) => {
+    const history = useHistory()
     const classes = useStyles()
     const theme = useTheme()
+    const dispatch = useAppDispatch()
     const { myStockInfo  } = props
     const profit = clsx(classes.profitOrLossPrice, classes.plus)
     const loss = clsx(classes.profitOrLossPrice, classes.minus)
     const noChange = clsx(classes.profitOrLossPrice, classes.flat)
+    
+    const handleClickCompanyName = useCallback((company: Company) => {
+            dispatch(handleModalOpen({
+                title: company.name, 
+                content: <StockChart company={company} />
+            }))
+        }
+        ,[],
+    )
 
     return (
         <Paper className="emphasis-paper">
             <Box pt={2} pb={1.5} px={2}>
                 <Title component="h4" variant="subtitle1" color={theme.palette.primary.main}>
-                    {myStockInfo.company.name}
+                    <span 
+                        style={{cursor: 'pointer'}}
+                        onClick={() => history.push(`${homeURL}${stockURL}/${myStockInfo.company.id}`)}
+                    >
+                        {myStockInfo.company.name}
+                    </span>
                 </Title>
                 <div style={{display: 'flex', justifyContent: 'space-between'}}>
                     <NowPrice company={myStockInfo.company} />

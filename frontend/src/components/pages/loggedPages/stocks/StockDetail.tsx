@@ -11,26 +11,10 @@ import LineChart from "../../../organisms/LineChart"
 import SectionPaper from "../../../organisms/SectionPaper"
 import { homeURL } from "../../../../router/HomeRoutes"
 import { stockURL } from "../../../../router/StockRoutes"
+import StockChart from "../../../organisms/StockChart"
 
 const useStyles = makeStyles(theme => ({
-    nowPrice: {
-        order: 1,
-        [theme.breakpoints.down('xs')]: {
-            order: 1
-        }
-    },
-    buttons: {
-        order: 2,
-        [theme.breakpoints.down('xs')]: {
-            order: 3
-        }
-    },
-    lineChart: {
-        order: 3,
-        [theme.breakpoints.down('xs')]: {
-            order: 2
-        }
-    },
+    
 }))
 
 type Props = {
@@ -47,31 +31,6 @@ const StockDetail: FC<Props> = (props) => {
     const { id } = useParams<Params>()
     const companies = useAppSelector(state => state.stock.companies)
     const company = companies.find(company => company.id === parseInt(id))!
-
-    const buttons = (
-        <Grid item container spacing={2} >
-            <Grid item xs={12} sm={6}>
-                <Button 
-                    fullWidth 
-                    variant="outlined" 
-                    size="small"
-                    onClick={() => history.push(`${homeURL}${stockURL}`)}
-                >
-                    銘柄一覧へ戻る
-                </Button>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                <Button 
-                    fullWidth 
-                    variant="contained" 
-                    size="small" 
-                    color="secondary"
-                >
-                    購入
-                </Button>
-            </Grid>
-        </Grid>
-    )
     
     return (
         <Main title={company.name}>
@@ -79,17 +38,7 @@ const StockDetail: FC<Props> = (props) => {
             <Grid item xs={12}>
                 <Container maxWidth="lg" style={{padding: 0}}>
                     <SectionPaper responsivePadding={true}>
-                        <Grid container spacing={2} alignItems="center">
-                            <Grid item xs={12} sm={6} className={classes.nowPrice}>
-                                <NowPrice company={company} fontSize="1rem" />
-                            </Grid>
-                            <Grid item container sm={6} className={classes.buttons}>
-                                {buttons}
-                            </Grid>
-                            <Grid item xs={12} className={classes.lineChart}>
-                                <LineChart dataList={company.stockPriceDatas} />
-                            </Grid>
-                        </Grid>
+                        <StockChart company={company} />
                     </SectionPaper>
                 </Container>
             </Grid>
