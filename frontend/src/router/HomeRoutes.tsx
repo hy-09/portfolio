@@ -6,21 +6,18 @@ import Stocks from "../components/pages/loggedPages/stocks/Stocks";
 import Timeline from "../components/pages/loggedPages/timeline/Timeline";
 import { RouteType } from "../types/others";
 import { StockRoutes, stockURL } from "./StockRoutes";
+import { timelineURL } from "./TimelineRoute";
 
 export const homeURL = '/home'
 
 export const HomeRoutes: Array<RouteType> = [
     {
         path: '/',
-        title: 'ホーム',
-        icon: <HomeOutlined />,
         exact: true,
         children: <Home />
     },
     {
         path: stockURL,
-        title: '銘柄一覧',
-        icon: <TrendingUp />,
         exact: true,
         children: <Stocks />,
         routes: StockRoutes,
@@ -32,9 +29,7 @@ export const HomeRoutes: Array<RouteType> = [
         routes: StockRoutes,
     },
     {
-        path: '/timeline',
-        title: 'タイムライン',
-        icon: <ChatOutlined />,
+        path: timelineURL,
         exact: true,
         children: <Timeline /> 
     },

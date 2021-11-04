@@ -5,9 +5,9 @@ import Stocks from "../components/pages/loggedPages/stocks/Stocks";
 import Timeline from "../components/pages/loggedPages/timeline/Timeline";
 import { RouteType } from "../types/others";
 
-export const stockURL = '/stocks'
+export const timelineURL = '/timeline'
 
-export const StockRoutes: Array<RouteType> = [
+export const TimelineRoute: Array<RouteType> = [
     {
         path: '/:id',
         exact: true,
