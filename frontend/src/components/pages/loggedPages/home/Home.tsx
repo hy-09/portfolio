@@ -66,40 +66,6 @@ const Home: FC = memo(() => {
         <>
         <Main title="ホーム" >
             <Grid item xs={12} lg={6}>
-                {/* <DivWithPadding height="100%">
-                    <PaperWithPadding 
-                        style={{position: 'relative'}}
-                        className="emphasis-paper"
-                        height="100%"
-                        backgroundColor={
-                            totalProfitOrLossPrice > 0 ? theme.palette.success.light :
-                            totalProfitOrLossPrice < 0 ? theme.palette.secondary.light :
-                            grey[50]
-                        }
-                    >
-                        <Title
-                            color={
-                                totalProfitOrLossPrice > 0 ? theme.palette.success.dark :
-                                totalProfitOrLossPrice < 0 ? theme.palette.secondary.dark :
-                                'textPrimary'
-                        }>
-                            評価損益額
-                        </Title>
-                        <Typography 
-                            component="div" 
-                            variant="h3" 
-                            className={
-                                totalProfitOrLossPrice > 0 ? totalProfitOrLossPriceUp :
-                                totalProfitOrLossPrice < 0 ? totalProfitOrLossPriceDown :
-                                totalProfitOrLossPriceFlat
-                            }
-                        >
-                            {totalProfitOrLossPrice > 0 && '+'}
-                            {totalProfitOrLossPrice === 0 && '±'}
-                            {totalProfitOrLossPrice.toLocaleString()}<Yen />
-                        </Typography>
-                    </PaperWithPadding>
-                </DivWithPadding> */}
                 <SectionPaper
                     style={{position: 'relative'}}
                     className="emphasis-paper"

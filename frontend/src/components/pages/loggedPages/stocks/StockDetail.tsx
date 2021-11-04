@@ -1,4 +1,4 @@
-import { Box, Button, Grid, makeStyles, Paper, useTheme } from "@material-ui/core"
+import { Box, Button, Container, Grid, makeStyles, Paper, useTheme } from "@material-ui/core"
 import { useHistory } from "react-router-dom"
 import { FC } from "react"
 import { useParams } from "react-router-dom"
@@ -75,20 +75,23 @@ const StockDetail: FC<Props> = (props) => {
     
     return (
         <Main title={company.name}>
+
             <Grid item xs={12}>
-                <SectionPaper responsivePadding={true}>
-                    <Grid container spacing={2} alignItems="center">
-                        <Grid item xs={12} sm={6} className={classes.nowPrice}>
-                            <NowPrice company={company} fontSize="1rem" />
+                <Container maxWidth="lg" style={{padding: 0}}>
+                    <SectionPaper responsivePadding={true}>
+                        <Grid container spacing={2} alignItems="center">
+                            <Grid item xs={12} sm={6} className={classes.nowPrice}>
+                                <NowPrice company={company} fontSize="1rem" />
+                            </Grid>
+                            <Grid item container sm={6} className={classes.buttons}>
+                                {buttons}
+                            </Grid>
+                            <Grid item xs={12} className={classes.lineChart}>
+                                <LineChart dataList={company.stockPriceDatas} />
+                            </Grid>
                         </Grid>
-                        <Grid item container sm={6} className={classes.buttons}>
-                            {buttons}
-                        </Grid>
-                        <Grid item xs={12} className={classes.lineChart}>
-                            <LineChart dataList={company.stockPriceDatas} />
-                        </Grid>
-                    </Grid>
-                </SectionPaper>
+                    </SectionPaper>
+                </Container>
             </Grid>
         </Main>
     )

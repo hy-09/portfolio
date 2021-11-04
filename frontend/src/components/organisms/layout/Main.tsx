@@ -1,4 +1,4 @@
-import { Grid, makeStyles } from "@material-ui/core"
+import { Container, Grid, makeStyles } from "@material-ui/core"
 import { FC, ReactNode } from "react"
 import Heading from "../../molecules/Heading"
 
