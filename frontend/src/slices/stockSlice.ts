@@ -58,18 +58,18 @@ export const stockSlice = createSlice({
             })
 
             if (state.myStockInfoList.length > 0) {
-                state.myStockInfoList = state.myStockInfoList.map(info => {
-                    const company = state.companies.find(c => c.id === info.company.id)!
+                state.myStockInfoList = state.myStockInfoList.map(myStockInfo => {
+                    const company = state.companies.find(c => c.id === myStockInfo.company.id)!
 
                     let totalOldValue = 0
-                    info.boughtStockInfoList.forEach(i => {
-                        totalOldValue += i.price * i.quantity
-                        i.profitOrLossPrice = (company.nowPrice - i.price) * i.quantity
+                    myStockInfo.boughtStockInfoList.forEach(boughtStockInfo => {
+                        totalOldValue += boughtStockInfo.price * boughtStockInfo.quantity
+                        boughtStockInfo.profitOrLossPrice = (company.nowPrice - boughtStockInfo.price) * boughtStockInfo.quantity
                     })
-                    const totalNewValue = company!.nowPrice * info.totalQuantity
+                    const totalNewValue = company.nowPrice * myStockInfo.totalQuantity
                     
                     return {
-                        ...info,
+                        ...myStockInfo,
                         company: company,
                         profitOrLossPrice: totalNewValue - totalOldValue,
                         totalValue: totalNewValue
@@ -103,7 +103,7 @@ export const stockSlice = createSlice({
                             newStockPrice
                         ]
                     })
-                    company.nowPrice = getNewStockPrice(company)
+                    company.nowPrice = company.stockPriceDatas.slice(-1)[0]
                     return company
                 })
                 state.companies = companies 
@@ -115,17 +115,17 @@ export const stockSlice = createSlice({
                 let myStockInfoList: Array<MyStockInfo> = []
                 
                 state.companies.forEach(company => {
-                    const boughtStockInfoList = action.payload.filter((info: BoughtStockInfo) => info.company.id === company.id)
+                    const boughtStockInfoList = action.payload.filter((boughtStockInfo: BoughtStockInfo) => boughtStockInfo.company.id === company.id)
 
                     if (boughtStockInfoList.length > 0) {
-                        const totalQuantity = boughtStockInfoList.reduce((sum: number, info: BoughtStockInfo) => {
-                            return sum + info.quantity
+                        const totalQuantity = boughtStockInfoList.reduce((sum: number, boughtStockInfo: BoughtStockInfo) => {
+                            return sum + boughtStockInfo.quantity
                         }, 0)
 
                         let totalOldValue = 0
-                        boughtStockInfoList.forEach((info: BoughtStockInfo) => {
-                            totalOldValue += info.price * info.quantity
-                            info.profitOrLossPrice = (company.nowPrice - info.price) * info.quantity
+                        boughtStockInfoList.forEach((boughtStockInfo: BoughtStockInfo) => {
+                            totalOldValue += boughtStockInfo.price * boughtStockInfo.quantity
+                            boughtStockInfo.profitOrLossPrice = (company.nowPrice - boughtStockInfo.price) * boughtStockInfo.quantity
                         })
 
                         const totalNewValue = company.nowPrice * totalQuantity
