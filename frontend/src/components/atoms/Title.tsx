@@ -4,7 +4,8 @@ import React, { ElementType, FC, ReactNode } from 'react'
 
 const useStyles = makeStyles<Theme, Props>(theme => ({
     root: {
-        color: (props) => props.color ? props.color : 'textPrimary'
+        color: (props) => props.color ? props.color : 'textPrimary',
+        textAlign: (props) => props.center ? 'center' : 'left'
     }
 }))
 
@@ -15,6 +16,7 @@ type Props = {
     component?: ElementType<any>;
     variant?: Variant;
     gutterBottom?: boolean;
+    center?: boolean;
 }
 
 const Title: FC<Props> = (props) => {

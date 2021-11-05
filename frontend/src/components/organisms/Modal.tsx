@@ -52,7 +52,7 @@ const Modal: FC<Props> = (props) => {
         >
             <Fade in={open}>
                 <Paper className={classes.paper}>
-                    {title != '' &&
+                    {title != undefined &&
                         <h2 id="transition-modal-title" className={classes.title}>{title}</h2>
                     }
                     <div id="transition-modal-description">{content}</div>

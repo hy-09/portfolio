@@ -9,7 +9,7 @@ export type RouteType = {
 
 export type Modal = {
     open: boolean;
-    title: string;
+    title?: string;
     content: any;
 }
 

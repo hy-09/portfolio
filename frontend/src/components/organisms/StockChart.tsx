@@ -1,10 +1,8 @@
 import { Button, Grid, makeStyles } from "@material-ui/core"
 import { FC } from "react"
-import { useHistory } from "react-router-dom"
+import { useHistory, Link } from "react-router-dom"
 import { useAppDispatch } from "../../app/hooks"
 import { getRoute } from "../../functions/router"
-import { stockURL } from "../../router/AuthRoutes"
-import { setTradeStockForm } from "../../slices/stockSlice"
 import { Company } from "../../types/stock"
 import NowPrice from "../molecules/NowPrice"
 import LineChart from "./LineChart"
@@ -42,11 +40,6 @@ const StockChart: FC<Props> = (props) => {
     const dispatch = useAppDispatch()
     const { company } = props
 
-    const handleClickBuyButton = async (company: Company) => {
-        await dispatch(setTradeStockForm(company))
-        history.push(getRoute('buyStockForm', company.id))
-    }
-
     const buttons = (
         <Grid item container spacing={2} >
             <Grid item xs={12} sm={6}>
@@ -60,15 +53,16 @@ const StockChart: FC<Props> = (props) => {
                 </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
-                <Button 
-                    fullWidth 
-                    variant="contained" 
-                    size="small" 
-                    color="secondary"
-                    onClick={() => handleClickBuyButton(company)}
-                >
-                    購入
-                </Button>
+                <Link to={{ pathname: getRoute('buyStockForm', company.id), state: company.nowPrice }} style={{textDecoration: 'none'}}>
+                    <Button 
+                        fullWidth 
+                        variant="contained" 
+                        size="small" 
+                        color="secondary"
+                    >
+                        購入手続きへ
+                    </Button>
+                </Link>
             </Grid>
         </Grid>
     )

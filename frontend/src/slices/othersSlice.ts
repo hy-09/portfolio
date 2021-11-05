@@ -40,7 +40,7 @@ export const othersSlice = createSlice({
         handleModalOpen(state, action) {
             state.modal = {
                 open: true,
-                title: action.payload.title ? action.payload.title : '',
+                title: action.payload.title,
                 content: action.payload.content
             }
         },

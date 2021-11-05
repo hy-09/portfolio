@@ -32,8 +32,3 @@ export type MyStockInfo = {
     totalQuantity: number;
     totalValue: number;
 }
-
-export type TradeStockForm = {
-    quantity: number;
-    company: Company;
-}

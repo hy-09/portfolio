@@ -30,7 +30,7 @@ const StockDetail: FC<Props> = (props) => {
     const companies = useAppSelector(state => state.stock.companies)
     const company = companies.find(company => company.id === Number(id))!
 
-    if (company.id === 0) {
+    if (company == undefined || company.id == 0) {
         history.push(getRoute('stocks'))
         window.location.reload()
     }
