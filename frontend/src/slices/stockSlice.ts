@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { stockPriceDataCount } from '../config';
 import { getChangeRate, getNewStockPrice } from '../functions/calculations';
-import { BoughtStockInfo, Company, CompanyNames, MyStockInfo } from '../types/stock';
+import { BoughtStockInfo, Company, CompanyNames, MyStockInfo, TradeStockForm } from '../types/stock';
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
@@ -30,11 +30,22 @@ export const fetchAsyncGetMyBoughtStockInfoList = createAsyncThunk(
 type InitialState = {
     companies: Array<Company>;
     myStockInfoList: Array<MyStockInfo>;
+    tradeStockForm: TradeStockForm;
 }
 
 const initialState: InitialState = {
     companies: [],
     myStockInfoList: [],
+    tradeStockForm: {
+        quantity: 100,
+        company: {
+            id: 0,
+            name: '',
+            stockPriceDatas: [],
+            StockPriceChangeRate: 0,
+            nowPrice: 0,
+        }
+    }
 };
 
 
@@ -75,6 +86,12 @@ export const stockSlice = createSlice({
                         totalValue: totalNewValue
                     }
                 })
+            }
+        },
+        setTradeStockForm(state, action) {
+            state.tradeStockForm = {
+                ...state.tradeStockForm,
+                company: action.payload,
             }
         },
         resetStockState(state) {
@@ -150,6 +167,7 @@ export const stockSlice = createSlice({
 
 export const { 
     updateStockPrices,
+    setTradeStockForm,
     resetStockState,
 } = stockSlice.actions;
 

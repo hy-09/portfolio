@@ -1,6 +1,7 @@
 import { ChatOutlined, HomeOutlined, TrendingUp } from "@material-ui/icons";
 import { Redirect } from "react-router-dom";
 import Home from "../components/pages/loggedPages/home/Home";
+import BuyStockForm from "../components/pages/loggedPages/stocks/BuyStockForm";
 import StockDetail from "../components/pages/loggedPages/stocks/StockDetail";
 import Stocks from "../components/pages/loggedPages/stocks/Stocks";
 import Timeline from "../components/pages/loggedPages/timeline/Timeline";
@@ -30,9 +31,15 @@ export const AuthRoutes: Array<RouteType> = [
         children: <StockDetail />
     },
     {
+        name: 'buyStockForm',
+        path: `${stockURL}/:id/buy/form`,
+        exact: true,
+        children: <BuyStockForm />
+    },
+    {
         path: `${stockURL}/:id/*`,
         exact: false,
-        children: <><Redirect to="/" /><Home /></>
+        children: <><Redirect to="/" /><Stocks /></>
     },
     {
         name: 'timeline',

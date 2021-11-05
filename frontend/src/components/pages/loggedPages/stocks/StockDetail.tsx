@@ -2,6 +2,7 @@ import { Box, Button, Container, Grid, makeStyles, Paper, useTheme } from "@mate
 import { FC } from "react"
 import { useParams, useHistory, useRouteMatch } from "react-router-dom"
 import { useAppSelector } from "../../../../app/hooks"
+import { getRoute } from "../../../../functions/router"
 import DivWithPadding from "../../../atoms/DivWithPadding"
 import PaperWithPadding from "../../../atoms/PaperWithPadding"
 import NowPrice from "../../../molecules/NowPrice"
@@ -28,6 +29,11 @@ const StockDetail: FC<Props> = (props) => {
     const { id } = useParams<Params>()
     const companies = useAppSelector(state => state.stock.companies)
     const company = companies.find(company => company.id === Number(id))!
+
+    if (company.id === 0) {
+        history.push(getRoute('stocks'))
+        window.location.reload()
+    }
     
     return (
         <Main title={company.name}>

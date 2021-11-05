@@ -1,7 +1,10 @@
 import { Button, Grid, makeStyles } from "@material-ui/core"
 import { FC } from "react"
 import { useHistory } from "react-router-dom"
+import { useAppDispatch } from "../../app/hooks"
+import { getRoute } from "../../functions/router"
 import { stockURL } from "../../router/AuthRoutes"
+import { setTradeStockForm } from "../../slices/stockSlice"
 import { Company } from "../../types/stock"
 import NowPrice from "../molecules/NowPrice"
 import LineChart from "./LineChart"
@@ -36,7 +39,13 @@ type Props = {
 const StockChart: FC<Props> = (props) => {
     const classes = useStyles()
     const history = useHistory()
+    const dispatch = useAppDispatch()
     const { company } = props
+
+    const handleClickBuyButton = async (company: Company) => {
+        await dispatch(setTradeStockForm(company))
+        history.push(getRoute('buyStockForm', company.id))
+    }
 
     const buttons = (
         <Grid item container spacing={2} >
@@ -45,7 +54,7 @@ const StockChart: FC<Props> = (props) => {
                     fullWidth 
                     variant="outlined" 
                     size="small"
-                    onClick={() => history.push(stockURL)}
+                    onClick={() => history.goBack()}
                 >
                     銘柄一覧へ
                 </Button>
@@ -56,6 +65,7 @@ const StockChart: FC<Props> = (props) => {
                     variant="contained" 
                     size="small" 
                     color="secondary"
+                    onClick={() => handleClickBuyButton(company)}
                 >
                     購入
                 </Button>
