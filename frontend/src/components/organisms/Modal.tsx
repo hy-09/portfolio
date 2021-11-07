@@ -30,9 +30,7 @@ type Props = {
 const Modal: FC<Props> = (props) => {
     const dispatch = useAppDispatch()
     const classes = useStyles();
-    const { modal: { title } } = props
-    const { modal: { content } } = props
-    const { modal: { open } } = props
+    const { modal: { title, content, open } } = props
   
     return (
         <MuiModal

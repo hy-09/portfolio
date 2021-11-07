@@ -53,14 +53,23 @@ const StockChart: FC<Props> = (props) => {
                 </Button>
             </Grid>
             <Grid item xs={12} sm={6}>
-                <Link to={{ pathname: getRoute('buyStockForm', company.id), state: company.nowPrice }} style={{textDecoration: 'none'}}>
+                <Link 
+                    to={{ 
+                        pathname: getRoute('buyStockForm', company.id), 
+                        state: { 
+                            format: 'buy',
+                            nowPrice: company.nowPrice,
+                        }
+                    }} 
+                    style={{textDecoration: 'none'}}
+                >
                     <Button 
                         fullWidth 
                         variant="contained" 
                         size="small" 
                         color="secondary"
                     >
-                        購入手続きへ
+                        購入
                     </Button>
                 </Link>
             </Grid>

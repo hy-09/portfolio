@@ -31,23 +31,27 @@ const useStyles = makeStyles(theme => ({
 }))
 
 type Props = {
+    format: 'buy' | 'sell';
     company: Company;
     nowPrice: number;
     quantity: number;
     totalPrice: number;
     loginUser: User;
-    remainingFund: number;
+    newFund: number;
+    newQuantity: number;
     setStep: (num: number) => void;
 }
 
 const Step2: FC<Props> = (props) => {
     const {
+        format,
         company,
         nowPrice,
         quantity,
         totalPrice,
         loginUser,
-        remainingFund,
+        newFund,
+        newQuantity,
         setStep,
     } = props
 
@@ -64,7 +68,7 @@ const Step2: FC<Props> = (props) => {
         }
     
         await dispatch(fetchAsyncCreateBoughtStockInfo(data))
-        await dispatch(fetchAsyncPatchUser({user_id: loginUser.id, fund: remainingFund}))
+        await dispatch(fetchAsyncPatchUser({user_id: loginUser.id, fund: newFund}))
         setStep(3)
         dispatch(endLoading())
     }
@@ -91,7 +95,7 @@ const Step2: FC<Props> = (props) => {
                     <TableCell align="right">
                         <span style={{fontSize: '1.2rem', fontWeight: 'bold'}}>{totalPrice.toLocaleString()}円</span>
                         <br />
-                        (残り資金：{remainingFund.toLocaleString()}円)
+                        (残り株数：{newQuantity.toLocaleString()}株)
                     </TableCell>
                 </TableRow>
             </TableBody>
@@ -111,10 +115,10 @@ const Step2: FC<Props> = (props) => {
                 <Button 
                     variant="contained" 
                     fullWidth size="small" 
-                    color="secondary"
+                    color={format === 'buy' ? 'secondary' : 'primary'}
                     onClick={handleClickBuyButton}
                 >
-                    購入
+                    {format === 'buy' ? '購入' : '売却'}
                 </Button>
             </Grid>
         </Grid>

@@ -7,7 +7,7 @@ import Title from '../atoms/Title'
 import NowPrice from '../molecules/NowPrice'
 import { useAppDispatch } from '../../app/hooks'
 import StockChart from './StockChart'
-import { useHistory } from 'react-router-dom'
+import { useHistory, Link } from 'react-router-dom'
 import { getRoute } from '../../functions/router'
 
 type Props = {
@@ -100,9 +100,26 @@ const HoldingStock: FC<Props> = memo((props) => {
                         </Grid>
                     ))}
                 </div>
-                <Button variant="contained" fullWidth size="small" className={classes.sellButton}>
-                    売却
-                </Button>
+                <Link 
+                    to={{ 
+                        pathname: getRoute('sellStockForm', myStockInfo.company.id), 
+                        state: { 
+                            format: 'sell',
+                            nowPrice: myStockInfo.company.nowPrice,
+                            totalQuantity: myStockInfo.totalQuantity,
+                        }
+                    }} 
+                    style={{textDecoration: 'none'}}
+                >
+                    <Button 
+                        variant="contained" 
+                        fullWidth 
+                        size="small" 
+                        className={classes.sellButton}
+                    >
+                        売却
+                    </Button>
+                </Link>
             </Box>
         </Paper>
     )
