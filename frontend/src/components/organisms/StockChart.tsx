@@ -1,7 +1,7 @@
-import { Button, Grid, makeStyles } from "@material-ui/core"
-import { FC } from "react"
+import { Button, Grid, makeStyles, Typography } from "@material-ui/core"
+import { FC, useState } from "react"
 import { useHistory, Link } from "react-router-dom"
-import { useAppDispatch } from "../../app/hooks"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { getRoute } from "../../functions/router"
 import { Company } from "../../types/stock"
 import NowPrice from "../molecules/NowPrice"
@@ -37,8 +37,16 @@ type Props = {
 const StockChart: FC<Props> = (props) => {
     const classes = useStyles()
     const history = useHistory()
-    const dispatch = useAppDispatch()
     const { company } = props
+    const fund = useAppSelector(state => state.auth.loginUser.fund)
+    const [showMassage, setShowMassage] = useState(false)
+
+    const handleClickBuyButton = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        if (fund < company.nowPrice * 100) {
+            e.preventDefault()
+            setShowMassage(true)
+        }
+    }
 
     const buttons = (
         <Grid item container spacing={2} >
@@ -54,6 +62,7 @@ const StockChart: FC<Props> = (props) => {
             </Grid>
             <Grid item xs={12} sm={6}>
                 <Link 
+                    onClick={(e) => handleClickBuyButton(e)}
                     to={{ 
                         pathname: getRoute('buyStockForm', company.id), 
                         state: { 
@@ -73,6 +82,11 @@ const StockChart: FC<Props> = (props) => {
                     </Button>
                 </Link>
             </Grid>
+            {showMassage && (
+                <Grid item xs={12}>
+                    <Typography variant="body2" color="error">資金が足りません（100株以上から購入が可能です）</Typography>
+                </Grid>
+            )}
         </Grid>
     )
     

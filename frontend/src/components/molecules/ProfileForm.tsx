@@ -8,6 +8,12 @@ import { File } from '../../types/user'
 
 
 const useStyles = makeStyles(theme => ({
+    textField: {
+        width: '100%',
+        '& input': {
+            width: '100%',
+        }
+    },
     fileInput: {
         opacity: 0,
         appearance: 'none',
@@ -64,6 +70,7 @@ const ProfileForm: FC = () => {
                 <TextField 
                     label="ユーザー名"
                     type="text"
+                    className={classes.textField}
                     value={nameInEdit}
                     onChange={e => {
                         setNameInEdit(e.target.value)

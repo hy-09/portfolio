@@ -7,6 +7,7 @@ import { handleModalClose } from '../../slices/othersSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Modal as TypeModal } from '../../types/others';
 import Title from '../atoms/Title';
+import PaperWithPadding from '../atoms/PaperWithPadding';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -16,9 +17,9 @@ const useStyles = makeStyles((theme: Theme) =>
         justifyContent: 'center',
     },
     paper: {
-        boxShadow: theme.shadows[0],
-        padding: theme.spacing(2, 4, 3),
-        margin: theme.spacing(0, 1)
+        margin: theme.spacing(0, 2),
+        maxWidth: '330px',
+        width: '100%',
     },
   }),
 );
@@ -46,7 +47,7 @@ const Modal: FC<Props> = (props) => {
             }}
         >
             <Fade in={open}>
-                <Paper className={classes.paper}>
+                <PaperWithPadding responsivePadding={true} className={classes.paper}>
                     {title != undefined &&
                         <Box mb={3}>
                             <Title center={true}>
@@ -55,7 +56,7 @@ const Modal: FC<Props> = (props) => {
                         </Box>
                     }
                     <div id="transition-modal-description">{content}</div>
-                </Paper>
+                </PaperWithPadding>
             </Fade>
         </MuiModal>
     );
