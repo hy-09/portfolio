@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from . import serializers
 from .models import BoughtStockInfo, Company, Profile, Post, User
+from logs.logging_debug import logger
 
 # Create your views here.
 class CreateUserView(generics.CreateAPIView):
@@ -46,7 +47,7 @@ class MyBoughtStockInfoListView(generics.ListAPIView):
     permission_classes = (AllowAny,)
 
     def get_queryset(self):
-        return self.queryset.filter(user=self.request.user.id).all()
+        return self.queryset.filter(user=self.request.user)
 
 
 class PostViewSet(viewsets.ModelViewSet):

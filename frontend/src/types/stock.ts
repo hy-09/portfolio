@@ -32,3 +32,10 @@ export type MyStockInfo = {
     totalQuantity: number;
     totalValue: number;
 }
+
+export type PostBoughtStockInfo = {
+    price: number;
+    quantity: number;
+    user_id: number;
+    company_id: number;
+}

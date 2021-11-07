@@ -10,7 +10,6 @@ const AuthRoute: FC<RouteProps> = memo(({...props}) => {
     if (!!localStorage.localJWT) {
         return <Route {...props} />
     } else {
-        console.log('aaa')
         return <><Redirect to="/login" /><Login /></>
     }
 })

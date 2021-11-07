@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { EditProfile, Name, Auth, User, Profile } from '../types/user'
+import { EditProfile, Name, Auth, User, Profile, UpdateFund } from '../types/user'
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
@@ -61,6 +61,21 @@ export const fetchAsyncGetUsers = createAsyncThunk(
     'users/get',
     async () => {
         const res = await axios.get(`${apiUrl}api/user/`)
+        return res.data
+    }
+)
+
+export const fetchAsyncPatchUser = createAsyncThunk(
+    'user/patch',
+    async (updateFund: UpdateFund) => {
+        const { user_id, fund } = updateFund
+        const data = { fund: fund}
+
+        const res = await axios.patch<User>(`${apiUrl}api/user/${user_id}/`, data, {
+            headers: {
+                Authorization: `JWT ${localStorage.localJWT}`
+            }
+        })
         return res.data
     }
 )
@@ -159,6 +174,12 @@ export const authSlice = createSlice({
                     ...profile,
                     img: loginUser!.email.startsWith('vl2id0aow1qkrt') && profile.img === null ? `https://picsum.photos/${100+loginUser!.id}` : profile.img            
                 }
+            })
+            .addCase(fetchAsyncPatchUser.fulfilled, (state, action) => {
+                state.loginUser = action.payload
+                state.users = state.users.map(user => 
+                    user.id === action.payload.id ? action.payload : user
+                )
             })
             .addCase(fetchAsyncGetProfs.fulfilled, (state, action) => {
                 const profiles: Array<Profile> = action.payload

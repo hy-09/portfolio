@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { stockPriceDataCount } from '../config';
 import { getChangeRate, getNewStockPrice } from '../functions/calculations';
-import { BoughtStockInfo, Company, CompanyNames, MyStockInfo } from '../types/stock';
+import { BoughtStockInfo, Company, CompanyNames, MyStockInfo, PostBoughtStockInfo } from '../types/stock';
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
@@ -19,6 +19,19 @@ export const fetchAsyncGetMyBoughtStockInfoList = createAsyncThunk(
     async () => {
         const res = await axios.get(`${apiUrl}api/myboughtstockinfo/`, {
             headers: {
+                Authorization: `JWT ${localStorage.localJWT}`
+            }
+        })
+        return res.data
+    }
+)
+
+export const fetchAsyncCreateBoughtStockInfo = createAsyncThunk(
+    'stock/post',
+    async (data: PostBoughtStockInfo) => {
+        const res = await axios.post(`${apiUrl}api/boughtstockinfo/`, data, {
+            headers: {
+                'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.localJWT}`
             }
         })
@@ -144,6 +157,36 @@ export const stockSlice = createSlice({
                     }
                 })
                 state.myStockInfoList = myStockInfoList
+            })
+
+            .addCase(fetchAsyncCreateBoughtStockInfo.fulfilled, (state, action) => {
+                const companyId = action.payload.company.id
+                
+                if (!state.myStockInfoList.find(i => i.company.id === companyId)) {
+                    state.myStockInfoList = [
+                        ...state.myStockInfoList,
+                        {
+                            company: state.companies.find(company => company.id === companyId)!,
+                            boughtStockInfoList: [action.payload],
+                            totalQuantity: action.payload.quantity,
+                            totalValue: 0,
+                            profitOrLossPrice: 0
+                        }
+                    ]
+                    return
+                }
+
+                state.myStockInfoList = state.myStockInfoList.map(myStockInfo => {
+                    if (myStockInfo.company.id === companyId) {
+                        return {
+                             ...myStockInfo,
+                             boughtStockInfoList: [...myStockInfo.boughtStockInfoList, action.payload],
+                             totalQuantity: myStockInfo.totalQuantity + action.payload.quantity
+                        }
+                    } else {
+                        return myStockInfo
+                    }
+                })
             })
     },
 });

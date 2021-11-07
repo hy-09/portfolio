@@ -1,3 +1,5 @@
+from logging import log
+from logs.logging_debug import logger
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from .models import BoughtStockInfo, Company, Profile, Post, User
@@ -35,18 +37,33 @@ class BoughtStockInfoSerializer(serializers.ModelSerializer):
     user = UserSerializer(many=False, read_only=True)
     company = CompanySerializer(many=False, read_only=True)
 
-    def create(self, validated_data):
-        user = validated_data.pop("user")
-        company = validated_data.pop("company")
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), write_only=True
+    )
 
-        boughtStockInfo = BoughtStockInfo.objects.create(
-            user=user, company=company, **validated_data
-        )
+    company_id = serializers.PrimaryKeyRelatedField(
+        queryset=Company.objects.all(), write_only=True
+    )
+
+    def create(self, validated_data):
+        validated_data["user"] = validated_data.pop("user_id")
+        validated_data["company"] = validated_data.pop("company_id")
+
+        boughtStockInfo = super().create(validated_data)
         return boughtStockInfo
 
     class Meta:
         model = BoughtStockInfo
-        fields = "__all__"
+        fields = (
+            "id",
+            "price",
+            "quantity",
+            "created_at",
+            "user",
+            "company",
+            "user_id",
+            "company_id",
+        )
         extra_kwargs = {"user": {"read_only": True}, "company": {"read_only": True}}
 
 

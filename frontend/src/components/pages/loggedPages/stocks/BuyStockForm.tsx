@@ -1,8 +1,11 @@
-import { Box, Button, ButtonGroup, Container, Divider, FormControl, FormControlLabel, Grid, InputAdornment, InputLabel, makeStyles, MenuItem, Radio, RadioGroup, Select, TextField, Typography, useTheme } from "@material-ui/core"
+import { Box, Button, ButtonGroup, Container, Divider, FormControl, FormControlLabel, Grid, InputAdornment, InputLabel, makeStyles, MenuItem, Radio, RadioGroup, Select, Table, TableBody, TableCell, TableRow, TextField, Typography, useTheme } from "@material-ui/core"
 import { FC, useCallback, useState } from "react"
 import { useHistory, useParams, useLocation } from "react-router-dom"
-import { useAppSelector } from "../../../../app/hooks"
+import { useAppDispatch, useAppSelector } from "../../../../app/hooks"
 import { getRoute } from "../../../../functions/router"
+import { fetchAsyncPatchUser } from "../../../../slices/authSlice"
+import { endLoading, startLoading } from "../../../../slices/othersSlice"
+import { fetchAsyncCreateBoughtStockInfo } from "../../../../slices/stockSlice"
 import Title from "../../../atoms/Title"
 import Main from "../../../organisms/layout/Main"
 import SectionPaper from "../../../organisms/SectionPaper"
@@ -12,6 +15,7 @@ const useStyles = makeStyles(theme => ({
         width: 'calc(100% - 87px)',
         '& input': {
             textAlign: 'right',
+            fontWeight: 'bold',
             width: 'calc(100% - 44px)',
         }
     },
@@ -23,6 +27,24 @@ const useStyles = makeStyles(theme => ({
                 padding: theme.spacing(0.2)
             }
         }
+    },
+    table: {
+        margin: theme.spacing(2, 0),
+        '& th': {
+            fontWeight: 'bold'
+        },
+        '& tr:last-of-type th': {
+            borderBottom: 'none'
+        },
+        '& tr:last-of-type td': {
+            borderBottom: 'none',
+        },
+        '& tr:nth-last-of-type(2) th': {
+            borderBottom: '1px solid #777'
+        },
+        '& tr:nth-last-of-type(2) td': {
+            borderBottom: '1px solid #777'
+        },
     }
 }))
 
@@ -38,14 +60,18 @@ const BuyStockForm: FC<Props> = (props) => {
     const history = useHistory()
     const classes = useStyles()
     const theme = useTheme()
+    const dispatch = useAppDispatch()
     const { id } = useParams<Params>()
     const { state } = useLocation<number>()
     const nowPrice: number = state
     const companies = useAppSelector(state => state.stock.companies)
     const company = companies.find(company => company.id === Number(id))!
-    const fund = useAppSelector(state => state.auth.loginUser.fund)
+    const loginUser = useAppSelector(state => state.auth.loginUser)
+    const fund = loginUser.fund
     const [quantity, setQuantity] = useState(100)
     const [changeRate, setChangeRate] = useState(100)
+    const [totalPrice, setTotalPrice] = useState(nowPrice * quantity)
+    const [remainingFund, setRemainingFund] = useState(fund - totalPrice)
     const [step, setStep] = useState(1)
     
     if (company == undefined || company.id == 0) {
@@ -62,7 +88,8 @@ const BuyStockForm: FC<Props> = (props) => {
             while(nowPrice * newQuantity < fund) {
                 newQuantity += 100
             }
-            setQuantity(newQuantity - 100)
+            newQuantity -= 100
+            setParams(newQuantity)
         }
         setChangeRate(value)
     }
@@ -80,7 +107,29 @@ const BuyStockForm: FC<Props> = (props) => {
             return
         }
 
+        setParams(newQuantity)
+    }
+
+    const setParams = (newQuantity: number) => {
         setQuantity(newQuantity)
+        const newTotalPrice = nowPrice * newQuantity
+        setTotalPrice(newTotalPrice)
+        setRemainingFund(fund - newTotalPrice)
+    }
+
+    const handleClickBuyButton = async () => {
+        dispatch(startLoading())
+        const data = {
+            price: nowPrice,
+            quantity: quantity,
+            user_id: loginUser.id,
+            company_id: company.id
+        }
+    
+        await dispatch(fetchAsyncCreateBoughtStockInfo(data))
+        await dispatch(fetchAsyncPatchUser({user_id: loginUser.id, fund: remainingFund}))
+        setStep(3)
+        dispatch(endLoading())
     }
 
     return (
@@ -90,6 +139,9 @@ const BuyStockForm: FC<Props> = (props) => {
                     <SectionPaper responsivePadding={true}>
                         {step === 1 && (
                             <>
+                            <Box mb={4}>
+                                <Title center={true}>数量の選択</Title>
+                            </Box>
                             <Grid container justifyContent="space-between" alignItems="center">
                                 <Grid item>
                                     <Typography component="h3" variant="h6" color="primary" >
@@ -126,11 +178,11 @@ const BuyStockForm: FC<Props> = (props) => {
                                 </FormControl>
                             </Box>
                             <Box mb={4}>
-                                <Typography component="div" variant="h6" style={{textAlign: 'right'}}>
-                                    合計金額：{(nowPrice * quantity).toLocaleString()}円
+                                <Typography component="div" variant="h6" style={{textAlign: 'right', fontWeight: 'bold'}}>
+                                    合計金額：{(totalPrice).toLocaleString()}円
                                 </Typography>
                                 <Typography style={{textAlign: 'right'}}>
-                                    （資金：{fund.toLocaleString()}円）
+                                    (資金：{fund.toLocaleString()}円)
                                 </Typography>
                             </Box>
                             <Grid container spacing={2}>
@@ -160,6 +212,30 @@ const BuyStockForm: FC<Props> = (props) => {
                         {step === 2 && (
                             <>
                             <Title center={true}>注文内容の確認</Title>
+                            <Table className={classes.table}>
+                                <TableBody>
+                                    <TableRow>
+                                        <TableCell component="th">銘柄名</TableCell>
+                                        <TableCell align="right">{company.name}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell component="th">現在値</TableCell>
+                                        <TableCell align="right">{nowPrice.toLocaleString()}円</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell component="th">数量</TableCell>
+                                        <TableCell align="right">{quantity.toLocaleString()}株</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell component="th">合計金額</TableCell>
+                                        <TableCell align="right">
+                                            <span style={{fontSize: '1.2rem', fontWeight: 'bold'}}>{totalPrice.toLocaleString()}円</span>
+                                            <br />
+                                            (残り資金：{remainingFund.toLocaleString()}円)
+                                        </TableCell>
+                                    </TableRow>
+                                </TableBody>
+                            </Table>
                             <Grid container spacing={2}>
                                 <Grid item xs={6}>
                                     <Button 
@@ -176,7 +252,7 @@ const BuyStockForm: FC<Props> = (props) => {
                                         variant="contained" 
                                         fullWidth size="small" 
                                         color="secondary"
-                                        onClick={() => setStep(3)}
+                                        onClick={handleClickBuyButton}
                                     >
                                         購入
                                     </Button>
@@ -185,7 +261,9 @@ const BuyStockForm: FC<Props> = (props) => {
                             </>
                         )}
                         {step === 3 && (
-                            <></>
+                            <>
+                            注文が完了しました
+                            </>
                         )}
                     </SectionPaper>
                 </Container>

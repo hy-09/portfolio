@@ -82,12 +82,9 @@ class BoughtStockInfo(models.Model):
     quantity = models.IntegerField()
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
-        related_name="boughtStockInfoList",
         on_delete=models.CASCADE,
     )
-    company = models.ForeignKey(
-        Company, related_name="boughtStockInfoList", on_delete=models.CASCADE
-    )
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

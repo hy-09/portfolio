@@ -14,6 +14,11 @@ export type User = {
     fund: number;
 }
 
+export type UpdateFund = {
+    user_id: number;
+    fund: number;
+}
+
 export type Profile = {
     id: number;
     name: string;
