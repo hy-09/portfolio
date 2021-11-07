@@ -1,6 +1,7 @@
 import { Avatar, Button, makeStyles, TextField } from '@material-ui/core'
 import React, { FC, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { noneAvatarImg } from '../../config'
 import { fetchAsyncUpdateProf } from '../../slices/authSlice'
 import { endLoading, handleModalClose, handleNotifyOpen, startLoading } from '../../slices/othersSlice'
 import { File } from '../../types/user'
@@ -82,7 +83,7 @@ const ProfileForm: FC = () => {
                         onChange={(e) => handleSetPreviewImage(e.target.files![0])}
                     />
                 </Button>
-                <Avatar src={previewImage ? previewImage : myprofile.img === null ? undefined : myprofile.img} className={classes.avatar} />
+                <Avatar src={previewImage ?? myprofile.img} className={classes.avatar} />
 
             </div>
             <Button

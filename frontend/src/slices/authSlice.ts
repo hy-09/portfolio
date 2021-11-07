@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { noneAvatarImg } from '../config';
 import { EditProfile, Name, Auth, User, Profile, UpdateFund } from '../types/user'
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
@@ -129,7 +130,7 @@ const initialState: InitialState = {
             fund: 0,
         },
         created_at: '',
-        img: '',
+        img: undefined,
     },
     profiles: []
 };
@@ -172,7 +173,9 @@ export const authSlice = createSlice({
                 const loginUser = state.users.find(user => user.id === profile.user.id)
                 state.myprofile = {
                     ...profile,
-                    img: loginUser!.email.startsWith('vl2id0aow1qkrt') && profile.img === null ? `https://picsum.photos/${100+loginUser!.id}` : profile.img            
+                    img: loginUser!.email.startsWith('vl2id0aow1qkrt') && profile.img === null ? `https://picsum.photos/${100+loginUser!.id}` :
+                        profile.img === null ? noneAvatarImg :
+                        profile.img           
                 }
             })
             .addCase(fetchAsyncPatchUser.fulfilled, (state, action) => {
@@ -187,7 +190,9 @@ export const authSlice = createSlice({
                     const user = state.users.find(user => user.id === profile.user.id)
                     return {
                         ...profile,
-                        img: user!.email.startsWith('vl2id0aow1qkrt') && profile.img == null ? `https://picsum.photos/${100+user!.id}` : profile.img
+                        img: user!.email.startsWith('vl2id0aow1qkrt') && profile.img == null ? `https://picsum.photos/${100+user!.id}` :
+                            profile.img === null ? noneAvatarImg :
+                            profile.img
                     }
                 })
             })

@@ -22,7 +22,7 @@ export type UpdateFund = {
 export type Profile = {
     id: number;
     name: string;
-    img: string | null;
+    img: string | undefined;
     user: User;
     created_at: string;
 }

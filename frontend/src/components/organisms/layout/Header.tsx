@@ -2,7 +2,7 @@ import { AppBar, Avatar, Badge, Button, Divider, IconButton, makeStyles, Toolbar
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { FC, ReactNode, useState } from 'react'
-import { drawerWidth } from '../../../config';
+import { drawerWidth, noneAvatarImg } from '../../../config';
 import MenuList from '../MenuList';
 import { useHistory } from 'react-router';
 import { handleModalOpen, resetOthersState } from '../../../slices/othersSlice';
@@ -12,6 +12,7 @@ import clsx from 'clsx'
 import { resetAuthState } from '../../../slices/authSlice';
 import { resetStockState } from '../../../slices/stockSlice';
 import { grey } from '@material-ui/core/colors';
+import { Person } from '@material-ui/icons';
 
 type Props = {
     handleDrawerToggle: () => void;
@@ -120,7 +121,7 @@ const Header: FC<Props> = (props) => {
                 <MenuList 
                     Button={IconButton} 
                     ButtonContent={() => (
-                        <Avatar src={myprofile.img === null ? undefined : myprofile.img} className={classes.avatar} />
+                        <Avatar src={myprofile.img} className={classes.avatar} />
                     )}
                     items={items}
                     classType='onClickAvatarIcon'
