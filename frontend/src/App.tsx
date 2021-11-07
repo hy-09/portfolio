@@ -51,12 +51,16 @@ function App() {
 
     useEffect(() => {
         const fetchBootLoader = async () => {
+            if (!localStorage.stockPriceUpdateFrequency) {
+                localStorage.setItem('stockPriceUpdateFrequency', '1500')
+            }
+
             await dispatch(startLoading())
             await dispatch(fetchAsyncGetUsers())
             await dispatch(fetchAsyncGetCompanies())
             setInterval(() => {
                 dispatch(updateStockPrices())
-            }, 1500)
+            }, Number(localStorage.stockPriceUpdateFrequency))
     
             if(!!localStorage.localJWT) {
                 for (const func of fetchAsyncGetDataFuncs) {

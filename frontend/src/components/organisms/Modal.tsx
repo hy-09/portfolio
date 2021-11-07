@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Modal as MuiModal, Paper} from '@material-ui/core';
+import { Box, Modal as MuiModal, Paper, Typography} from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { handleModalClose } from '../../slices/othersSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Modal as TypeModal } from '../../types/others';
+import Title from '../atoms/Title';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,10 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
         padding: theme.spacing(2, 4, 3),
         margin: theme.spacing(0, 1)
     },
-    title: {
-        marginBottom: theme.spacing(2),
-        textAlign: 'center',
-    }
   }),
 );
 
@@ -53,7 +50,11 @@ const Modal: FC<Props> = (props) => {
             <Fade in={open}>
                 <Paper className={classes.paper}>
                     {title != undefined &&
-                        <h2 id="transition-modal-title" className={classes.title}>{title}</h2>
+                        <Box mb={3}>
+                            <Title center={true}>
+                                {title}
+                            </Title>
+                        </Box>
                     }
                     <div id="transition-modal-description">{content}</div>
                 </Paper>

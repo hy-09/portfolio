@@ -13,6 +13,7 @@ import { resetAuthState } from '../../../slices/authSlice';
 import { resetStockState } from '../../../slices/stockSlice';
 import { grey } from '@material-ui/core/colors';
 import { Person } from '@material-ui/icons';
+import ChangeStockPriceUpdateFrequency from '../../molecules/ChangeStockPriceUpdateFrequency';
 
 type Props = {
     handleDrawerToggle: () => void;
@@ -81,6 +82,20 @@ const Header: FC<Props> = (props) => {
                 }}
             >
                 プロフィール
+            </div>
+        )
+        ,
+        (  
+            <div 
+                className={classes.menuListItem}
+                onClick={() => {
+                    dispatch(handleModalOpen({
+                        title: '株価の更新頻度', 
+                        content: <ChangeStockPriceUpdateFrequency />
+                    }))
+                }}
+            >
+                株価の更新頻度
             </div>
         )
         ,
