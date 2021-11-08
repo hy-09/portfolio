@@ -39,6 +39,7 @@ const StockChart: FC<Props> = (props) => {
     const history = useHistory()
     const { company } = props
     const fund = useAppSelector(state => state.auth.loginUser.fund)
+    const myStockInfo = useAppSelector(state => state.stock.myStockInfoList.find(i => i.company.id === company.id))
     const [showMassage, setShowMassage] = useState(false)
 
     const handleClickBuyButton = (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -68,6 +69,7 @@ const StockChart: FC<Props> = (props) => {
                         state: { 
                             format: 'buy',
                             nowPrice: company.nowPrice,
+                            totalQuantity: myStockInfo ? myStockInfo.totalQuantity : 0
                         }
                     }} 
                     style={{textDecoration: 'none'}}

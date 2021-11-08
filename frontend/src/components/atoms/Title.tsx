@@ -17,15 +17,16 @@ type Props = {
     variant?: Variant;
     gutterBottom?: boolean;
     center?: boolean;
+    className?: string;
 }
 
 const Title: FC<Props> = (props) => {
-    const { children, component='h3', variant='h6', gutterBottom=true } = props
+    const { children, component='h3', variant='h6', gutterBottom=true, className } = props
     const classes = useStyles(props)
 
     return (
         <Typography 
-            component={component} variant={variant} gutterBottom={gutterBottom} className={classes.root} >
+            component={component} variant={variant} gutterBottom={gutterBottom} className={classes.root + ' ' + className} >
             {children}
         </Typography>
     )

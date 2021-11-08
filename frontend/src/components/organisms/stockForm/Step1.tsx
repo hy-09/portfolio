@@ -33,8 +33,8 @@ type Props = {
     totalPrice: number;
     fund: number;
     format: 'buy' | 'sell';
-    totalQuantity?: number;
-    setNewQuantity: (num: number) => void;
+    totalQuantity: number;
+    setNewHoldingQuantity: (num: number) => void;
     setStep: (num: number) => void;
     setNewFund: (fund: number) => void;
     setTotalPrice: (price: number) => void;
@@ -52,7 +52,7 @@ const Step1: FC<Props> = (props) => {
         format,
         fund,
         totalQuantity,
-        setNewQuantity,
+        setNewHoldingQuantity,
         setStep,
         setNewFund,
         setTotalPrice,
@@ -77,7 +77,7 @@ const Step1: FC<Props> = (props) => {
                 newQuantity -= 100
 
             } else {
-                newQuantity = totalQuantity!
+                newQuantity = totalQuantity
             }
 
             setParams(newQuantity)
@@ -112,10 +112,14 @@ const Step1: FC<Props> = (props) => {
         setQuantity(newQuantity)
         const newTotalPrice = nowPrice * newQuantity
         setTotalPrice(newTotalPrice)
-        setNewFund(fund - newTotalPrice)
 
-        if (format === 'sell') {
-            setNewQuantity(totalQuantity! - newQuantity)
+        if (format === 'buy') {
+            setNewFund(fund - newTotalPrice)
+            setNewHoldingQuantity(totalQuantity + newQuantity)
+
+        } else {
+            setNewFund(fund + newTotalPrice)
+            setNewHoldingQuantity(totalQuantity - newQuantity)
         }
     }
     

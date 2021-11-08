@@ -27,7 +27,7 @@ type Params = {
 type Location = {
     nowPrice: number;
     format: 'buy' | 'sell';
-    totalQuantity?: number;
+    totalQuantity: number;
 }
 
 const StockTradeForm: FC = () => {
@@ -41,8 +41,8 @@ const StockTradeForm: FC = () => {
     const [quantity, setQuantity] = useState(100)
     const [changeRate, setChangeRate] = useState(100)
     const [totalPrice, setTotalPrice] = useState(nowPrice * quantity)
-    const [newFund, setNewFund] = useState(fund - totalPrice)
-    const [newQuantity, setNewQuantity] = useState(totalQuantity! - quantity)
+    const [newFund, setNewFund] = useState(format === 'buy' ? fund - totalPrice : fund + totalPrice)
+    const [newHoldingQuantity, setNewHoldingQuantity] = useState(format === 'buy' ? totalQuantity + quantity : totalQuantity - quantity)
     const [step, setStep] = useState(1)
     
     if (company == undefined || company.id == 0) {
@@ -66,7 +66,7 @@ const StockTradeForm: FC = () => {
                                     fund={fund}
                                     totalQuantity={totalQuantity}
                                     format={format}
-                                    setNewQuantity={setNewQuantity}
+                                    setNewHoldingQuantity={setNewHoldingQuantity}
                                     setStep={setStep}
                                     setNewFund={setNewFund}
                                     setTotalPrice={setTotalPrice}
@@ -82,8 +82,10 @@ const StockTradeForm: FC = () => {
                                     quantity={quantity}
                                     totalPrice={totalPrice}
                                     loginUser={loginUser}
+                                    fund={fund}
+                                    totalQuantity={totalQuantity}
                                     newFund={newFund}
-                                    newQuantity={newQuantity}
+                                    newHoldingQuantity={newHoldingQuantity}
                                     setStep={setStep}
                                 />
                             )}
