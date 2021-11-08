@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { stockPriceDataCount } from '../config';
-import { getChangeRate, getNewStockPrice } from '../functions/calculations';
+import { getChangeRate, getCalcAns, getNewStockPrice } from '../functions/calculations';
 import { BoughtStockInfo, Company, CompanyNames, DeleteBoughtStockInfo, MyStockInfo, PatchBoughtStockInfo, PostBoughtStockInfo } from '../types/stock';
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
@@ -104,18 +104,13 @@ export const stockSlice = createSlice({
                 state.myStockInfoList = state.myStockInfoList.map(myStockInfo => {
                     const company = state.companies.find(c => c.id === myStockInfo.company.id)!
 
-                    let totalOldValue = 0
-                    myStockInfo.boughtStockInfoList.forEach(boughtStockInfo => {
-                        totalOldValue += boughtStockInfo.price * boughtStockInfo.quantity
-                        boughtStockInfo.profitOrLossPrice = (company.nowPrice - boughtStockInfo.price) * boughtStockInfo.quantity
-                    })
-                    const totalNewValue = company.nowPrice * myStockInfo.totalQuantity
-                    
+                    const { profitOrLossPrice, totalValue } = getCalcAns(company.nowPrice, myStockInfo.totalQuantity, myStockInfo.boughtStockInfoList)
+
                     return {
                         ...myStockInfo,
                         company: company,
-                        profitOrLossPrice: totalNewValue - totalOldValue,
-                        totalValue: totalNewValue
+                        profitOrLossPrice: profitOrLossPrice,
+                        totalValue: totalValue
                     }
                 })
             }
@@ -165,13 +160,7 @@ export const stockSlice = createSlice({
                             return sum + boughtStockInfo.quantity
                         }, 0)
 
-                        let totalOldValue = 0
-                        boughtStockInfoList.forEach((boughtStockInfo: BoughtStockInfo) => {
-                            totalOldValue += boughtStockInfo.price * boughtStockInfo.quantity
-                            boughtStockInfo.profitOrLossPrice = (company.nowPrice - boughtStockInfo.price) * boughtStockInfo.quantity
-                        })
-
-                        const totalNewValue = company.nowPrice * totalQuantity
+                        const { profitOrLossPrice, totalValue } = getCalcAns(company.nowPrice, totalQuantity, boughtStockInfoList)
                         
                         myStockInfoList = [
                             ...myStockInfoList,
@@ -180,8 +169,8 @@ export const stockSlice = createSlice({
                                 company: company,
                                 boughtStockInfoList: boughtStockInfoList,
                                 totalQuantity: totalQuantity,
-                                totalValue: totalNewValue,
-                                profitOrLossPrice: totalNewValue - totalOldValue,
+                                totalValue: totalValue,
+                                profitOrLossPrice: profitOrLossPrice,
                             }
                         ] 
                     }

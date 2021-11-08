@@ -1,4 +1,4 @@
-import { Company, plusOrMinus } from "../types/stock"
+import { BoughtStockInfo, Company, MyStockInfo } from "../types/stock"
 
 export const getChangeRate = (before: number, after: number) => {
     let rate: number
@@ -30,4 +30,18 @@ export const getNewStockPrice = (company: Company) => {
     }
 
     return Math.floor(latestStockPrice * changeRate)
+}
+
+export const getCalcAns = (nowPrice: number, totalQuantity: number, boughtStockInfoList: Array<BoughtStockInfo>) => {
+    let totalOldValue = 0
+    boughtStockInfoList.forEach(boughtStockInfo => {
+        totalOldValue += boughtStockInfo.price * boughtStockInfo.quantity
+        boughtStockInfo.profitOrLossPrice = (nowPrice - boughtStockInfo.price) * boughtStockInfo.quantity
+    })
+    const totalNewValue = nowPrice * totalQuantity
+    
+    return {
+        profitOrLossPrice: totalNewValue - totalOldValue,
+        totalValue: totalNewValue
+    }
 }
