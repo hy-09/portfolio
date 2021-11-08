@@ -107,6 +107,7 @@ const HoldingStock: FC<Props> = memo((props) => {
                             format: 'sell',
                             nowPrice: myStockInfo.company.nowPrice,
                             totalQuantity: myStockInfo.totalQuantity,
+                            myStockInfo: myStockInfo,
                         }
                     }} 
                     style={{textDecoration: 'none'}}

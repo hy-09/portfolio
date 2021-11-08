@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { stockPriceDataCount } from '../config';
 import { getChangeRate, getNewStockPrice } from '../functions/calculations';
-import { BoughtStockInfo, Company, CompanyNames, MyStockInfo, PostBoughtStockInfo } from '../types/stock';
+import { BoughtStockInfo, Company, CompanyNames, DeleteBoughtStockInfo, MyStockInfo, PatchBoughtStockInfo, PostBoughtStockInfo } from '../types/stock';
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
@@ -36,6 +36,36 @@ export const fetchAsyncCreateBoughtStockInfo = createAsyncThunk(
             }
         })
         return res.data
+    }
+)
+
+
+export const fetchAsyncPatchBoughtStockInfo = createAsyncThunk(
+    'stock/patch',
+    async (data: PatchBoughtStockInfo) => {
+        const { id, quantity, tradingQuantity } = data
+        const res = await axios.patch(`${apiUrl}api/boughtstockinfo/${id}/`, { quantity: quantity}, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `JWT ${localStorage.localJWT}`
+            }
+        })
+        res.data.tradingQuantity = tradingQuantity
+        return res.data
+    }
+)
+
+export const fetchAsyncDeleteBoughtStockInfo = createAsyncThunk(
+    'stock/delete',
+    async (data: DeleteBoughtStockInfo) => {
+        const { id, tradingQuantity } = data
+        const res = await axios.delete(`${apiUrl}api/boughtstockinfo/${id}/`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `JWT ${localStorage.localJWT}`
+            }
+        })
+        return data
     }
 )
 
@@ -167,9 +197,12 @@ export const stockSlice = createSlice({
                         ...state.myStockInfoList,
                         {
                             company: state.companies.find(company => company.id === companyId)!,
-                            boughtStockInfoList: [action.payload],
+                            boughtStockInfoList: [{
+                                ...action.payload,
+                                profitOrLossPrice: 0
+                            }],
                             totalQuantity: action.payload.quantity,
-                            totalValue: 0,
+                            totalValue: action.payload.quantity * action.payload.price,
                             profitOrLossPrice: 0
                         }
                     ]
@@ -180,9 +213,58 @@ export const stockSlice = createSlice({
                     if (myStockInfo.company.id === companyId) {
                         return {
                              ...myStockInfo,
-                             boughtStockInfoList: [...myStockInfo.boughtStockInfoList, action.payload],
-                             totalQuantity: myStockInfo.totalQuantity + action.payload.quantity
+                             boughtStockInfoList: [...myStockInfo.boughtStockInfoList, {
+                                 ...action.payload,
+                                 profitOrLossPrice: 0,
+                             }],
+                             totalQuantity: myStockInfo.totalQuantity + action.payload.quantity,
+                             profitOrLossPrice: 0,
                         }
+                    } else {
+                        return myStockInfo
+                    }
+                })
+            })
+
+            .addCase(fetchAsyncPatchBoughtStockInfo.fulfilled, (state, action) => {
+                state.myStockInfoList = state.myStockInfoList.map(myStockInfo => {
+                    if (myStockInfo.company.id === action.payload.company.id) {
+                        return {
+                            ...myStockInfo,
+                            totalQuantity: myStockInfo.totalQuantity - action.payload.tradingQuantity,
+                            boughtStockInfoList: myStockInfo.boughtStockInfoList.map(boughtStockInfo => {
+                                return {
+                                    ...boughtStockInfo,
+                                    quantity: boughtStockInfo.id === action.payload.id ? action.payload.quantity : boughtStockInfo.quantity
+                                }
+                            })
+                        }
+                        
+                    } else {
+                        return myStockInfo
+                    }
+                })
+            })
+
+            .addCase(fetchAsyncDeleteBoughtStockInfo.fulfilled, (state, action) => {
+                const targetStockInfo = state.myStockInfoList.find(i => i.company.id === action.payload.companyId)!
+
+                if (targetStockInfo.totalQuantity === action.payload.tradingQuantity) {
+                    state.myStockInfoList = state.myStockInfoList.filter(i => i.company.id !== action.payload.companyId)
+                    return
+                }
+                
+                state.myStockInfoList = state.myStockInfoList.map(myStockInfo => {
+                    if (myStockInfo.company.id === action.payload.companyId) {
+
+                        return {
+                            ...myStockInfo,
+                            totalQuantity: myStockInfo.totalQuantity - action.payload.tradingQuantity,
+                            boughtStockInfoList: myStockInfo.boughtStockInfoList.filter(boughtStockInfo => {
+                                return boughtStockInfo.id !== action.payload.id
+                            })
+                        }
+                        
                     } else {
                         return myStockInfo
                     }

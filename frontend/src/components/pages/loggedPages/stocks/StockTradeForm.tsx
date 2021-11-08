@@ -6,6 +6,7 @@ import { getRoute } from "../../../../functions/router"
 import { fetchAsyncPatchUser } from "../../../../slices/authSlice"
 import { endLoading, startLoading } from "../../../../slices/othersSlice"
 import { fetchAsyncCreateBoughtStockInfo } from "../../../../slices/stockSlice"
+import { MyStockInfo } from "../../../../types/stock"
 import Title from "../../../atoms/Title"
 import Main from "../../../organisms/layout/Main"
 import SectionPaper from "../../../organisms/SectionPaper"
@@ -28,12 +29,13 @@ type Location = {
     nowPrice: number;
     format: 'buy' | 'sell';
     totalQuantity: number;
+    myStockInfo: MyStockInfo;
 }
 
 const StockTradeForm: FC = () => {
     const history = useHistory()
     const { id } = useParams<Params>()
-    const { state: { nowPrice, format, totalQuantity }  } = useLocation<Location>()
+    const { state: { nowPrice, format, totalQuantity, myStockInfo }  } = useLocation<Location>()
     const companies = useAppSelector(state => state.stock.companies)
     const company = companies.find(company => company.id === Number(id))!
     const loginUser = useAppSelector(state => state.auth.loginUser)
@@ -46,7 +48,12 @@ const StockTradeForm: FC = () => {
     const [step, setStep] = useState(1)
     
     if (company == undefined || company.id == 0) {
-        history.push(getRoute('stocks'))
+        if (format === 'buy') {
+            history.push(getRoute('stocks'))
+
+        } else {
+            history.push(getRoute('home'))
+        }
         window.location.reload()
     }
 
@@ -86,6 +93,7 @@ const StockTradeForm: FC = () => {
                                     totalQuantity={totalQuantity}
                                     newFund={newFund}
                                     newHoldingQuantity={newHoldingQuantity}
+                                    myStockInfo={myStockInfo}
                                     setStep={setStep}
                                 />
                             )}

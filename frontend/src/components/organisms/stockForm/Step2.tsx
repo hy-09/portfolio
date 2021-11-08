@@ -4,8 +4,8 @@ import { useHistory } from "react-router-dom"
 import { useAppDispatch } from "../../../app/hooks"
 import { fetchAsyncPatchUser } from "../../../slices/authSlice"
 import { endLoading, startLoading } from "../../../slices/othersSlice"
-import { fetchAsyncCreateBoughtStockInfo } from "../../../slices/stockSlice"
-import { Company } from "../../../types/stock"
+import { fetchAsyncCreateBoughtStockInfo, fetchAsyncDeleteBoughtStockInfo, fetchAsyncPatchBoughtStockInfo } from "../../../slices/stockSlice"
+import { Company, MyStockInfo } from "../../../types/stock"
 import { User } from "../../../types/user"
 import Title from "../../atoms/Title"
 import clsx from "clsx"
@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(4, 0, 3),
         backgroundColor: '#f7f7f7',
         borderRadius: '5px',
-        padding: theme.spacing(3, 2, 1, 2),
+        padding: theme.spacing(2, 2, 1, 2),
     }
 }))
 
@@ -71,6 +71,7 @@ type Props = {
     totalQuantity: number;
     newFund: number;
     newHoldingQuantity: number;
+    myStockInfo?: MyStockInfo;
     setStep: (num: number) => void;
 }
 
@@ -86,6 +87,7 @@ const Step2: FC<Props> = (props) => {
         totalQuantity,
         newFund,
         newHoldingQuantity,
+        myStockInfo,
         setStep,
     } = props
 
@@ -95,15 +97,46 @@ const Step2: FC<Props> = (props) => {
 
     const handleClickOrderButton = async () => {
         dispatch(startLoading())
-        const data = {
-            price: nowPrice,
-            quantity: quantity,
-            user_id: loginUser.id,
-            company_id: company.id
+
+        if (format === 'buy') {
+            const data = {
+                price: nowPrice,
+                quantity: quantity,
+                user_id: loginUser.id,
+                company_id: company.id
+            }
+        
+            await dispatch(fetchAsyncCreateBoughtStockInfo(data))
+            
+        } else {
+            let tmpQuantity = quantity
+
+            for(const boughtStockInfo of myStockInfo!.boughtStockInfoList) {
+
+                if (tmpQuantity >= boughtStockInfo.quantity) {
+                    await dispatch(fetchAsyncDeleteBoughtStockInfo({
+                        id: boughtStockInfo.id,
+                        companyId: company.id,
+                        tradingQuantity: boughtStockInfo.quantity,
+                    }))
+
+                } else {
+                    await dispatch(fetchAsyncPatchBoughtStockInfo({
+                        id: boughtStockInfo.id, 
+                        quantity: boughtStockInfo.quantity - tmpQuantity,
+                        tradingQuantity: tmpQuantity,
+                    }))
+                }
+
+                tmpQuantity -= boughtStockInfo.quantity
+
+                if (tmpQuantity <= 0) break
+            }
         }
-    
-        await dispatch(fetchAsyncCreateBoughtStockInfo(data))
-        await dispatch(fetchAsyncPatchUser({user_id: loginUser.id, fund: newFund}))
+        await dispatch(fetchAsyncPatchUser({
+            user_id: loginUser.id, 
+            fund: newFund
+        }))
         setStep(3)
         dispatch(endLoading())
     }

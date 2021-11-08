@@ -39,3 +39,15 @@ export type PostBoughtStockInfo = {
     user_id: number;
     company_id: number;
 }
+
+export type PatchBoughtStockInfo = {
+    id: number;
+    quantity: number;
+    tradingQuantity: number;
+}
+
+export type DeleteBoughtStockInfo = {
+    id: number;
+    companyId: number;
+    tradingQuantity: number;
+}

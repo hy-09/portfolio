@@ -69,7 +69,8 @@ const StockChart: FC<Props> = (props) => {
                         state: { 
                             format: 'buy',
                             nowPrice: company.nowPrice,
-                            totalQuantity: myStockInfo ? myStockInfo.totalQuantity : 0
+                            totalQuantity: myStockInfo ? myStockInfo.totalQuantity : 0,
+                            myStockInfo: myStockInfo,
                         }
                     }} 
                     style={{textDecoration: 'none'}}
