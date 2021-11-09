@@ -35,6 +35,12 @@ class MyProfileListView(generics.ListAPIView):
         return self.queryset.filter(user=self.request.user)
 
 
+class CompanyViewSet(viewsets.ModelViewSet):
+    queryset = Company.objects.all()
+    serializer_class = serializers.CompanySerializer
+    permission_classes = (AllowAny,)
+
+
 class BoughtStockInfoViewSet(viewsets.ModelViewSet):
     queryset = BoughtStockInfo.objects.all()
     serializer_class = serializers.BoughtStockInfoSerializer
@@ -53,13 +59,4 @@ class MyBoughtStockInfoListView(generics.ListAPIView):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = serializers.PostSerializer
-    permission_classes = (AllowAny,)
-
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-
-
-class CompanyViewSet(viewsets.ModelViewSet):
-    queryset = Company.objects.all()
-    serializer_class = serializers.CompanySerializer
     permission_classes = (AllowAny,)

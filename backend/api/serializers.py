@@ -68,8 +68,38 @@ class BoughtStockInfoSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(format="%Y/%m/%d %H:%M", read_only=True)
+    created_at = serializers.DateTimeField(format="%Y/%m/%d %H:%M")
+    user = UserSerializer(many=False, read_only=True)
+    company = CompanySerializer(many=False, read_only=True)
+
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), write_only=True
+    )
+
+    company_id = serializers.PrimaryKeyRelatedField(
+        queryset=Company.objects.all(), write_only=True
+    )
+
+    def create(self, validated_data):
+        validated_data["user"] = validated_data.pop("user_id")
+        validated_data["company"] = validated_data.pop("company_id")
+
+        post = super().create(validated_data)
+        return post
 
     class Meta:
         model = Post
-        fields = "__all__"
+        fields = (
+            "id",
+            "content",
+            "price",
+            "quantity",
+            "buy_or_sell",
+            "created_at",
+            "user",
+            "company",
+            "likeUsers",
+            "user_id",
+            "company_id",
+        )
+        extra_kwargs = {"user": {"read_only": True}, "company": {"read_only": True}}
