@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
+    created_at = serializers.DateTimeField(format="%Y/%m/%d %H:%M", read_only=True)
     user = UserSerializer(many=False, read_only=True)
 
     class Meta:
@@ -33,7 +33,7 @@ class CompanySerializer(serializers.ModelSerializer):
 
 
 class BoughtStockInfoSerializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
+    created_at = serializers.DateTimeField(format="%Y/%m/%d %H:%M", read_only=True)
     user = UserSerializer(many=False, read_only=True)
     company = CompanySerializer(many=False, read_only=True)
 
@@ -68,7 +68,7 @@ class BoughtStockInfoSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
+    created_at = serializers.DateTimeField(format="%Y/%m/%d %H:%M", read_only=True)
 
     class Meta:
         model = Post

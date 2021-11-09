@@ -99,11 +99,12 @@ class Post(models.Model):
     company = models.ForeignKey(Company, related_name="posts", on_delete=models.CASCADE)
     likeUsers = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
-        related_name="likePosts",
         blank=True,
     )
     price = models.IntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
+    quantity = models.IntegerField()
+    buy_or_sell = models.CharField(max_length=4)
+    created_at = models.DateTimeField()
 
     def __str__(self):
         return self.content
