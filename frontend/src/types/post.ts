@@ -1,10 +1,6 @@
 import { Company } from "./stock"
 import { User } from "./user"
 
-export type NewPost = {
-    content: string;
-}
-
 export type LikeUsers = {
     id: number;
     content: string;

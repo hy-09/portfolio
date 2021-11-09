@@ -51,7 +51,7 @@ const HoldingStock: FC<Props> = memo((props) => {
     const noChange = clsx(classes.profitOrLossPrice, classes.flat)
 
     return (
-        <Paper className="emphasis-paper">
+        <Paper>
             <Box pt={2} pb={1.5} px={2}>
                 <Title component="h4" variant="subtitle1" color={theme.palette.primary.main}>
                     <span 

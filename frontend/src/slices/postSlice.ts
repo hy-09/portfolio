@@ -52,11 +52,11 @@ export const postSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchAsyncGetPosts.fulfilled, (state, action) => {
-                state.posts = action.payload
+                state.posts = action.payload.reverse()
             })
 
             .addCase(fetchAsyncGetMyPosts.fulfilled, (state, action) => {
-                state.myPosts = action.payload
+                state.myPosts = action.payload.reverse()
             })
     },
 });

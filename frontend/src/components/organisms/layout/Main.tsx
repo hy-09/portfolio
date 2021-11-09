@@ -8,12 +8,12 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
-        padding: theme.spacing(0, 2, 2, 0),
+        padding: theme.spacing(0, 2, 4, 0),
         [theme.breakpoints.up('sm')]: {
-            padding: theme.spacing(0, 3, 3, 0),
+            padding: theme.spacing(0, 3, 6, 0),
         },
         [theme.breakpoints.up('lg')]: {
-            padding: theme.spacing(0, 6, 3, 3),
+            padding: theme.spacing(0, 6, 6, 3),
         }
     },
 }))
@@ -30,10 +30,12 @@ const Main: FC<Props> = (props) => {
     return (
         <main className={classes.content}>
             <div className={classes.toolbar} />
-            <Heading title={title} />
-            <Grid container>
-                {children}
-            </Grid>
+            <Container maxWidth="lg" style={{padding: 0}}>
+                <Heading title={title} />
+                <Grid container>
+                    {children}
+                </Grid>
+            </Container>
         </main>
     )
 }
