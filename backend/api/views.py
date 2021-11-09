@@ -35,7 +35,7 @@ class MyProfileListView(generics.ListAPIView):
         return self.queryset.filter(user=self.request.user)
 
 
-class CompanyViewSet(viewsets.ModelViewSet):
+class CompanyListView(generics.ListAPIView):
     queryset = Company.objects.all()
     serializer_class = serializers.CompanySerializer
     permission_classes = (AllowAny,)
@@ -60,3 +60,12 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = serializers.PostSerializer
     permission_classes = (AllowAny,)
+
+
+class MyPostListView(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = serializers.PostSerializer
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)

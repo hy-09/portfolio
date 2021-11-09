@@ -3,15 +3,17 @@ from . import views
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register('user', views.UserViewSet)
-router.register('profile', views.ProfileViewSet)
-router.register('post', views.PostViewSet) 
-router.register('company', views.CompanyViewSet) 
-router.register('boughtstockinfo', views.BoughtStockInfoViewSet) 
+router.register("user", views.UserViewSet)
+router.register("profile", views.ProfileViewSet)
+router.register("post", views.PostViewSet)
+# router.register("company", views.CompanyViewSet)
+router.register("boughtstockinfo", views.BoughtStockInfoViewSet)
 
 urlpatterns = [
-    path('register/', views.CreateUserView.as_view()),
-    path('myprofile/', views.MyProfileListView.as_view()),
-    path('myboughtstockinfo/', views.MyBoughtStockInfoListView.as_view()),
-    path('', include(router.urls)),
+    path("register/", views.CreateUserView.as_view()),
+    path("company/", views.CompanyListView.as_view()),
+    path("myprofile/", views.MyProfileListView.as_view()),
+    path("myboughtstockinfo/", views.MyBoughtStockInfoListView.as_view()),
+    path("mypost/", views.MyPostListView.as_view()),
+    path("", include(router.urls)),
 ]

@@ -14,6 +14,7 @@ import { resetStockState } from '../../../slices/stockSlice';
 import { grey } from '@material-ui/core/colors';
 import { Person } from '@material-ui/icons';
 import ChangeStockPriceUpdateFrequency from '../../molecules/ChangeStockPriceUpdateFrequency';
+import { resetPostState } from '../../../slices/postSlice';
 
 type Props = {
     handleDrawerToggle: () => void;
@@ -107,6 +108,7 @@ const Header: FC<Props> = (props) => {
                     dispatch(resetAuthState())
                     dispatch(resetStockState())
                     dispatch(resetOthersState())
+                    dispatch(resetPostState())
                     history.push('/login')
                 }}
             >

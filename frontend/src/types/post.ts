@@ -1,3 +1,6 @@
+import { Company } from "./stock"
+import { User } from "./user"
+
 export type NewPost = {
     content: string;
 }
@@ -10,10 +13,13 @@ export type LikeUsers = {
 }
 
 export type Post = {
-    postId: number;
-    loginId: number;
-    postUser: number;
+    id: number;
     content: string;
-    imageUrl: string;
-    likeUsers: number[];
+    price: number;
+    quantity: number;
+    buy_or_sell: 'buy' | 'sell';
+    created_at: string;
+    user: User;
+    company: Company;
+    likeUsers: Array<number>;
 }
