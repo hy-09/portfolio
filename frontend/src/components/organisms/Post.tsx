@@ -14,11 +14,18 @@ type Props = {
 
 const Post: FC<Props> = (props) => {
     const classes = useStyles()
-    const { post, searchWords } = props
+    const { post, searchWords} = props
+    
+    let content: string = post.content
+    searchWords.forEach(word => {
+        content = content.replace(new RegExp(word, 'g'), `<span style="font-weight: bold">${word}</span>`)
+    })
     
     return (
         <PaperWithPadding>
-            {post.content}
+            <div className="content" dangerouslySetInnerHTML={{
+                __html: content
+            }} />
         </PaperWithPadding>
     )
 }

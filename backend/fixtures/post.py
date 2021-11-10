@@ -133,6 +133,7 @@ def getShortName(companyName):
         "工業",
         "製作所",
         "商事",
+        "グループ",
     ]
 
     for word in deleteWords:

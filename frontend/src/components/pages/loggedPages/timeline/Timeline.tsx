@@ -24,7 +24,9 @@ const Timeline: FC = memo(() => {
     const [shownPostCount, setShownPostCount] = useState(count)
     const allPosts = useAppSelector(state => state.post.posts)
     const [searchWord, setSearchWord] = useState('')
-    const words = searchWord.replaceAll("　", " ").split(" ")
+    
+    const words = searchWord.replaceAll("　", " ").split(" ").filter(word => word !== '')
+
     const postsFilteredByWord = allPosts.filter(post => 
         words.every(word => post.content.includes(word))
     )
