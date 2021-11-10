@@ -5,6 +5,7 @@ import { noneAvatarImg } from '../../config'
 import { fetchAsyncUpdateProf } from '../../slices/authSlice'
 import { endLoading, handleModalClose, handleNotifyOpen, startLoading } from '../../slices/othersSlice'
 import { File } from '../../types/user'
+import SmallButton from '../atoms/SmallButton'
 
 
 const useStyles = makeStyles(theme => ({
@@ -46,8 +47,7 @@ const ProfileForm: FC = () => {
         setPreviewImage(imgURL)
     }
     
-    const updateProfile = async (e: React.MouseEvent<HTMLElement>) => {
-        e.preventDefault()
+    const updateProfile = async () => {
         const profile = {
             id: myprofile.id,
             name: nameInEdit,
@@ -65,7 +65,7 @@ const ProfileForm: FC = () => {
     }
 
     return (
-        <form>
+        <>
             <div>
                 <TextField 
                     label="ユーザー名"
@@ -93,18 +93,14 @@ const ProfileForm: FC = () => {
                 <Avatar src={previewImage ?? myprofile.img} className={classes.avatar} />
 
             </div>
-            <Button
+            <SmallButton
                 disabled={!myprofile.name}
                 variant="contained"
-                type="submit"
                 color="primary"
-                size="small"
-                fullWidth
                 onClick={updateProfile}
-            >
-                保存
-            </Button>
-        </form>
+                label="保存"
+            />
+        </>
     )
 }
 

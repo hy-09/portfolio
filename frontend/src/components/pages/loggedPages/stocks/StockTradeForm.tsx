@@ -3,15 +3,12 @@ import { FC, useCallback, useState } from "react"
 import { useHistory, useParams, useLocation } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks"
 import { getRoute } from "../../../../functions/router"
-import { fetchAsyncPatchUser } from "../../../../slices/authSlice"
-import { endLoading, startLoading } from "../../../../slices/othersSlice"
-import { fetchAsyncCreateBoughtStockInfo } from "../../../../slices/stockSlice"
 import { MyStockInfo } from "../../../../types/stock"
-import Title from "../../../atoms/Title"
 import Main from "../../../organisms/layout/Main"
 import SectionPaper from "../../../organisms/SectionPaper"
 import Step1 from "../../../organisms/stockForm/Step1"
 import Step2 from "../../../organisms/stockForm/Step2"
+import Step3 from "../../../organisms/stockForm/Step3"
 
 const theme = createTheme({
     palette: {
@@ -98,9 +95,13 @@ const StockTradeForm: FC = () => {
                                 />
                             )}
                             {step === 3 && (
-                                <>
-                                注文が完了しました
-                                </>
+                                <Step3
+                                    format={format}
+                                    company={company}
+                                    nowPrice={nowPrice}
+                                    quantity={quantity}
+                                    loginUser={loginUser}
+                                />
                             )}
                         </ThemeProvider>
                     </SectionPaper>

@@ -9,6 +9,7 @@ import { Company, MyStockInfo } from "../../../types/stock"
 import { User } from "../../../types/user"
 import Title from "../../atoms/Title"
 import clsx from "clsx"
+import TwoButtons from "../../molecules/TwoButtons"
 
 const useStyles = makeStyles(theme => ({
     title: {
@@ -203,28 +204,13 @@ const Step2: FC<Props> = (props) => {
                 </Table>
             </div>
         </div>
-        <Grid container spacing={2}>
-            <Grid item xs={6}>
-                <Button 
-                    variant="outlined" 
-                    fullWidth 
-                    size="small"
-                    onClick={() => setStep(1)}
-                >
-                    戻る
-                </Button>
-            </Grid>
-            <Grid item xs={6}>
-                <Button 
-                    variant="contained" 
-                    fullWidth size="small" 
-                    color={format === 'buy' ? 'secondary' : 'primary'}
-                    onClick={handleClickOrderButton}
-                >
-                    {format === 'buy' ? '購入' : '売却'}
-                </Button>
-            </Grid>
-        </Grid>
+        <TwoButtons
+            button1Label="戻る"
+            button2Label={format === 'buy' ? '購入' : '売却'}
+            button2Color={format === 'buy' ? 'secondary' : 'primary'}
+            onClickButton1={() => setStep(1)}
+            onClickButton2={handleClickOrderButton}
+        />
         </>
     )
 }

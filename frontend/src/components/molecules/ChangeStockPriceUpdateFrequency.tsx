@@ -5,6 +5,7 @@ import { noneAvatarImg } from '../../config'
 import { fetchAsyncUpdateProf } from '../../slices/authSlice'
 import { endLoading, handleModalClose, handleNotifyOpen, startLoading } from '../../slices/othersSlice'
 import { File } from '../../types/user'
+import SmallButton from '../atoms/SmallButton'
 
 
 const useStyles = makeStyles(theme => ({
@@ -29,7 +30,7 @@ const ChangeStockPriceUpdateFrequency: FC = () => {
     }
 
     return (
-        <form>
+        <>
             <TextField 
                 type="number"
                 value={seconds}
@@ -41,18 +42,14 @@ const ChangeStockPriceUpdateFrequency: FC = () => {
                     setSeconds(e.target.value)
                 }}
             />
-            <Button
+            <SmallButton
                 disabled={Number(seconds) <= 0}
                 variant="contained"
-                type="submit"
                 color="primary"
-                size="small"
-                fullWidth
                 onClick={setFrequency}
-            >
-                保存
-            </Button>
-        </form>
+                label="保存"
+            />
+        </>
     )
 }
 

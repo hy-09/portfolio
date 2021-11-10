@@ -4,6 +4,7 @@ import { FC } from "react"
 import { useHistory } from "react-router-dom"
 import { Company } from "../../../types/stock"
 import Title from "../../atoms/Title"
+import TwoButtons from "../../molecules/TwoButtons"
 
 const useStyles = makeStyles<Theme, Props>(theme => ({
     quantity: {
@@ -176,28 +177,13 @@ const Step1: FC<Props> = (props) => {
                 合計金額：{(totalPrice).toLocaleString()}円
             </Typography>
         </Box>
-        <Grid container spacing={2}>
-            <Grid item xs={6}>
-                <Button 
-                    variant="outlined" 
-                    fullWidth 
-                    size="small"
-                    onClick={() => history.goBack()}
-                >
-                    戻る
-                </Button>
-            </Grid>
-            <Grid item xs={6}>
-                <Button 
-                    variant="contained" 
-                    fullWidth size="small" 
-                    color={format === 'buy' ? 'secondary' : 'primary'}
-                    onClick={() => setStep(2)}
-                >
-                    確認する
-                </Button>
-            </Grid>
-        </Grid>
+        <TwoButtons
+            button1Label="戻る"
+            button2Label="確認する"
+            button2Color={format === 'buy' ? 'secondary' : 'primary'}
+            onClickButton1={() => history.goBack()}
+            onClickButton2={() => setStep(2)}
+        />
         </>
     )
 }

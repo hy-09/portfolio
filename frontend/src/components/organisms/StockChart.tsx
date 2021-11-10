@@ -1,10 +1,11 @@
-import { Button, Grid, makeStyles, Typography } from "@material-ui/core"
+import { Box, Button, Grid, makeStyles, Typography } from "@material-ui/core"
 import { FC, useState } from "react"
 import { useHistory, Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { getRoute } from "../../functions/router"
 import { Company } from "../../types/stock"
 import NowPrice from "../molecules/NowPrice"
+import TwoButtons from "../molecules/TwoButtons"
 import LineChart from "./LineChart"
 
 const useStyles = makeStyles(theme => ({
@@ -42,55 +43,37 @@ const StockChart: FC<Props> = (props) => {
     const myStockInfo = useAppSelector(state => state.stock.myStockInfoList.find(i => i.company.id === company.id))
     const [showMassage, setShowMassage] = useState(false)
 
-    const handleClickBuyButton = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const handleClickBuyButton = () => {
         if (fund < company.nowPrice * 100) {
-            e.preventDefault()
             setShowMassage(true)
+            return
         }
+        history.push({ 
+            pathname: getRoute('buyStockForm', company.id), 
+            state: { 
+                format: 'buy',
+                nowPrice: company.nowPrice,
+                totalQuantity: myStockInfo ? myStockInfo.totalQuantity : 0,
+                myStockInfo: myStockInfo,
+            }
+        })
     }
 
     const buttons = (
-        <Grid item container spacing={2} >
-            <Grid item xs={12} sm={6}>
-                <Button
-                    fullWidth 
-                    variant="outlined" 
-                    size="small"
-                    onClick={() => history.goBack()}
-                >
-                    戻る
-                </Button>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-                <Link 
-                    onClick={(e) => handleClickBuyButton(e)}
-                    to={{ 
-                        pathname: getRoute('buyStockForm', company.id), 
-                        state: { 
-                            format: 'buy',
-                            nowPrice: company.nowPrice,
-                            totalQuantity: myStockInfo ? myStockInfo.totalQuantity : 0,
-                            myStockInfo: myStockInfo,
-                        }
-                    }} 
-                    style={{textDecoration: 'none'}}
-                >
-                    <Button 
-                        fullWidth 
-                        variant="contained" 
-                        size="small" 
-                        color="secondary"
-                    >
-                        購入
-                    </Button>
-                </Link>
-            </Grid>
-            {showMassage && (
-                <Grid item xs={12}>
-                    <Typography variant="body2" color="error">資金が足りません（100株以上から購入が可能です）</Typography>
-                </Grid>
-            )}
-        </Grid>
+        <>
+        <TwoButtons
+            button1Label="戻る"
+            button2Label="購入"
+            button2Color='secondary'
+            onClickButton1={() => history.goBack()}
+            onClickButton2={handleClickBuyButton}
+        />
+        {showMassage && (
+            <Box mt={1}>
+                <Typography variant="body2" color="error">資金が足りません（100株以上から購入が可能です）</Typography>
+            </Box>
+        )}
+        </>
     )
     
     return (
