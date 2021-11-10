@@ -62,6 +62,7 @@ const Home: FC = memo(() => {
     const totalProfitOrLossPrice = myStockInfoList.reduce((sum: number, info: MyStockInfo) => {
         return sum + info.profitOrLossPrice
     }, 0)
+
     return (
         <>
         <Main title="ホーム" >

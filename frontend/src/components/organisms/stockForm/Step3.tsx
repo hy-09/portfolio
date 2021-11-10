@@ -3,7 +3,7 @@ import { FC, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { useAppDispatch } from "../../../app/hooks"
 import { fetchAsyncPatchUser } from "../../../slices/authSlice"
-import { endLoading, startLoading } from "../../../slices/othersSlice"
+import { endLoading, handleBackdropOpen, handleNotifyOpen, startLoading } from "../../../slices/othersSlice"
 import { fetchAsyncCreateBoughtStockInfo, fetchAsyncDeleteBoughtStockInfo, fetchAsyncPatchBoughtStockInfo } from "../../../slices/stockSlice"
 import { Company, MyStockInfo } from "../../../types/stock"
 import { User } from "../../../types/user"
@@ -14,6 +14,8 @@ import TwoButtons from "../../molecules/TwoButtons"
 import { grey } from "@material-ui/core/colors"
 import SmallButton from "../../atoms/SmallButton"
 import ErrorMessage from "../../atoms/ErrorMessage"
+import { fetchAsyncCreatePost } from "../../../slices/postSlice"
+import { escapeHtml } from "../../../functions/escape"
 
 const useStyles = makeStyles(theme => ({
     tableWrapper: {
@@ -82,7 +84,30 @@ const Step3: FC<Props> = (props) => {
             setShowMessage(true)
             return
         }
-        dispatch(startLoading())
+        await dispatch(startLoading())
+
+        const date = new Date()
+        const datetime = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`
+
+        const data = {
+            content: escapeHtml(postcontent).split('\n').join('<br>'),
+            price: nowPrice,
+            quantity: quantity,
+            buy_or_sell: format,
+            user_id: loginUser.id,
+            company_id: company.id,
+            created_at: datetime,
+        }
+        const res = await dispatch(fetchAsyncCreatePost(data))
+        if (fetchAsyncCreatePost.fulfilled.match(res)) {
+            history.push(getRoute('home'))
+            
+            dispatch(handleBackdropOpen())
+            dispatch(handleNotifyOpen({
+                message: '投稿しました',
+                type: 'success'
+            }))
+        }
         dispatch(endLoading())
     }
     

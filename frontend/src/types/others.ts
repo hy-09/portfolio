@@ -18,3 +18,7 @@ export type Notify = {
     message: string;
     type: Color | undefined;
 }
+
+export type Backdrop = {
+    open: boolean;
+}

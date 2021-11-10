@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme: Theme) => ({
 const AuthLayout: FC<Props> = memo((props) => {
     const { children } = props
     const classes = useStyles()
-    const theme = useTheme()
     const dispatch = useAppDispatch()
     const firstTimeAfterRegister = useAppSelector<boolean>(state => state.auth.firstTimeAfterRegister)
     const [mobileOpen, setMobileOpen] = useState(false);

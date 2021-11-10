@@ -6,21 +6,21 @@ import { getRoute } from "../functions/router";
 import { RouteType } from "../types/others";
 import { AuthRoutes, homeURL } from "./AuthRoutes";
 
-const AuthRoute: FC<RouteProps> = memo(({...props}) => {
+const AuthRoute: FC<RouteProps> = ({...props}) => {
     if (!!localStorage.localJWT) {
         return <Route {...props} />
     } else {
         return <><Redirect to="/login" /><Login /></>
     }
-})
+}
 
-const RedirectRoute: FC<RouteProps> = memo(() => {
+const RedirectRoute: FC<RouteProps> = () => {
     if (!!localStorage.localJWT) {
         return <Redirect to={homeURL} />
     } else {
         return <><Redirect to="/login" /><Login /></>
     }
-})
+}
 
 type Props = {
     route: RouteType;

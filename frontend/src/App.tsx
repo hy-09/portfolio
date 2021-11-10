@@ -12,6 +12,7 @@ import LoadingCircular from './components/organisms/LoadingCircular';
 import { endLoading, startLoading } from './slices/othersSlice';
 import { fetchAsyncGetCompanies, updateStockPrices } from './slices/stockSlice';
 import { fetchAsyncGetDataFuncs } from './functions/fetchAsyncGetDataFuncs'
+import Backdrop from './components/atoms/Backdrop';
 
 const theme = createTheme({
     palette: {
@@ -41,7 +42,7 @@ const theme = createTheme({
             lg: 1200,
             xl: 1536,
         },
-    }
+    },
 })
 
 function App() {
@@ -49,6 +50,7 @@ function App() {
     const isLoading = useAppSelector(state => state.others.isLoading)
     const modal = useAppSelector(state => state.others.modal)
     const notify = useAppSelector(state => state.others.notify)
+    const backdrop = useAppSelector(state => state.others.backdrop)
 
     useEffect(() => {
         const fetchBootLoader = async () => {
@@ -82,6 +84,7 @@ function App() {
             <Router />
             <Modal modal={modal} />
             <Snackbar notify={notify} />
+            <Backdrop backdrop={backdrop} />
             <CssBaseline />
         </ThemeProvider>
     );

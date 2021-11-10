@@ -98,7 +98,7 @@ const Step2: FC<Props> = (props) => {
     const theme = useTheme()
 
     const handleClickOrderButton = async () => {
-        dispatch(startLoading())
+        await dispatch(startLoading())
 
         if (format === 'buy') {
             const data = {

@@ -19,3 +19,13 @@ export type Post = {
     company: Company;
     likeUsers: Array<number>;
 }
+
+export type CreatPost = {
+    content: string;
+    price: number;
+    quantity: number;
+    buy_or_sell: 'buy' | 'sell';
+    user_id: number;
+    company_id: number;
+    created_at: string;
+}
