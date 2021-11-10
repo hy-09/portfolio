@@ -27,40 +27,42 @@ const Stocks: FC = memo(() => {
 
     return (
         <Main title="銘柄一覧">
-            {companies.map(company => (
-                <Grid 
-                    item 
-                    xs={12}
-                    sm={6}
-                    lg={4}
-                    xl={3}
-                    key={company.id}
-                >
-                    <DivWithPadding>
-                        <PaperWithPadding>
-                            <Title component="h4" variant="subtitle1" color={theme.palette.primary.main} >
-                                {company.name}
-                            </Title>
-                            <NowPrice company={company} />
-                            <Hidden xsDown>
-                                <Box mt={0.5}>
-                                    <LineChart dataList={company.stockPriceDatas.slice(-20)} />
-                                </Box>
-                            </Hidden>
-                            <Button 
-                                size="small" 
-                                variant="outlined" 
-                                fullWidth 
-                                color="secondary"
-                                className={classes.detailButton}
-                                onClick={() => history.push(getRoute('stockDetail', company.id))}
-                            >
-                                詳細
-                            </Button>
-                        </PaperWithPadding>
-                    </DivWithPadding>
+            <DivWithPadding>
+                <Grid container spacing={2}>
+                    {companies.map(company => (
+                        <Grid 
+                            item 
+                            xs={12}
+                            sm={6}
+                            lg={4}
+                            xl={3}
+                            key={company.id}
+                        >
+                            <PaperWithPadding>
+                                <Title component="h4" variant="subtitle1" color={theme.palette.primary.main} >
+                                    {company.name}
+                                </Title>
+                                <NowPrice company={company} />
+                                <Hidden xsDown>
+                                    <Box mt={0.5}>
+                                        <LineChart dataList={company.stockPriceDatas.slice(-20)} />
+                                    </Box>
+                                </Hidden>
+                                <Button 
+                                    size="small" 
+                                    variant="outlined" 
+                                    fullWidth 
+                                    color="secondary"
+                                    className={classes.detailButton}
+                                    onClick={() => history.push(getRoute('stockDetail', company.id))}
+                                >
+                                    詳細
+                                </Button>
+                            </PaperWithPadding>
+                        </Grid>
+                    ))}
                 </Grid>
-            ))}
+            </DivWithPadding>
         </Main>
     )
 })

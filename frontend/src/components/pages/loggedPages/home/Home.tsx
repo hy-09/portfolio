@@ -1,6 +1,6 @@
 import { Box, Grid, makeStyles, Paper, Typography, useTheme } from '@material-ui/core'
 import clsx from 'clsx'
-import { green, grey } from '@material-ui/core/colors'
+import { green, grey, pink } from '@material-ui/core/colors'
 import { TrendingDown, TrendingFlat, TrendingUp } from '@material-ui/icons'
 import { FC, memo, useEffect, useState } from 'react'
 import { useAppSelector } from '../../../../app/hooks'
@@ -71,8 +71,8 @@ const Home: FC = memo(() => {
                     className="emphasis-paper"
                     height="100%"
                     backgroundColor={
-                        totalProfitOrLossPrice > 0 ? theme.palette.success.light :
-                        totalProfitOrLossPrice < 0 ? theme.palette.secondary.light :
+                        totalProfitOrLossPrice > 0 ? green[50] :
+                        totalProfitOrLossPrice < 0 ? pink[50] :
                         grey[50]
                     }
                 >

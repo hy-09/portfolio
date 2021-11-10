@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
     },
     table2Wrapper: {
         margin: theme.spacing(4, 0, 3),
-        backgroundColor: '#f7f7f7',
+        backgroundColor: theme.palette.grey[50],
         borderRadius: '5px',
         padding: theme.spacing(2, 2, 1, 2),
     }

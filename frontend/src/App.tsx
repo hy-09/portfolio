@@ -5,7 +5,7 @@ import { createTheme, CssBaseline } from '@material-ui/core';
 import { useAppDispatch, useAppSelector } from './app/hooks';
 import { useEffect } from 'react';
 import { fetchAsyncGetUsers } from './slices/authSlice';
-import { cyan, green, pink } from '@material-ui/core/colors';
+import { cyan, green, grey, pink } from '@material-ui/core/colors';
 import Modal from './components/organisms/Modal'
 import Snackbar from './components/atoms/Snackbar';
 import LoadingCircular from './components/organisms/LoadingCircular';
@@ -22,14 +22,15 @@ const theme = createTheme({
         },
         secondary: {
             main: pink[500],
-            light: pink[50],
         },
         success: {
             main: green[500],
-            light: green[50],
         },
         background: {
             default: 'rgba(0, 151, 167, 0.03)'
+        },
+        text: {
+            secondary: grey[600],
         },
     },
     breakpoints: {

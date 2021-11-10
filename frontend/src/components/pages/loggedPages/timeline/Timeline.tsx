@@ -35,35 +35,33 @@ const Timeline: FC = memo(() => {
 
     return (
         <Main title="タイムライン">
-            <Grid item xs={12}>
-                <DivWithPadding>
-                    <PaperWithPadding style={{marginBottom: theme.spacing(3)}}>
-                        <SearchInput setSearchWord={setSearchWord} />
-                    </PaperWithPadding>
-                    <Grid container spacing={2}>
-                        {postsFilteredByWordAndNum.map(post => (
-                            <Grid item xs={12} sm={6} lg={4} key={post.id}>
-                                <Post post={post} searchWords={words} />
-                            </Grid>
-                        ))}
-                        {postsFilteredByWordAndNum.length == 0 && (
-                            <Grid item xs={12}>
-                                投稿はございません
-                            </Grid>
-                        )}
-                    </Grid>
-                    {shownPostCount < postCount && (
-                        <Typography 
-                            variant="body1" 
-                            color="primary"
-                            className={classes.load}
-                            onClick={() => setShownPostCount(shownPostCount + count)}
-                        >
-                            読み込む..
-                        </Typography>
+            <DivWithPadding>
+                <PaperWithPadding style={{marginBottom: theme.spacing(3)}}>
+                    <SearchInput setSearchWord={setSearchWord} />
+                </PaperWithPadding>
+                <Grid container spacing={2}>
+                    {postsFilteredByWordAndNum.map(post => (
+                        <Grid item xs={12} sm={6} lg={4} key={post.id}>
+                            <Post post={post} searchWords={words} />
+                        </Grid>
+                    ))}
+                    {postsFilteredByWordAndNum.length == 0 && (
+                        <Grid item xs={12}>
+                            投稿はございません
+                        </Grid>
                     )}
-                </DivWithPadding>
-            </Grid>
+                </Grid>
+                {shownPostCount < postCount && (
+                    <Typography 
+                        variant="body1" 
+                        color="primary"
+                        className={classes.load}
+                        onClick={() => setShownPostCount(shownPostCount + count)}
+                    >
+                        読み込む..
+                    </Typography>
+                )}
+            </DivWithPadding>
         </Main>
     )
 })

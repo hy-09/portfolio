@@ -58,7 +58,7 @@ const StockChart: FC<Props> = (props) => {
                     size="small"
                     onClick={() => history.goBack()}
                 >
-                    銘柄一覧へ
+                    戻る
                 </Button>
             </Grid>
             <Grid item xs={12} sm={6}>

@@ -1,4 +1,5 @@
 import { makeStyles, Theme, useTheme } from "@material-ui/core"
+import { green, pink } from "@material-ui/core/colors"
 import { TrendingDown, TrendingFlat, TrendingUp } from "@material-ui/icons"
 import clsx from 'clsx'
 import { FC } from "react"
@@ -18,11 +19,11 @@ const useStyles = makeStyles<Theme, Props>(theme => ({
     },
     plus: {
         color: theme.palette.success.main,
-        backgroundColor: theme.palette.success.light,
+        backgroundColor: green[50],
     },
     minus: {
         color: theme.palette.secondary.main,
-        backgroundColor: theme.palette.secondary.light,
+        backgroundColor: pink[50],
     },
     flat: {
         color: theme.palette.text.secondary,
