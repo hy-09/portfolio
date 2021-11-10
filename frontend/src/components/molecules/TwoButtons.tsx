@@ -6,12 +6,13 @@ type Props = {
     button1Label: string;
     button2Label: string;
     button2Color: "inherit" | "default" | "primary" | "secondary" | undefined;
+    button2Variant?: "contained" | "text" | "outlined" | undefined;
     onClickButton1: () => void;
     onClickButton2: () => void;
 }
 
 const TwoButtons: FC<Props> = (props) => {
-    const { button1Label, button2Label, button2Color, onClickButton1, onClickButton2 } = props
+    const { button1Label, button2Label, button2Color, button2Variant="contained", onClickButton1, onClickButton2 } = props
     
     return (
         <Grid container spacing={2}>
@@ -20,19 +21,15 @@ const TwoButtons: FC<Props> = (props) => {
                     variant="outlined"
                     onClick={onClickButton1}
                     label={button1Label}
-                >
-                    ホームに戻る
-                </SmallButton>
+                />
             </Grid>
             <Grid item xs={12} sm={6}>
                 <SmallButton 
-                    variant="contained" 
+                    variant={button2Variant} 
                     color={button2Color}
                     onClick={onClickButton2}
                     label={button2Label}
-                >
-                    この注文のコメントを残す
-                </SmallButton>
+                />
             </Grid>
         </Grid>
     )

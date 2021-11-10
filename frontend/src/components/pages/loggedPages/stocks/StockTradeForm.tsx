@@ -18,6 +18,12 @@ const theme = createTheme({
     },
 })
 
+const useStyles = makeStyles(theme => ({
+    title: {
+        marginBottom: theme.spacing(4)
+    },
+}))
+
 type Params = {
     id: string;
 }
@@ -31,6 +37,7 @@ type Location = {
 
 const StockTradeForm: FC = () => {
     const history = useHistory()
+    const classes = useStyles()
     const { id } = useParams<Params>()
     const { state: { nowPrice, format, totalQuantity, myStockInfo }  } = useLocation<Location>()
     const companies = useAppSelector(state => state.stock.companies)
@@ -43,6 +50,7 @@ const StockTradeForm: FC = () => {
     const [newFund, setNewFund] = useState(format === 'buy' ? fund - totalPrice : fund + totalPrice)
     const [newHoldingQuantity, setNewHoldingQuantity] = useState(format === 'buy' ? totalQuantity + quantity : totalQuantity - quantity)
     const [step, setStep] = useState(1)
+    const color = format === 'buy' ? 'secondary' : 'primary'
     
     if (company == undefined || company.id == 0) {
         if (format === 'buy') {
@@ -76,6 +84,8 @@ const StockTradeForm: FC = () => {
                                     setTotalPrice={setTotalPrice}
                                     setQuantity={setQuantity}
                                     setChangeRate={setChangeRate}
+                                    color={color}
+                                    titleClass={classes.title}
                                 />
                             )}
                             {step === 2 && (
@@ -92,6 +102,8 @@ const StockTradeForm: FC = () => {
                                     newHoldingQuantity={newHoldingQuantity}
                                     myStockInfo={myStockInfo}
                                     setStep={setStep}
+                                    color={color}
+                                    titleClass={classes.title}
                                 />
                             )}
                             {step === 3 && (
@@ -101,6 +113,8 @@ const StockTradeForm: FC = () => {
                                     nowPrice={nowPrice}
                                     quantity={quantity}
                                     loginUser={loginUser}
+                                    color={color}
+                                    titleClass={classes.title}
                                 />
                             )}
                         </ThemeProvider>

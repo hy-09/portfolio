@@ -12,9 +12,6 @@ import clsx from "clsx"
 import TwoButtons from "../../molecules/TwoButtons"
 
 const useStyles = makeStyles(theme => ({
-    title: {
-        marginBottom: theme.spacing(2)
-    },
     tableWrapper: {
         overflowX: 'scroll',
         '&::-webkit-scrollbar': {
@@ -33,7 +30,7 @@ const useStyles = makeStyles(theme => ({
         borderCollapse: 'collapse',
         whiteSpace: 'nowrap',
         '& thead th': {
-            paddingBottom: theme.spacing(0)
+            padding: theme.spacing(0,2)
         },
         '& th': {
             fontWeight: 'bold'
@@ -73,6 +70,8 @@ type Props = {
     newFund: number;
     newHoldingQuantity: number;
     myStockInfo?: MyStockInfo;
+    color: 'primary' | 'secondary';
+    titleClass: string;
     setStep: (num: number) => void;
 }
 
@@ -89,6 +88,8 @@ const Step2: FC<Props> = (props) => {
         newFund,
         newHoldingQuantity,
         myStockInfo,
+        color,
+        titleClass,
         setStep,
     } = props
 
@@ -145,7 +146,7 @@ const Step2: FC<Props> = (props) => {
     return (
         <>
         <div>
-            <Title center={true} className={classes.title}>注文内容の確認</Title>
+            <Title center={true} className={titleClass}>注文内容の確認</Title>
             <div className={classes.tableWrapper}>
                 <Table className={clsx(classes.table, classes.table1)}>
                     <TableBody>
@@ -172,7 +173,7 @@ const Step2: FC<Props> = (props) => {
             </div>
         </div>
         <div className={classes.table2Wrapper}>
-            <Title center={true} className={classes.title}>注文前後の変動</Title>
+            <Title center={true} className={titleClass}>注文前後の変動</Title>
             <div className={classes.tableWrapper}>
                 <Table className={classes.table}>
                     <TableHead>
@@ -207,7 +208,7 @@ const Step2: FC<Props> = (props) => {
         <TwoButtons
             button1Label="戻る"
             button2Label={format === 'buy' ? '購入' : '売却'}
-            button2Color={format === 'buy' ? 'secondary' : 'primary'}
+            button2Color={color}
             onClickButton1={() => setStep(1)}
             onClickButton2={handleClickOrderButton}
         />

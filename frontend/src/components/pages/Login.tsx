@@ -18,6 +18,7 @@ import {
 } from '../../slices/authSlice'
 import { setFirstTimeAfterRegister } from '../../slices/authSlice'
 import { endLoading, startLoading } from '../../slices/othersSlice'
+import ErrorMessage from '../atoms/ErrorMessage'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -143,11 +144,7 @@ const Login: FC = () => {
                                     helperText={errors.password && touched.password && errors.password}
                                     error={errors.password && touched.password ? true : false}
                                 />
-                                {loginFailed && (
-                                    <p className={classes.error}>
-                                        メールアドレスかパスワードが間違っています
-                                    </p>
-                                )}
+                                <ErrorMessage show={loginFailed} message="メールアドレスかパスワードが間違っています" />
                                 <Button
                                     className={classes.submit}
                                     fullWidth

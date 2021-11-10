@@ -4,6 +4,7 @@ import { useHistory, Link } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { getRoute } from "../../functions/router"
 import { Company } from "../../types/stock"
+import ErrorMessage from "../atoms/ErrorMessage"
 import NowPrice from "../molecules/NowPrice"
 import TwoButtons from "../molecules/TwoButtons"
 import LineChart from "./LineChart"
@@ -41,11 +42,11 @@ const StockChart: FC<Props> = (props) => {
     const { company } = props
     const fund = useAppSelector(state => state.auth.loginUser.fund)
     const myStockInfo = useAppSelector(state => state.stock.myStockInfoList.find(i => i.company.id === company.id))
-    const [showMassage, setShowMassage] = useState(false)
+    const [showMessage, setShowMessage] = useState(false)
 
     const handleClickBuyButton = () => {
         if (fund < company.nowPrice * 100) {
-            setShowMassage(true)
+            setShowMessage(true)
             return
         }
         history.push({ 
@@ -68,11 +69,7 @@ const StockChart: FC<Props> = (props) => {
             onClickButton1={() => history.goBack()}
             onClickButton2={handleClickBuyButton}
         />
-        {showMassage && (
-            <Box mt={1}>
-                <Typography variant="body2" color="error">資金が足りません（100株以上から購入が可能です）</Typography>
-            </Box>
-        )}
+        <ErrorMessage show={showMessage} message="資金が足りません（100株以上から購入が可能です）" />
         </>
     )
     

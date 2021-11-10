@@ -35,6 +35,8 @@ type Props = {
     fund: number;
     format: 'buy' | 'sell';
     totalQuantity: number;
+    color: 'primary' | 'secondary';
+    titleClass: string;
     setNewHoldingQuantity: (num: number) => void;
     setStep: (num: number) => void;
     setNewFund: (fund: number) => void;
@@ -53,6 +55,8 @@ const Step1: FC<Props> = (props) => {
         format,
         fund,
         totalQuantity,
+        color,
+        titleClass,
         setNewHoldingQuantity,
         setStep,
         setNewFund,
@@ -126,10 +130,7 @@ const Step1: FC<Props> = (props) => {
     
     return (
         <>
-        <Box mb={4}>
-            <Title center={true}>数量の選択</Title>
-            {/* {color}{format} */}
-        </Box>
+        <Title center={true} className={titleClass}>数量の選択</Title>
         <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
                 <Typography component="h3" variant="h6" style={{color: cyan[700]}} >
@@ -158,7 +159,7 @@ const Step1: FC<Props> = (props) => {
                     className={classes.quantity}
                 />
                 {changeRate != 0 && (
-                    <ButtonGroup color={format === 'buy' ? 'secondary' : 'primary'} style={{marginLeft: theme.spacing(1)}}>
+                    <ButtonGroup color={color} style={{marginLeft: theme.spacing(1)}}>
                         <Button onClick={() => handleClickPlusOrMinus('+')}>+</Button>
                         <Button onClick={() => handleClickPlusOrMinus('-')}>-</Button>
                     </ButtonGroup>
@@ -166,9 +167,9 @@ const Step1: FC<Props> = (props) => {
             </Box>
             <FormControl component="fieldset" fullWidth>
                 <RadioGroup value={String(changeRate)} onChange={handleChangeRate} className={classes.radioGroup}>
-                    <FormControlLabel value="100" control={<Radio color={format === 'buy' ? 'secondary' : 'primary'} />} label="100ずつ" />
-                    <FormControlLabel value="500" control={<Radio color={format === 'buy' ? 'secondary' : 'primary'} />} label="500ずつ" />
-                    <FormControlLabel value="0" control={<Radio color={format === 'buy' ? 'secondary' : 'primary'} />} label={format === 'buy' ? "買えるだけ" : 'すべて'} />
+                    <FormControlLabel value="100" control={<Radio color={color} />} label="100ずつ" />
+                    <FormControlLabel value="500" control={<Radio color={color} />} label="500ずつ" />
+                    <FormControlLabel value="0" control={<Radio color={color} />} label={format === 'buy' ? "買えるだけ" : 'すべて'} />
                 </RadioGroup>
             </FormControl>
         </Box>
@@ -180,7 +181,7 @@ const Step1: FC<Props> = (props) => {
         <TwoButtons
             button1Label="戻る"
             button2Label="確認する"
-            button2Color={format === 'buy' ? 'secondary' : 'primary'}
+            button2Color={color}
             onClickButton1={() => history.goBack()}
             onClickButton2={() => setStep(2)}
         />
