@@ -2,7 +2,7 @@ import { AppBar, Avatar, Badge, Button, Divider, IconButton, makeStyles, Toolbar
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { FC, ReactNode, useState } from 'react'
-import { drawerWidth, noneAvatarImg } from '../../../config';
+import { drawerWidth } from '../../../config';
 import MenuList from '../MenuList';
 import { useHistory } from 'react-router';
 import { handleModalOpen, resetOthersState } from '../../../slices/othersSlice';

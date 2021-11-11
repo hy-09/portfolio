@@ -27,9 +27,6 @@ const theme = createTheme({
         success: {
             main: green[500],
         },
-        background: {
-            default: 'rgba(0, 151, 167, 0.03)'
-        },
         text: {
             secondary: grey[600],
         },

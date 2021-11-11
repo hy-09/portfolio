@@ -174,7 +174,7 @@ export const authSlice = createSlice({
                 state.myprofile = {
                     ...profile,
                     img: loginUser!.email.startsWith('vl2id0aow1qkrt') && profile.img === null ? `https://picsum.photos/${100+loginUser!.id}` :
-                        profile.img === null ? noneAvatarImg :
+                        profile.img === null ? undefined :
                         profile.img           
                 }
             })
@@ -191,7 +191,7 @@ export const authSlice = createSlice({
                     return {
                         ...profile,
                         img: user!.email.startsWith('vl2id0aow1qkrt') && profile.img == null ? `https://picsum.photos/${100+user!.id}` :
-                            profile.img === null ? noneAvatarImg :
+                            profile.img === null ? undefined :
                             profile.img
                     }
                 })
