@@ -1,6 +1,8 @@
-import { Grid, makeStyles, Typography } from "@material-ui/core"
+import { Grid, makeStyles, Paper, Typography, useTheme } from "@material-ui/core"
 import { FC, useState } from "react"
 import { Post as TypePost } from "../../types/post"
+import PaperWithPadding from "../atoms/PaperWithPadding"
+import SearchInput from "../atoms/SearchInput"
 import Post from "./Post"
 
 const useStyles = makeStyles(theme => ({
@@ -13,14 +15,15 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {
     allPosts: Array<TypePost>;
-    searchWord?: string;
 }
 
 const Posts: FC<Props> = (props) => {
     const classes = useStyles()
-    const { allPosts, searchWord='' } = props
-    const count = 30
+    const theme = useTheme()
+    const { allPosts } = props
+    const count = 20
     const [shownPostCount, setShownPostCount] = useState(count)
+    const [searchWord, setSearchWord] = useState('')
     
     const words = searchWord.replaceAll("　", " ").split(" ").filter(word => word !== '')
 
@@ -32,6 +35,9 @@ const Posts: FC<Props> = (props) => {
     
     return (
         <>
+        <Paper style={{marginBottom: theme.spacing(3), padding: theme.spacing(1)}} className="emphasis-paper">
+            <SearchInput setSearchWord={setSearchWord} />
+        </Paper>
         <Grid container spacing={2}>
             {postsFilteredByWordAndNum.map(post => (
                 <Grid item xs={12} sm={6} lg={4} key={post.id}>

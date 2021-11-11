@@ -11,17 +11,12 @@ import Post from '../../../organisms/Post'
 import Posts from '../../../organisms/Posts'
 
 const Timeline: FC = memo(() => {
-    const theme = useTheme()
-    const [searchWord, setSearchWord] = useState('')
     const allPosts = useAppSelector(state => state.post.posts)
 
     return (
         <Main title="タイムライン">
             <DivWithPadding>
-                <PaperWithPadding style={{marginBottom: theme.spacing(3)}}>
-                    <SearchInput setSearchWord={setSearchWord} />
-                </PaperWithPadding>
-                <Posts allPosts={allPosts} searchWord={searchWord} />
+                <Posts allPosts={allPosts} />
             </DivWithPadding>
         </Main>
     )

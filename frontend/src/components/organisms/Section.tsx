@@ -10,7 +10,7 @@ const Section: FC<Props> = memo((props) => {
     const { children } = props
 
     return (
-        <Box mt={2}>
+        <Box mt={4}>
             <DivWithPadding>
                 {children}
             </DivWithPadding>

@@ -1,8 +1,8 @@
-import { Box, Grid, makeStyles, Paper, Typography, useTheme } from '@material-ui/core'
+import { AppBar, Box, Grid, makeStyles, Paper, Tab, Tabs, Typography, useTheme } from '@material-ui/core'
 import clsx from 'clsx'
 import { green, grey, pink } from '@material-ui/core/colors'
-import { TrendingDown, TrendingFlat, TrendingUp } from '@material-ui/icons'
-import { FC, memo, useEffect, useState } from 'react'
+import { Favorite, PersonPinCircleOutlined, TrendingDown, TrendingFlat, TrendingUp } from '@material-ui/icons'
+import { ChangeEvent, FC, memo, useEffect, useState } from 'react'
 import { useAppSelector } from '../../../../app/hooks'
 import { getChangeRate } from '../../../../functions/calculations'
 import { Company, MyStockInfo } from '../../../../types/stock'
@@ -15,6 +15,8 @@ import DivWithPadding from '../../../atoms/DivWithPadding'
 import PaperWithPadding from '../../../atoms/PaperWithPadding'
 import Title from '../../../atoms/Title'
 import Section from '../../../organisms/Section'
+import Posts from '../../../organisms/Posts'
+import { TabPanel } from '@material-ui/lab'
 
 const useStyles = makeStyles(theme => ({
     totalProfitOrLossPriceStyle: {
@@ -47,6 +49,18 @@ const useStyles = makeStyles(theme => ({
 const Home: FC = memo(() => {
     const classes = useStyles()
     const theme = useTheme()
+
+    const [value, setValue] = useState(0);
+    const handleChange = (event: ChangeEvent<{}>, newValue: number) => {
+        setValue(newValue);
+    }
+    function a11yProps(index: any) {
+        return {
+          id: `simple-tab-${index}`,
+          'aria-controls': `simple-tabpanel-${index}`,
+        };
+    }
+
     const totalProfitOrLossPriceUp = clsx(classes.totalProfitOrLossPriceStyle, classes.up)
     const totalProfitOrLossPriceDown = clsx(classes.totalProfitOrLossPriceStyle, classes.down)
     const totalProfitOrLossPriceFlat = clsx(classes.totalProfitOrLossPriceStyle, classes.flat)
@@ -62,6 +76,8 @@ const Home: FC = memo(() => {
     const totalProfitOrLossPrice = myStockInfoList.reduce((sum: number, info: MyStockInfo) => {
         return sum + info.profitOrLossPrice
     }, 0)
+
+    const myPosts = useAppSelector(state => state.post.myPosts)
 
     return (
         <>
@@ -143,6 +159,31 @@ const Home: FC = memo(() => {
                             保有している銘柄はございません
                         </p>
                     )}
+                </Section>
+            </Grid>
+            <Grid item xs={12}>
+                <Section>
+                    <Title>
+                        タイムライン
+                    </Title>
+                    <div style={{flexGrow: 1}}>
+                        <AppBar position="static">
+                            <Tabs 
+                                value={value} 
+                                onChange={handleChange} 
+                                aria-label="simple tabs example"
+                            >
+                                <Tab icon={<PersonPinCircleOutlined />} aria-label="person" {...a11yProps(0)} />
+                                <Tab icon={<Favorite />} aria-label="favorite" {...a11yProps(1)} />
+                            </Tabs>
+                        </AppBar>
+                        {value == 0 && (
+                            <Posts allPosts={myPosts} />
+                        )}
+                        {value == 1 && (
+                            <Posts allPosts={[]} />
+                        )}
+                    </div>
                 </Section>
             </Grid>
         </Main>
