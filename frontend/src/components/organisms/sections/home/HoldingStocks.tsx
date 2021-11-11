@@ -11,10 +11,7 @@ const HoldingStocks: FC = () => {
     
     return (
         <Grid item xs={12}>
-            <Section>
-                <Title>
-                    保有銘柄
-                </Title>
+            <Section title="保有銘柄">
                 {myStockInfoList.length > 0 ? (
                     <Grid 
                         container

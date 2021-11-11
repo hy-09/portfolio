@@ -10,7 +10,8 @@ import Main from "../../../organisms/layout/Main"
 import LineChart from "../../../organisms/LineChart"
 import SectionPaper from "../../../organisms/SectionPaper"
 import StockChartSection from "../../../organisms/sections/stocks/stockDetail/StockChartSection"
-import StockChart from "../../../organisms/StockChart"
+import Timeline from "../../../organisms/sections/stocks/stockDetail/Timeline"
+
 
 const useStyles = makeStyles(theme => ({
     
@@ -39,6 +40,7 @@ const StockDetail: FC<Props> = (props) => {
     return (
         <Main title={company.name}>
             <StockChartSection company={company} />
+            <Timeline company={company} />
         </Main>
     )
 }

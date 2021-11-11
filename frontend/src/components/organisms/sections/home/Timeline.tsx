@@ -22,10 +22,7 @@ const Timeline: FC = () => {
     
     return (
         <Grid item xs={12}>
-            <Section>
-                <Title>
-                    タイムライン
-                </Title>
+            <Section title="タイムライン">
                 <div style={{flexGrow: 1}}>
                     <AppBar position="static">
                         <Tabs 
