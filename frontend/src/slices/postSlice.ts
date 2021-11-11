@@ -7,7 +7,7 @@ const apiUrl = process.env.REACT_APP_DEV_API_URL
 export const fetchAsyncGetPosts = createAsyncThunk(
     'posts/get',
     async () => {
-        const res = await axios.get(`${apiUrl}api/post/`, {
+        const res = await axios.get(`${apiUrl}post/`, {
             headers: {
                 Authorization: `JWT ${localStorage.localJWT}`
             }
@@ -19,7 +19,7 @@ export const fetchAsyncGetPosts = createAsyncThunk(
 export const fetchAsyncGetMyPosts = createAsyncThunk(
     'myposts/get',
     async () => {
-        const res = await axios.get(`${apiUrl}api/mypost/`, {
+        const res = await axios.get(`${apiUrl}mypost/`, {
             headers: {
                 Authorization: `JWT ${localStorage.localJWT}`
             }
@@ -31,7 +31,7 @@ export const fetchAsyncGetMyPosts = createAsyncThunk(
 export const fetchAsyncCreatePost = createAsyncThunk(
     'post/post',
     async (data: CreatPost) => {
-        const res = await axios.post(`${apiUrl}api/post/`, data, {
+        const res = await axios.post(`${apiUrl}post/`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.localJWT}`
@@ -45,7 +45,7 @@ export const fetchAsyncPatchPost = createAsyncThunk(
     'post/patch',
     async (data: PatchPost) => {
         const { id, likeUsers } = data
-        const res = await axios.patch(`${apiUrl}api/post/${id}/`, {likeUsers: likeUsers}, {
+        const res = await axios.patch(`${apiUrl}post/${id}/`, {likeUsers: likeUsers}, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.localJWT}`,

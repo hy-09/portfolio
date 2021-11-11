@@ -3,12 +3,13 @@ import axios from 'axios';
 import { noneAvatarImg } from '../config';
 import { EditProfile, Name, Auth, User, Profile, UpdateFund } from '../types/user'
 
+const rootUrl = process.env.REACT_APP_DEV_ROOT_URL
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
 export const fetchAsyncLogin = createAsyncThunk(
     'auth/login',
     async (auth: Auth) => {
-        const res = await axios.post(`${apiUrl}authen/jwt/create`, auth, {
+        const res = await axios.post(`${rootUrl}authen/jwt/create`, auth, {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -20,7 +21,7 @@ export const fetchAsyncLogin = createAsyncThunk(
 export const fetchAsyncRegister = createAsyncThunk(
     'auth/register',
     async (auth: Auth) => {
-        const res = await axios.post(`${apiUrl}api/register/`, auth, {
+        const res = await axios.post(`${apiUrl}register/`, auth, {
             headers: {
                 'Content-Type': 'application/json',
             }
@@ -32,7 +33,7 @@ export const fetchAsyncRegister = createAsyncThunk(
 export const fetchAsyncCreateProf = createAsyncThunk(
     'profile/post',
     async (name: Name) => {
-        await axios.post(`${apiUrl}api/profile/`, name, {
+        await axios.post(`${apiUrl}profile/`, name, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.localJWT}`
@@ -48,7 +49,7 @@ export const fetchAsyncUpdateProf = createAsyncThunk(
         uploadData.append('name', profile.name)
         profile.img && uploadData.append('img', profile.img, profile.img.name)
 
-        const res = await axios.put(`${apiUrl}api/profile/${profile.id}/`, uploadData, {
+        const res = await axios.put(`${apiUrl}profile/${profile.id}/`, uploadData, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.localJWT}`
@@ -61,7 +62,7 @@ export const fetchAsyncUpdateProf = createAsyncThunk(
 export const fetchAsyncGetUsers = createAsyncThunk(
     'users/get',
     async () => {
-        const res = await axios.get(`${apiUrl}api/user/`)
+        const res = await axios.get(`${apiUrl}user/`)
         return res.data
     }
 )
@@ -72,7 +73,7 @@ export const fetchAsyncPatchUser = createAsyncThunk(
         const { user_id, fund } = updateFund
         const data = { fund: fund}
 
-        const res = await axios.patch<User>(`${apiUrl}api/user/${user_id}/`, data, {
+        const res = await axios.patch<User>(`${apiUrl}user/${user_id}/`, data, {
             headers: {
                 Authorization: `JWT ${localStorage.localJWT}`
             }
@@ -84,7 +85,7 @@ export const fetchAsyncPatchUser = createAsyncThunk(
 export const fetchAsyncGetMyProf = createAsyncThunk(
     'profile/get',
     async () => {
-        const res = await axios.get(`${apiUrl}api/myprofile/`, {
+        const res = await axios.get(`${apiUrl}myprofile/`, {
             headers: {
                 Authorization: `JWT ${localStorage.localJWT}`
             }
@@ -96,7 +97,7 @@ export const fetchAsyncGetMyProf = createAsyncThunk(
 export const fetchAsyncGetProfs = createAsyncThunk(
     'profiles/get',
     async () => {
-        const res = await axios.get(`${apiUrl}api/profile/`, {
+        const res = await axios.get(`${apiUrl}profile/`, {
             headers: {
                 Authorization: `JWT ${localStorage.localJWT}`
             }

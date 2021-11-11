@@ -9,7 +9,7 @@ const apiUrl = process.env.REACT_APP_DEV_API_URL
 export const fetchAsyncGetCompanies = createAsyncThunk(
     'companies/get',
     async () => {
-        const res = await axios.get(`${apiUrl}api/company/`)
+        const res = await axios.get(`${apiUrl}company/`)
         return res.data
     }
 )
@@ -17,7 +17,7 @@ export const fetchAsyncGetCompanies = createAsyncThunk(
 export const fetchAsyncGetMyBoughtStockInfoList = createAsyncThunk(
     'stocks/get',
     async () => {
-        const res = await axios.get(`${apiUrl}api/myboughtstockinfo/`, {
+        const res = await axios.get(`${apiUrl}myboughtstockinfo/`, {
             headers: {
                 Authorization: `JWT ${localStorage.localJWT}`
             }
@@ -29,7 +29,7 @@ export const fetchAsyncGetMyBoughtStockInfoList = createAsyncThunk(
 export const fetchAsyncCreateBoughtStockInfo = createAsyncThunk(
     'stock/post',
     async (data: PostBoughtStockInfo) => {
-        const res = await axios.post(`${apiUrl}api/boughtstockinfo/`, data, {
+        const res = await axios.post(`${apiUrl}boughtstockinfo/`, data, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.localJWT}`
@@ -44,7 +44,7 @@ export const fetchAsyncPatchBoughtStockInfo = createAsyncThunk(
     'stock/patch',
     async (data: PatchBoughtStockInfo) => {
         const { id, quantity, tradingQuantity } = data
-        const res = await axios.patch(`${apiUrl}api/boughtstockinfo/${id}/`, { quantity: quantity}, {
+        const res = await axios.patch(`${apiUrl}boughtstockinfo/${id}/`, { quantity: quantity}, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.localJWT}`
@@ -59,7 +59,7 @@ export const fetchAsyncDeleteBoughtStockInfo = createAsyncThunk(
     'stock/delete',
     async (data: DeleteBoughtStockInfo) => {
         const { id, tradingQuantity } = data
-        const res = await axios.delete(`${apiUrl}api/boughtstockinfo/${id}/`, {
+        await axios.delete(`${apiUrl}boughtstockinfo/${id}/`, {
             headers: {
                 'Content-Type': 'application/json',
                 Authorization: `JWT ${localStorage.localJWT}`
