@@ -85,7 +85,13 @@ const Post: FC<Props> = (props) => {
     
     return (
         <PaperWithPadding>
-            <Grid container spacing={2} alignItems="center">
+            <Grid 
+                container 
+                spacing={2} 
+                alignItems="center"
+                style={{cursor: 'pointer'}}
+                onClick={() => history.push(getRoute('userTimeline', post.user.id))}
+            >
                 <Grid item>
                     <Avatar src={profile.img} className={classes.avatar} />
                 </Grid>

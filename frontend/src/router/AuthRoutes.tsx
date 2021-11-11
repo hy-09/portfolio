@@ -6,6 +6,7 @@ import StockDetail from "../components/pages/loggedPages/stocks/StockDetail";
 import Stocks from "../components/pages/loggedPages/stocks/Stocks";
 import Timeline from "../components/pages/loggedPages/timeline/Timeline";
 import { RouteType } from "../types/others";
+import UserTimeline from "../components/pages/loggedPages/timeline/UserTimeline";
 
 export const homeURL = '/home'
 export const stockURL = `${homeURL}/stocks`
@@ -52,6 +53,12 @@ export const AuthRoutes: Array<RouteType> = [
         path: timelineURL,
         exact: true,
         children: <Timeline /> 
+    },
+    {
+        name: 'userTimeline',
+        path: `${homeURL}/user/:id/timeline`,
+        exact: true,
+        children: <UserTimeline /> 
     },
     {
         path: '*',
