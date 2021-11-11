@@ -3,13 +3,8 @@ import { FC } from "react"
 import { useParams, useHistory, useRouteMatch } from "react-router-dom"
 import { useAppSelector } from "../../../../app/hooks"
 import { getRoute } from "../../../../functions/router"
-import DivWithPadding from "../../../atoms/DivWithPadding"
-import PaperWithPadding from "../../../atoms/PaperWithPadding"
-import NowPrice from "../../../molecules/NowPrice"
 import Main from "../../../organisms/layout/Main"
-import LineChart from "../../../organisms/LineChart"
-import SectionPaper from "../../../organisms/SectionPaper"
-import StockChartSection from "../../../organisms/sections/stocks/stockDetail/StockChartSection"
+import StockChart from "../../../organisms/sections/stocks/stockDetail/StockChart"
 import Timeline from "../../../organisms/sections/stocks/stockDetail/Timeline"
 
 
@@ -39,7 +34,7 @@ const StockDetail: FC<Props> = (props) => {
     
     return (
         <Main title={company.name}>
-            <StockChartSection company={company} />
+            <StockChart company={company} />
             <Timeline company={company} />
         </Main>
     )

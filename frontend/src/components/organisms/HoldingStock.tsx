@@ -5,8 +5,6 @@ import { Company, MyStockInfo } from '../../types/stock'
 import clsx from 'clsx'
 import Title from '../atoms/Title'
 import NowPrice from '../molecules/NowPrice'
-import { useAppDispatch } from '../../app/hooks'
-import StockChart from './StockChart'
 import { useHistory, Link } from 'react-router-dom'
 import { getRoute } from '../../functions/router'
 
@@ -44,7 +42,6 @@ const HoldingStock: FC<Props> = memo((props) => {
     const history = useHistory()
     const classes = useStyles()
     const theme = useTheme()
-    const dispatch = useAppDispatch()
     const { myStockInfo  } = props
     const profit = clsx(classes.profitOrLossPrice, classes.plus)
     const loss = clsx(classes.profitOrLossPrice, classes.minus)

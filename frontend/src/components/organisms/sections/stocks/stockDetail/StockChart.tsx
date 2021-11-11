@@ -1,13 +1,14 @@
-import { Box, Button, Grid, makeStyles, Typography } from "@material-ui/core"
+import { Grid, makeStyles } from "@material-ui/core"
 import { FC, useState } from "react"
-import { useHistory, Link } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
-import { getRoute } from "../../functions/router"
-import { Company } from "../../types/stock"
-import ErrorMessage from "../atoms/ErrorMessage"
-import NowPrice from "../molecules/NowPrice"
-import TwoButtons from "../molecules/TwoButtons"
-import LineChart from "./LineChart"
+import { useHistory } from "react-router-dom"
+import { useAppSelector } from "../../../../../app/hooks"
+import { getRoute } from "../../../../../functions/router"
+import { Company } from "../../../../../types/stock"
+import ErrorMessage from "../../../../atoms/ErrorMessage"
+import NowPrice from "../../../../molecules/NowPrice"
+import TwoButtons from "../../../../molecules/TwoButtons"
+import LineChart from "../../../LineChart"
+import SectionPaper from "../../../SectionPaper"
 
 const useStyles = makeStyles(theme => ({
     nowPrice: {
@@ -33,8 +34,6 @@ const useStyles = makeStyles(theme => ({
 type Props = {
     company: Company;
 }
-
-
 
 const StockChart: FC<Props> = (props) => {
     const classes = useStyles()
@@ -72,18 +71,22 @@ const StockChart: FC<Props> = (props) => {
         <ErrorMessage show={showMessage} message="資金が足りません（100株以上から購入が可能です）" />
         </>
     )
-    
+
     return (
-        <Grid container spacing={2} alignItems="center">
-            <Grid item xs={12} sm={6} className={classes.nowPrice}>
-                <NowPrice company={company} fontSize="1rem" />
-            </Grid>
-            <Grid item container sm={6} className={classes.buttons}>
-                {buttons}
-            </Grid>
-            <Grid item xs={12} className={classes.lineChart}>
-                <LineChart dataList={company.stockPriceDatas} />
-            </Grid>
+        <Grid item xs={12}>
+            <SectionPaper responsivePadding={true}>
+                <Grid container spacing={2} alignItems="center">
+                    <Grid item xs={12} sm={6} className={classes.nowPrice}>
+                        <NowPrice company={company} fontSize="1rem" />
+                    </Grid>
+                    <Grid item container sm={6} className={classes.buttons}>
+                        {buttons}
+                    </Grid>
+                    <Grid item xs={12} className={classes.lineChart}>
+                        <LineChart dataList={company.stockPriceDatas} />
+                    </Grid>
+                </Grid>
+            </SectionPaper>
         </Grid>
     )
 }

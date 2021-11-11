@@ -34,7 +34,7 @@ const Posts: FC<Props> = (props) => {
     
     return (
         <>
-        <Paper style={{marginBottom: theme.spacing(3), padding: theme.spacing(1)}} className="emphasis-paper">
+        <Paper style={{marginBottom: theme.spacing(2), padding: theme.spacing(1)}} className="emphasis-paper">
             <SearchInput setSearchWord={setSearchWord} />
         </Paper>
         <Grid container spacing={2}>
