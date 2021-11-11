@@ -1,8 +1,11 @@
-import { Avatar, Box, Chip, Grid, makeStyles, Theme, Typography, useTheme } from "@material-ui/core"
+import { Avatar, Box, Checkbox, Chip, Grid, IconButton, makeStyles, Theme, Typography, useTheme } from "@material-ui/core"
+import { Favorite, FavoriteBorder } from "@material-ui/icons"
+import { AvatarGroup } from "@material-ui/lab"
 import { FC } from "react"
 import { useHistory } from "react-router-dom"
-import { useAppSelector } from "../../app/hooks"
+import { useAppSelector, useAppDispatch } from "../../app/hooks"
 import { getRoute } from "../../functions/router"
+import { endLikeProcess, fetchAsyncPatchPost, startLikeProcess } from "../../slices/postSlice"
 import { Post as TypePost } from "../../types/post"
 import PaperWithPadding from "../atoms/PaperWithPadding"
 import Title from "../atoms/Title"
@@ -23,6 +26,16 @@ const useStyles = makeStyles<Theme, Props>(theme => ({
         padding: theme.spacing(0.5, 1),
         borderRadius: '9999px',
         fontSize: '0.7rem'
+    },
+    avatarGroup: {
+        '& .MuiAvatar-root': {
+            width: theme.spacing(4),
+            height: theme.spacing(4),
+        },
+        '& .MuiAvatar-colorDefault': {
+            fontSize: '0.875rem',
+            // color: theme.palette.text.disabled
+        },
     }
 }))
 
@@ -33,16 +46,42 @@ type Props = {
 
 const Post: FC<Props> = (props) => {
     const theme = useTheme()
+    const dispatch = useAppDispatch()
     const history = useHistory()
     const classes = useStyles(props)
-    const { post, searchWords} = props
-    const profile = useAppSelector(state => state.auth.profiles).find(profile => profile.user.id === post.user.id)!
+    const { post, searchWords } = props
+    const isLikeProcessing = useAppSelector(state => state.post.isLikeProcessing)
+    const loginUser = useAppSelector(state => state.auth.loginUser)
+    const profiles = useAppSelector(state => state.auth.profiles)
+    const profile = profiles.find(profile => profile.user.id === post.user.id)!
 
     
     let content: string = post.content
     searchWords.forEach(word => {
         content = content.replace(new RegExp(word, 'g'), `<span style="font-weight: bold">${word}</span>`)
     })
+
+    const handleChangeLike = async () => {
+        if (isLikeProcessing) {
+            return
+        }
+        
+        await dispatch(startLikeProcess())
+
+        let newLikeUsers = []
+        if (post.likeUsers.includes(loginUser.id)) {
+            newLikeUsers = post.likeUsers.filter(userId => userId !== loginUser.id)
+
+        } else {
+            newLikeUsers = [...post.likeUsers, loginUser.id]
+        }
+        const data = {
+            id: post.id,
+            likeUsers: newLikeUsers,
+        }
+        await dispatch(fetchAsyncPatchPost(data))
+        dispatch(endLikeProcess())
+    }
     
     return (
         <PaperWithPadding>
@@ -101,6 +140,28 @@ const Post: FC<Props> = (props) => {
                     </Grid>
                 </Grid>
             </div>
+            <Box mt={1.5}>
+                <Grid container spacing={1} alignItems="center">
+                    <Grid item>
+                        <Checkbox
+                            icon={<FavoriteBorder color="action" />}
+                            checkedIcon={<Favorite color="secondary" />}
+                            checked={post.likeUsers.some(userId => userId === loginUser.id)}
+                            onChange={handleChangeLike}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <AvatarGroup max={7} className={classes.avatarGroup}>
+                            {post.likeUsers.map(userId => (
+                                <Avatar
+                                    key={userId}
+                                    src={profiles.find(profile => profile.user.id === userId)!.img} 
+                                />
+                            ))}
+                        </AvatarGroup>
+                    </Grid>
+                </Grid>
+            </Box>
         </PaperWithPadding>
     )
 }

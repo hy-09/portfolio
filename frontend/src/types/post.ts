@@ -1,13 +1,6 @@
 import { Company } from "./stock"
 import { User } from "./user"
 
-export type LikeUsers = {
-    id: number;
-    content: string;
-    current: number[];
-    new: number;
-}
-
 export type Post = {
     id: number;
     content: string;
@@ -28,4 +21,10 @@ export type CreatPost = {
     user_id: number;
     company_id: number;
     created_at: string;
+}
+
+export type PatchPost = {
+    id: number;
+    content?: string;
+    likeUsers?: Array<number>;
 }

@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { CreatPost, Post } from '../types/post';
+import { CreatPost, PatchPost, Post } from '../types/post';
 
 const apiUrl = process.env.REACT_APP_DEV_API_URL
 
@@ -41,13 +41,29 @@ export const fetchAsyncCreatePost = createAsyncThunk(
     }
 )
 
+export const fetchAsyncPatchPost = createAsyncThunk(
+    'post/patch',
+    async (data: PatchPost) => {
+        const { id, likeUsers } = data
+        const res = await axios.patch(`${apiUrl}api/post/${id}/`, {likeUsers: likeUsers}, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `JWT ${localStorage.localJWT}`,
+            }
+        })
+        return res.data
+    }
+)
+
 
 type InitialState = {
+    isLikeProcessing: boolean;
     posts: Array<Post>;
     myPosts: Array<Post>;
 }
 
 const initialState: InitialState = {
+    isLikeProcessing: false,
     posts: [],
     myPosts: [],
 };
@@ -57,7 +73,14 @@ export const postSlice = createSlice({
     name: 'post',
     initialState,
     reducers: {
+        startLikeProcess(state) {
+            state.isLikeProcessing = true
+        },
+        endLikeProcess(state) {
+            state.isLikeProcessing = false
+        },
         resetPostState(state) {
+            state.isLikeProcessing = initialState.isLikeProcessing
             state.posts = initialState.posts
             state.myPosts = initialState.myPosts
         }
@@ -82,10 +105,21 @@ export const postSlice = createSlice({
                     ...state.myPosts
                 ]
             })
+
+            .addCase(fetchAsyncPatchPost.fulfilled, (state, action) => {
+                state.posts = state.posts.map(post => 
+                    post.id === action.payload.id ? action.payload : post
+                )
+                state.myPosts = state.myPosts.map(post => 
+                    post.id === action.payload.id ? action.payload : post
+                )
+            })
     },
 });
 
 export const { 
+    startLikeProcess,
+    endLikeProcess,
     resetPostState,
 } = postSlice.actions;
 
