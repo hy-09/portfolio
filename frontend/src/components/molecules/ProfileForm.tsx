@@ -2,7 +2,7 @@ import { Avatar, Button, makeStyles, TextField } from '@material-ui/core'
 import React, { FC, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { fetchAsyncUpdateProf } from '../../slices/authSlice'
-import { endLoading, handleModalClose, handleNotifyOpen, startLoading } from '../../slices/othersSlice'
+import { endLoading, handleOpenBackdrop, handleCloseModal, handleOpenNotify, startLoading, handleOpenNotifyAndBackdrop } from '../../slices/othersSlice'
 import { File } from '../../types/user'
 import SmallButton from '../atoms/SmallButton'
 
@@ -56,8 +56,8 @@ const ProfileForm: FC = () => {
         await dispatch(startLoading())
         await dispatch(fetchAsyncUpdateProf(profile))
         await dispatch(endLoading())
-        dispatch(handleModalClose())
-        dispatch(handleNotifyOpen({
+        dispatch(handleCloseModal())
+        dispatch(handleOpenNotifyAndBackdrop({
             message: 'プロフィールを変更しました',
             type: 'success'
         }))

@@ -3,7 +3,7 @@ import { FC, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { useAppDispatch } from "../../../app/hooks"
 import { fetchAsyncPatchUser } from "../../../slices/authSlice"
-import { endLoading, handleBackdropOpen, handleNotifyOpen, startLoading } from "../../../slices/othersSlice"
+import { endLoading, handleOpenBackdrop, handleOpenNotify, handleOpenNotifyAndBackdrop, startLoading } from "../../../slices/othersSlice"
 import { fetchAsyncCreateBoughtStockInfo, fetchAsyncDeleteBoughtStockInfo, fetchAsyncPatchBoughtStockInfo } from "../../../slices/stockSlice"
 import { Company, MyStockInfo } from "../../../types/stock"
 import { User } from "../../../types/user"
@@ -102,8 +102,7 @@ const Step3: FC<Props> = (props) => {
         if (fetchAsyncCreatePost.fulfilled.match(res)) {
             history.push(getRoute('home'))
             
-            dispatch(handleBackdropOpen())
-            dispatch(handleNotifyOpen({
+            dispatch(handleOpenNotifyAndBackdrop({
                 message: '投稿しました',
                 type: 'success'
             }))

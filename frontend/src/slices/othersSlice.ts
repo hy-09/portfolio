@@ -41,40 +41,62 @@ export const othersSlice = createSlice({
         endLoading(state) {
             state.isLoading = false
         },
-        handleModalOpen(state, action) {
+        handleOpenModal(state, action) {
             state.modal = {
                 open: true,
                 title: action.payload.title,
                 content: action.payload.content
             }
         },
-        handleModalClose(state) {
+        handleCloseModal(state) {
             state.modal = {
                 open: false,
                 title: '',
                 content: ''
             }
         },
-        handleNotifyOpen(state, action) {
+        handleOpenNotify(state, action) {
             state.notify = {
                 open: true,
                 message: action.payload.message,
                 type: action.payload.type,
             }
         },
-        handleNotifyClose(state) {
+        handleCloseNotify(state) {
             state.notify = {
                 open: false,
                 message: '',
                 type: undefined,
             }
         },
-        handleBackdropOpen(state) {
+        handleOpenBackdrop(state) {
             state.backdrop = {
                 open: true,
             }
         },
-        handleBackdropClose(state) {
+        handleCloseBackdrop(state) {
+            state.backdrop = {
+                open: false,
+            }
+        },
+        handleOpenNotifyAndBackdrop(state, action) {
+            state.notify = {
+                open: true,
+                message: action.payload.message,
+                type: action.payload.type,
+                onCloseMethod: 'closeNotifyAndBackdrop'
+            }
+            state.backdrop = {
+                open: true,
+                onCloseMethod: 'closeNotifyAndBackdrop'
+            }
+        },
+        handleCloseNotifyAndBackdrop(state) {
+            state.notify = {
+                open: false,
+                message: '',
+                type: undefined,
+            }
             state.backdrop = {
                 open: false,
             }
@@ -90,13 +112,15 @@ export const othersSlice = createSlice({
 export const { 
     startLoading, 
     endLoading,  
-    handleModalOpen,
-    handleModalClose,
-    handleNotifyOpen,
-    handleNotifyClose,
+    handleOpenModal,
+    handleCloseModal,
+    handleOpenNotify,
+    handleCloseNotify,
     resetOthersState,
-    handleBackdropOpen,
-    handleBackdropClose,
+    handleOpenBackdrop,
+    handleCloseBackdrop,
+    handleOpenNotifyAndBackdrop,
+    handleCloseNotifyAndBackdrop,
 } = othersSlice.actions;
 
 // The function below is called a selector and allows us to select a value from

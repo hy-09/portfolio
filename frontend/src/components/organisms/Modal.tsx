@@ -3,7 +3,7 @@ import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { Box, Modal as MuiModal, Paper, Typography} from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
-import { handleModalClose } from '../../slices/othersSlice';
+import { handleCloseModal } from '../../slices/othersSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { Modal as TypeModal } from '../../types/others';
 import Title from '../atoms/Title';
@@ -39,7 +39,7 @@ const Modal: FC<Props> = (props) => {
             aria-describedby="transition-modal-description"
             className={classes.modal}
             open={open}
-            onClose={() => dispatch(handleModalClose())}
+            onClose={() => dispatch(handleCloseModal())}
             closeAfterTransition
             BackdropComponent={Backdrop}
             BackdropProps={{

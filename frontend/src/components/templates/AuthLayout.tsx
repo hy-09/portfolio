@@ -3,7 +3,7 @@ import { FC, memo, ReactNode, useEffect, useState } from "react";
 import Sidebar from "../organisms/layout/Sidebar";
 import Header from "../organisms/layout/Header";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { handleModalOpen, handleNotifyOpen } from "../../slices/othersSlice";
+import { handleOpenModal, handleOpenNotify } from "../../slices/othersSlice";
 import ProfileForm from "../molecules/ProfileForm";
 import DivWithPadding from "../atoms/DivWithPadding";
 import { setFirstTimeAfterRegister } from "../../slices/authSlice";
@@ -34,11 +34,11 @@ const AuthLayout: FC<Props> = memo((props) => {
 
     useEffect(() => {
         if (firstTimeAfterRegister) {
-            dispatch(handleModalOpen({
+            dispatch(handleOpenModal({
                 title: 'プロフィール編集', 
                 content: <ProfileForm />
             }))
-            dispatch(handleNotifyOpen({
+            dispatch(handleOpenNotify({
                 message: 'まずはプロフィールを編集しましょう！',
                 type: 'success'
             }))

@@ -5,7 +5,7 @@ import React, { FC, ReactNode, useState } from 'react'
 import { drawerWidth } from '../../../config';
 import MenuList from '../MenuList';
 import { useHistory } from 'react-router';
-import { handleModalOpen, resetOthersState } from '../../../slices/othersSlice';
+import { handleOpenModal, resetOthersState } from '../../../slices/othersSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import ProfileForm from '../../molecules/ProfileForm';
 import clsx from 'clsx'
@@ -76,7 +76,7 @@ const Header: FC<Props> = (props) => {
             <div 
                 className={classes.menuListItem}
                 onClick={() => {
-                    dispatch(handleModalOpen({
+                    dispatch(handleOpenModal({
                         title: 'プロフィール編集', 
                         content: <ProfileForm />
                     }))
@@ -90,7 +90,7 @@ const Header: FC<Props> = (props) => {
             <div 
                 className={classes.menuListItem}
                 onClick={() => {
-                    dispatch(handleModalOpen({
+                    dispatch(handleOpenModal({
                         title: '株価の更新頻度', 
                         content: <ChangeStockPriceUpdateFrequency />
                     }))

@@ -2,7 +2,7 @@ import { makeStyles, Snackbar as MuiSnackbar } from '@material-ui/core'
 import { Alert } from '@material-ui/lab'
 import React, { FC } from 'react'
 import { useAppDispatch } from '../../app/hooks'
-import { handleNotifyClose } from '../../slices/othersSlice'
+import { handleCloseNotify, handleCloseNotifyAndBackdrop } from '../../slices/othersSlice'
 import { Notify } from '../../types/others'
 
 const useStyles = makeStyles(theme => ({
@@ -16,7 +16,7 @@ type Props = {
 }
 
 const Snackbar: FC<Props> = (props) => {
-    const { notify } = props
+    const { notify: { open, type, message, onCloseMethod='closeOnlyNotify' } } = props
     const dispatch = useAppDispatch()
     const classes = useStyles()
 
@@ -24,22 +24,27 @@ const Snackbar: FC<Props> = (props) => {
         if (reason === 'clickaway') {
             return;
         }
-        dispatch(handleNotifyClose())
+        if (onCloseMethod == 'closeOnlyNotify') {
+            dispatch(handleCloseNotify())
+
+        } else {
+            dispatch(handleCloseNotifyAndBackdrop())
+        }
     }
 
     return (
         <MuiSnackbar
             className={classes.root}
-            open={notify.open}
+            open={open}
             autoHideDuration={3000}
             anchorOrigin={{vertical: 'top', horizontal: 'right'}}
             onClose={handleClose}
         >
             <Alert
-                severity={notify.type}
+                severity={type}
                 onClose={handleClose}
             >
-                {notify.message}
+                {message}
             </Alert>
         </MuiSnackbar>
     )

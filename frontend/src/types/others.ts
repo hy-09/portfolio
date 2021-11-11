@@ -17,8 +17,10 @@ export type Notify = {
     open: boolean;
     message: string;
     type: Color | undefined;
+    onCloseMethod?: 'closeOnlyNotify' | 'closeNotifyAndBackdrop'
 }
 
 export type Backdrop = {
     open: boolean;
+    onCloseMethod?: 'closeOnlyBackdrop' | 'closeNotifyAndBackdrop'
 }
