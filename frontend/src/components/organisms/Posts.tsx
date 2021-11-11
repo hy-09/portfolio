@@ -1,7 +1,6 @@
 import { Grid, makeStyles, Paper, Typography, useTheme } from "@material-ui/core"
 import { FC, useState } from "react"
 import { Post as TypePost } from "../../types/post"
-import PaperWithPadding from "../atoms/PaperWithPadding"
 import SearchInput from "../atoms/SearchInput"
 import Post from "./Post"
 

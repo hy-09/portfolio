@@ -9,6 +9,7 @@ import NowPrice from "../../../molecules/NowPrice"
 import Main from "../../../organisms/layout/Main"
 import LineChart from "../../../organisms/LineChart"
 import SectionPaper from "../../../organisms/SectionPaper"
+import StockChartSection from "../../../organisms/sections/stocks/stockDetail/StockChartSection"
 import StockChart from "../../../organisms/StockChart"
 
 const useStyles = makeStyles(theme => ({
@@ -37,13 +38,7 @@ const StockDetail: FC<Props> = (props) => {
     
     return (
         <Main title={company.name}>
-            <Grid item xs={12}>
-                <Container maxWidth="lg" style={{padding: 0}}>
-                    <SectionPaper responsivePadding={true}>
-                        <StockChart company={company} />
-                    </SectionPaper>
-                </Container>
-            </Grid>
+            <StockChartSection company={company} />
         </Main>
     )
 }
