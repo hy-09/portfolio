@@ -1,5 +1,6 @@
 import { Avatar, Box, Button, Checkbox, Chip, Dialog, Grid, IconButton, makeStyles, Theme, Typography, useTheme } from "@material-ui/core"
-import { Favorite, FavoriteBorder, MoreVert } from "@material-ui/icons"
+import { pink } from "@material-ui/core/colors"
+import { Favorite, FavoriteBorder, MoreVert, NotListedLocation } from "@material-ui/icons"
 import { AvatarGroup } from "@material-ui/lab"
 import { FC, useCallback } from "react"
 import { useHistory } from "react-router-dom"
@@ -37,6 +38,18 @@ const useStyles = makeStyles<Theme, Props>(theme => ({
         '& .MuiAvatar-colorDefault': {
             fontSize: '0.875rem',
         },
+    },
+    dialogTitleIcon: {
+        backgroundColor: pink[100],
+        color: theme.palette.secondary.main,
+        marginBottom: theme.spacing(1.5),
+        '&:hover': {
+            backgroundColor: pink[200],
+            cursor: 'default'
+        },
+        '& .MuiSvgIcon-root': {
+            fontSize: '4rem'
+        }
     }
 }))
 
@@ -91,11 +104,23 @@ const Post: FC<Props> = (props) => {
         dispatch(endLikeProcess())
     }
 
+    const DialogTitle = () => {
+        return (
+            <>
+            <div>
+                <IconButton disableRipple className={classes.dialogTitleIcon}>
+                    <NotListedLocation />
+                </IconButton></div>
+            <div>以下の投稿を削除してよろしいですか？</div>
+            </>
+        )
+    }
+
     const handleClickDelete = () => {
         dispatch(handleOpenModal({
-            title: '以下の投稿を削除してよろしいですか？', 
+            title: <DialogTitle />, 
             content: <PostDeleteContent id={post.id} content={post.content} />,
-            maxWidth: '500px'
+            maxWidth: '412px'
         }))
     }
     

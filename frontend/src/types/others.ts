@@ -10,7 +10,7 @@ export type RouteType = {
 
 export type Modal = {
     open: boolean;
-    title?: string;
+    title?: string | JSX.Element;
     content: string | JSX.Element;
     maxWidth?: string;
 }
