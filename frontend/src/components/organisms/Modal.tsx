@@ -5,11 +5,10 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { handleCloseModal } from '../../slices/othersSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { Modal as TypeModal } from '../../types/others';
 import Title from '../atoms/Title';
 import PaperWithPadding from '../atoms/PaperWithPadding';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles<Theme, Props>((theme: Theme) =>
   createStyles({
     modal: {
         display: 'flex',
@@ -18,21 +17,22 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
         margin: theme.spacing(0, 2),
-        maxWidth: '330px',
+        maxWidth: props => props.maxWidth,
         width: '100%',
     },
   }),
 );
 
 type Props = {
-    modal: TypeModal;
+    maxWidth: string;
 }
 
-const Modal: FC<Props> = (props) => {
+const Modal: FC = () => {
     const dispatch = useAppDispatch()
-    const classes = useStyles();
-    const { modal: { title, content, open } } = props
-  
+    const { title, content, open, maxWidth="330px" } = useAppSelector(state => state.others.modal)
+    const props = { maxWidth: maxWidth }
+    const classes = useStyles(props)
+
     return (
         <MuiModal
             aria-labelledby="transition-modal-title"

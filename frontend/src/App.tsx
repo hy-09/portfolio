@@ -44,10 +44,6 @@ const theme = createTheme({
 
 function App() {
     const dispatch = useAppDispatch()
-    const isLoading = useAppSelector(state => state.others.isLoading)
-    const modal = useAppSelector(state => state.others.modal)
-    const notify = useAppSelector(state => state.others.notify)
-    const backdrop = useAppSelector(state => state.others.backdrop)
 
     useEffect(() => {
         const fetchBootLoader = async () => {
@@ -75,13 +71,11 @@ function App() {
 
     return (
         <ThemeProvider theme={theme}>
-            {isLoading && (
-                <LoadingCircular />
-            )}
+            <LoadingCircular />
             <Router />
-            <Modal modal={modal} />
-            <Snackbar notify={notify} />
-            <Backdrop backdrop={backdrop} />
+            <Modal/>
+            <Snackbar />
+            <Backdrop />
             <CssBaseline />
         </ThemeProvider>
     );

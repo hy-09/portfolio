@@ -1,5 +1,6 @@
 import { CircularProgress, makeStyles } from '@material-ui/core'
 import React, { FC } from 'react'
+import { useAppSelector } from '../../app/hooks'
 
 const useStyles = makeStyles(theme => ({
     circularProgressWrapper: {
@@ -20,11 +21,16 @@ const useStyles = makeStyles(theme => ({
 
 const LoadingCircular: FC = () => {
     const classes = useStyles()
+    const isLoading = useAppSelector(state => state.others.isLoading)
 
     return (
-        <div className={classes.circularProgressWrapper}>
-            <CircularProgress className={classes.circularProgress}/>
-        </div>
+        <>
+        {isLoading && (
+            <div className={classes.circularProgressWrapper}>
+                <CircularProgress className={classes.circularProgress}/>
+            </div>
+        )}
+        </>
     )
 }
 

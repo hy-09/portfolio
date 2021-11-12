@@ -1,16 +1,18 @@
 import { Color } from "@material-ui/lab";
+import { ReactNode } from "react";
 
 export type RouteType = {
     name?: string;
     path: string,
     exact: boolean,
-    children: JSX.Element,
+    children: ReactNode,
 }
 
 export type Modal = {
     open: boolean;
     title?: string;
-    content: any;
+    content: string | JSX.Element;
+    maxWidth?: string;
 }
 
 export type Notify = {
@@ -23,4 +25,10 @@ export type Notify = {
 export type Backdrop = {
     open: boolean;
     onCloseMethod?: 'closeOnlyBackdrop' | 'closeNotifyAndBackdrop'
+}
+
+export type Dialog = {
+    open: boolean;
+    title: string;
+    content: JSX.Element | null;
 }

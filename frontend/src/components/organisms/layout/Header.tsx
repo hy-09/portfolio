@@ -54,10 +54,6 @@ const useStyles = makeStyles(theme => ({
         width: theme.spacing(3),
         height: theme.spacing(3),
     },
-    menuListItem: {
-        color: theme.palette.grey[600],
-        fontSize: '0.875rem'
-    },
     logout: {
         color: theme.palette.secondary.main
     }
@@ -69,12 +65,10 @@ const Header: FC<Props> = (props) => {
     const dispatch = useAppDispatch()
     const history = useHistory()
     const classes = useStyles()
-    const logoutItem = clsx(classes.menuListItem, classes.logout)
 
     const items = [
         (  
             <div 
-                className={classes.menuListItem}
                 onClick={() => {
                     dispatch(handleOpenModal({
                         title: 'プロフィール編集', 
@@ -88,7 +82,6 @@ const Header: FC<Props> = (props) => {
         ,
         (  
             <div 
-                className={classes.menuListItem}
                 onClick={() => {
                     dispatch(handleOpenModal({
                         title: '株価の更新頻度', 
@@ -102,7 +95,7 @@ const Header: FC<Props> = (props) => {
         ,
         (
             <div 
-                className={logoutItem}
+                className={classes.logout}
                 onClick={() => {
                     localStorage.removeItem('localJWT')
                     dispatch(resetAuthState())
@@ -136,7 +129,6 @@ const Header: FC<Props> = (props) => {
                     </Badge>
                 </IconButton>
                 <MenuList 
-                    Button={IconButton} 
                     ButtonContent={() => (
                         <Avatar src={myprofile.img} className={classes.avatar} />
                     )}

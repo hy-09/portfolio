@@ -14,12 +14,13 @@ const useStyles = makeStyles(theme => ({
 
 type Props = {
     allPosts: Array<TypePost>;
+    isDeletable?: boolean;
 }
 
 const Posts: FC<Props> = (props) => {
     const classes = useStyles()
     const theme = useTheme()
-    const { allPosts } = props
+    const { allPosts, isDeletable } = props
     const count = 20
     const [shownPostCount, setShownPostCount] = useState(count)
     const [searchWord, setSearchWord] = useState('')
@@ -40,7 +41,7 @@ const Posts: FC<Props> = (props) => {
         <Grid container spacing={2}>
             {postsFilteredByWordAndNum.map(post => (
                 <Grid item xs={12} sm={6} lg={4} key={post.id}>
-                    <Post post={post} searchWords={words} />
+                    <Post post={post} searchWords={words} isDeletable={isDeletable} />
                 </Grid>
             ))}
             {postsFilteredByWordAndNum.length == 0 && (

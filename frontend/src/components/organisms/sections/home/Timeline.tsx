@@ -2,7 +2,6 @@ import { AppBar, Grid, makeStyles, Tab, Tabs } from "@material-ui/core"
 import { Favorite, Person, PersonPinCircleOutlined } from "@material-ui/icons"
 import { ChangeEvent, FC, useState } from "react"
 import { useAppSelector } from "../../../../app/hooks"
-import Title from "../../../atoms/Title"
 import Posts from "../../Posts"
 import Section from "../../Section"
 
@@ -37,7 +36,7 @@ const Timeline: FC = () => {
                         </Tabs>
                     </AppBar>
                     {value == 0 && (
-                        <Posts allPosts={myPosts} />
+                        <Posts allPosts={myPosts} isDeletable={true} />
                     )}
                     {value == 1 && (
                         <Posts allPosts={likePosts} />

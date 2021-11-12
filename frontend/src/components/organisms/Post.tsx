@@ -1,14 +1,16 @@
-import { Avatar, Box, Checkbox, Chip, Grid, IconButton, makeStyles, Theme, Typography, useTheme } from "@material-ui/core"
-import { Favorite, FavoriteBorder } from "@material-ui/icons"
+import { Avatar, Box, Button, Checkbox, Chip, Dialog, Grid, IconButton, makeStyles, Theme, Typography, useTheme } from "@material-ui/core"
+import { Favorite, FavoriteBorder, MoreVert } from "@material-ui/icons"
 import { AvatarGroup } from "@material-ui/lab"
-import { FC } from "react"
+import { FC, useCallback } from "react"
 import { useHistory } from "react-router-dom"
 import { useAppSelector, useAppDispatch } from "../../app/hooks"
 import { getRoute } from "../../functions/router"
-import { endLikeProcess, fetchAsyncPatchPost, startLikeProcess } from "../../slices/postSlice"
+import { handleOpenModal } from "../../slices/othersSlice"
+import { endLikeProcess, fetchAsyncDeletePost, fetchAsyncPatchPost, startLikeProcess } from "../../slices/postSlice"
 import { Post as TypePost } from "../../types/post"
 import PaperWithPadding from "../atoms/PaperWithPadding"
-import Title from "../atoms/Title"
+import PostDeleteContent from "../molecules/PostDeleteContent"
+import MenuList from "./MenuList"
 
 const useStyles = makeStyles<Theme, Props>(theme => ({
     avatar: {
@@ -34,7 +36,6 @@ const useStyles = makeStyles<Theme, Props>(theme => ({
         },
         '& .MuiAvatar-colorDefault': {
             fontSize: '0.875rem',
-            // color: theme.palette.text.disabled
         },
     }
 }))
@@ -42,6 +43,7 @@ const useStyles = makeStyles<Theme, Props>(theme => ({
 type Props = {
     post: TypePost;
     searchWords: Array<string>;
+    isDeletable?: boolean;
 }
 
 const Post: FC<Props> = (props) => {
@@ -49,17 +51,23 @@ const Post: FC<Props> = (props) => {
     const dispatch = useAppDispatch()
     const history = useHistory()
     const classes = useStyles(props)
-    const { post, searchWords } = props
+    const { post, searchWords, isDeletable=false } = props
     const isLikeProcessing = useAppSelector(state => state.post.isLikeProcessing)
     const loginUser = useAppSelector(state => state.auth.loginUser)
     const profiles = useAppSelector(state => state.auth.profiles)
     const profile = profiles.find(profile => profile.user.id === post.user.id)!
-
     
     let content: string = post.content
     searchWords.forEach(word => {
         content = content.replace(new RegExp(word, 'g'), `<span style="font-weight: bold">${word}</span>`)
     })
+
+    const handleClickUserName = useCallback(() => {
+        if (post.user.id === loginUser.id) {
+            return
+        }
+        history.push(getRoute('userTimeline', post.user.id))
+    },[])
 
     const handleChangeLike = async () => {
         if (isLikeProcessing) {
@@ -82,23 +90,48 @@ const Post: FC<Props> = (props) => {
         await dispatch(fetchAsyncPatchPost(data))
         dispatch(endLikeProcess())
     }
+
+    const handleClickDelete = () => {
+        dispatch(handleOpenModal({
+            title: '以下の投稿を削除してよろしいですか？', 
+            content: <PostDeleteContent id={post.id} content={post.content} />,
+            maxWidth: '500px'
+        }))
+    }
     
     return (
         <PaperWithPadding>
             <Grid 
                 container 
                 spacing={2} 
-                alignItems="center"
-                style={{cursor: 'pointer'}}
-                onClick={() => history.push(getRoute('userTimeline', post.user.id))}
-            >
-                <Grid item>
-                    <Avatar src={profile.img} className={classes.avatar} />
+                alignItems="flex-start"
+            >   
+                <Grid 
+                    item 
+                    container
+                    spacing={2}
+                    style={{cursor: 'pointer', flex: 1}}
+                    onClick={handleClickUserName}
+                >
+                    <Grid item>
+                        <Avatar src={profile.img} className={classes.avatar} />
+                    </Grid>
+                    <Grid item>
+                        <div style={{fontWeight: 'bold'}}>{profile.name}</div>
+                        <small>{post.created_at}</small>
+                    </Grid>
                 </Grid>
-                <Grid item xs>
-                    <div style={{fontWeight: 'bold'}}>{profile.name}</div>
-                    <small>{post.created_at}</small>
-                </Grid>
+                {isDeletable && (
+                    <Grid item>
+                        <MenuList
+                            buttonSize="small"
+                            ButtonContent={() => (
+                                <MoreVert color="action" />
+                            )}
+                            items={[<span onClick={handleClickDelete}>削除</span>]}
+                        />
+                    </Grid>
+                )}
             </Grid>
             <div style={{margin: theme.spacing(2.5, 0, 2)}} dangerouslySetInnerHTML={{
                 __html: content

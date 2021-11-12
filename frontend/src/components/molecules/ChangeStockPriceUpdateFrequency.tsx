@@ -38,7 +38,7 @@ const ChangeStockPriceUpdateFrequency: FC = () => {
                 }}
             />
             <SmallButton
-                disabled={Number(seconds) <= 0}
+                disabled={Number(seconds) <= 0 || Number(seconds) > 10000000000000}
                 variant="contained"
                 color="primary"
                 onClick={setFrequency}

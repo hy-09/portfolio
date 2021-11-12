@@ -55,6 +55,18 @@ export const fetchAsyncPatchPost = createAsyncThunk(
     }
 )
 
+export const fetchAsyncDeletePost = createAsyncThunk(
+    'post/delete',
+    async (id: number) => {
+        const res = await axios.delete(`${apiUrl}post/${id}/`, {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `JWT ${localStorage.localJWT}`,
+            }
+        })
+        return id
+    }
+)
 
 type InitialState = {
     isLikeProcessing: boolean;
@@ -112,6 +124,15 @@ export const postSlice = createSlice({
                 )
                 state.myPosts = state.myPosts.map(post => 
                     post.id === action.payload.id ? action.payload : post
+                )
+            })
+
+            .addCase(fetchAsyncDeletePost.fulfilled, (state, action) => {
+                state.posts = state.posts.filter(post => 
+                    post.id !== action.payload
+                )
+                state.myPosts = state.myPosts.filter(post => 
+                    post.id !== action.payload
                 )
             })
     },

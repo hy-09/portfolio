@@ -1,6 +1,6 @@
 import { Backdrop as MuiBackdrop, makeStyles } from "@material-ui/core"
 import { FC } from "react"
-import { useAppDispatch } from "../../app/hooks"
+import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { handleCloseBackdrop, handleCloseNotifyAndBackdrop } from "../../slices/othersSlice"
 import { Backdrop as TypeBackdrop } from "../../types/others"
 
@@ -10,14 +10,10 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-type Props = {
-    backdrop: TypeBackdrop
-}
-
-const Backdrop: FC<Props> = (props) => {
+const Backdrop: FC = () => {
     const classes = useStyles()
     const dispatch = useAppDispatch()
-    const { backdrop: { open, onCloseMethod='closeOnlyBackdrop' } } = props
+    const { open, onCloseMethod='closeOnlyBackdrop' } = useAppSelector(state => state.others.backdrop)
     
     return (
         <MuiBackdrop 
