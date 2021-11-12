@@ -7,7 +7,7 @@ import { fetchAsyncDeletePost } from "../../slices/postSlice"
 const useStyles = makeStyles(theme => ({
     content: {
         marginBottom: theme.spacing(2),
-        color: theme.palette.text.disabled
+        color: theme.palette.text.secondary
     },
     buttons: {
         flex: '0 0 auto',

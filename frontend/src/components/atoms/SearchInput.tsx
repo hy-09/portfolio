@@ -1,6 +1,6 @@
-import { InputBase, makeStyles } from "@material-ui/core"
+import { IconButton, InputBase, makeStyles, useTheme } from "@material-ui/core"
 import { SearchOutlined } from "@material-ui/icons"
-import { FC } from "react"
+import { FC, useState } from "react"
 
 const useStyles = makeStyles(theme => ({
     searchInput: {
@@ -10,8 +10,8 @@ const useStyles = makeStyles(theme => ({
         '&:hover': {
             backgroundColor: '#f2f2f2'
         },
-        '& .MuiSvgIcon-root': {
-            marginRight: theme.spacing(1)
+        '& input': {
+            padding: theme.spacing(1)
         }
     },
 }))
@@ -22,15 +22,25 @@ type Props = {
 
 const SearchInput: FC<Props> = (props) => {
     const classes = useStyles()
+    const theme = useTheme()
     const { setSearchWord } = props
+    const [tmpSearchWord, settmpSearchWord] = useState('')
+
+    const handleClickSearchIcon = () => {
+        setSearchWord(tmpSearchWord)
+    }
     
     return (
+        <>
+        <IconButton size="small" onClick={handleClickSearchIcon}>
+            <SearchOutlined fontSize="small" />
+        </IconButton>
         <InputBase
             placeholder="検索ワード"
             className={classes.searchInput}
-            startAdornment={<SearchOutlined fontSize="small" />}
-            onChange={e => setSearchWord(e.target.value)}
+            onChange={e => settmpSearchWord(e.target.value)}
         />
+        </>
     )
 }
 
