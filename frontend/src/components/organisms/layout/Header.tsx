@@ -12,7 +12,7 @@ import clsx from 'clsx'
 import { resetAuthState } from '../../../slices/authSlice';
 import { resetStockState } from '../../../slices/stockSlice';
 import { grey } from '@material-ui/core/colors';
-import { Person } from '@material-ui/icons';
+import { ExitToApp, Person } from '@material-ui/icons';
 import ChangeStockPriceUpdateFrequency from '../../molecules/ChangeStockPriceUpdateFrequency';
 import { resetPostState } from '../../../slices/postSlice';
 
@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
         marginLeft: 'auto'
     },
     icon: {
-        color: grey[500],
+        color: theme.palette.secondary.light,
         fontSize: '26px'
     },
     badge: {
@@ -92,22 +92,6 @@ const Header: FC<Props> = (props) => {
                 株価の更新頻度
             </div>
         )
-        ,
-        (
-            <div 
-                className={classes.logout}
-                onClick={() => {
-                    localStorage.removeItem('localJWT')
-                    dispatch(resetAuthState())
-                    dispatch(resetStockState())
-                    dispatch(resetOthersState())
-                    dispatch(resetPostState())
-                    history.push('/login')
-                }}
-            >
-                ログアウト
-            </div>
-        )
     ]
 
     return (
@@ -123,18 +107,24 @@ const Header: FC<Props> = (props) => {
               <MenuIcon style={{color: '#aaa'}} />
             </IconButton>
             <div className={classes.icons}>
-                <IconButton>
-                    <Badge badgeContent={2} color="secondary" className={classes.badge}>
-                        <NotificationsNoneOutlinedIcon className={classes.icon} />
-                    </Badge>
-                </IconButton>
                 <MenuList 
                     ButtonContent={() => (
                         <Avatar src={myprofile.img} className={classes.avatar} />
                     )}
                     items={items}
-                    classType='onClickAvatarIcon'
                 />
+                <IconButton
+                    onClick={() => {
+                        localStorage.removeItem('localJWT')
+                        dispatch(resetAuthState())
+                        dispatch(resetStockState())
+                        dispatch(resetOthersState())
+                        dispatch(resetPostState())
+                        history.push('/login')
+                    }}
+                >
+                    <ExitToApp className={classes.icon} />
+                </IconButton>
             </div>
           </Toolbar>
         </AppBar>

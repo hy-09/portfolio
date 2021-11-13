@@ -33,11 +33,10 @@ type Props = {
     buttonSize?: 'small' | 'medium'
     ButtonContent: any;
     items: Array<any>;
-    classType?: string
 }
 
 const MenuList: FC<Props> = (props) => {
-    const { buttonSize='medium', ButtonContent, items, classType } = props
+    const { buttonSize='medium', ButtonContent, items } = props
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const anchorRef = React.useRef<HTMLButtonElement>(null);
@@ -94,10 +93,7 @@ const MenuList: FC<Props> = (props) => {
                                 <MenuItem
                                     key={i}
                                     onClick={handleClose}
-                                    className={
-                                        classType==='onClickAvatarIcon' ? clsx(classes.menuItem, classes.onClickAvatarIcon) : 
-                                            classes.menuItem
-                                    }
+                                    className={classes.menuItem}
                                 >
                                     {item}
                                 </MenuItem>
