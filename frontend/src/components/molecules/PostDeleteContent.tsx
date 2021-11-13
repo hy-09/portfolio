@@ -43,9 +43,11 @@ const PostDeleteContent: FC<Props> = (props) => {
     
     return (
         <>
-            <div className={classes.content} id="alert-dialog-description">
-                {content}
-            </div>
+            <div 
+                className={classes.content} 
+                id="alert-dialog-description"
+                dangerouslySetInnerHTML={{ __html: content }}
+            />
             <div className={classes.buttons}>
                 <Button onClick={handleClose} color="default">
                     キャンセル
