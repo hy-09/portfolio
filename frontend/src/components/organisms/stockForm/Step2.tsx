@@ -73,6 +73,7 @@ type Props = {
     color: 'primary' | 'secondary';
     titleClass: string;
     setStep: (num: number) => void;
+    setProfitOrLossPrice: (num: number) => void;
 }
 
 const Step2: FC<Props> = (props) => {
@@ -91,6 +92,7 @@ const Step2: FC<Props> = (props) => {
         color,
         titleClass,
         setStep,
+        setProfitOrLossPrice,
     } = props
 
     const classes = useStyles()
@@ -112,10 +114,13 @@ const Step2: FC<Props> = (props) => {
             
         } else {
             let tmpQuantity = quantity
+            let profitOrLossPrice = 0
 
             for(const boughtStockInfo of myStockInfo!.boughtStockInfoList) {
 
                 if (tmpQuantity >= boughtStockInfo.quantity) {
+                    profitOrLossPrice += (nowPrice - boughtStockInfo.price) * boughtStockInfo.quantity
+
                     await dispatch(fetchAsyncDeleteBoughtStockInfo({
                         id: boughtStockInfo.id,
                         companyId: company.id,
@@ -123,6 +128,8 @@ const Step2: FC<Props> = (props) => {
                     }))
 
                 } else {
+                    profitOrLossPrice += (nowPrice - boughtStockInfo.price) * tmpQuantity
+
                     await dispatch(fetchAsyncPatchBoughtStockInfo({
                         id: boughtStockInfo.id, 
                         quantity: boughtStockInfo.quantity - tmpQuantity,
@@ -134,6 +141,7 @@ const Step2: FC<Props> = (props) => {
 
                 if (tmpQuantity <= 0) break
             }
+            setProfitOrLossPrice(profitOrLossPrice)
         }
         await dispatch(fetchAsyncPatchUser({
             user_id: loginUser.id, 

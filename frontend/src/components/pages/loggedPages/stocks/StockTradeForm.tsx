@@ -49,6 +49,7 @@ const StockTradeForm: FC = () => {
     const [totalPrice, setTotalPrice] = useState(nowPrice * quantity)
     const [newFund, setNewFund] = useState(format === 'buy' ? fund - totalPrice : fund + totalPrice)
     const [newHoldingQuantity, setNewHoldingQuantity] = useState(format === 'buy' ? totalQuantity + quantity : totalQuantity - quantity)
+    const [profitOrLossPrice, setProfitOrLossPrice] = useState(0)
     const [step, setStep] = useState(1)
     const color = format === 'buy' ? 'secondary' : 'primary'
 
@@ -101,9 +102,10 @@ const StockTradeForm: FC = () => {
                                     newFund={newFund}
                                     newHoldingQuantity={newHoldingQuantity}
                                     myStockInfo={myStockInfo}
-                                    setStep={setStep}
                                     color={color}
                                     titleClass={classes.title}
+                                    setStep={setStep}
+                                    setProfitOrLossPrice={setProfitOrLossPrice}
                                 />
                             )}
                             {step === 3 && (
@@ -113,6 +115,7 @@ const StockTradeForm: FC = () => {
                                     nowPrice={nowPrice}
                                     quantity={quantity}
                                     loginUser={loginUser}
+                                    profitOrLossPrice={profitOrLossPrice}
                                     color={color}
                                     titleClass={classes.title}
                                 />

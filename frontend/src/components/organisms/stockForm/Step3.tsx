@@ -48,6 +48,15 @@ const useStyles = makeStyles(theme => ({
             borderBottom: 'none',
         },
     },
+    plus: {
+        color: theme.palette.success.main,
+    },
+    minus: {
+        color: theme.palette.secondary.main,
+    },
+    flat: {
+        color: theme.palette.text.secondary,
+    },
 }))
 
 type Props = {
@@ -56,6 +65,7 @@ type Props = {
     nowPrice: number;
     quantity: number;
     loginUser: User;
+    profitOrLossPrice: number;
     color: 'primary' | 'secondary';
     titleClass: string;
 }
@@ -67,6 +77,7 @@ const Step3: FC<Props> = (props) => {
         nowPrice,
         quantity,
         loginUser,
+        profitOrLossPrice,
         color,
         titleClass,
     } = props
@@ -89,7 +100,7 @@ const Step3: FC<Props> = (props) => {
         const date = new Date()
         const datetime = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`
 
-        const data = {
+        let data = {
             content: escapeHtml(postcontent).split('\n').join('<br>'),
             price: nowPrice,
             quantity: quantity,
@@ -97,6 +108,9 @@ const Step3: FC<Props> = (props) => {
             user_id: loginUser.id,
             company_id: company.id,
             created_at: datetime,
+        }
+        if (format === 'sell') {
+            data = {...data, profit_or_loss_price: profitOrLossPrice}
         }
         const res = await dispatch(fetchAsyncCreatePost(data))
         if (fetchAsyncCreatePost.fulfilled.match(res)) {
@@ -138,6 +152,24 @@ const Step3: FC<Props> = (props) => {
                                 <TableCell component="th">数量</TableCell>
                                 <TableCell align="right">{quantity.toLocaleString()}株</TableCell>
                             </TableRow>
+                            {format === 'sell' && (
+                                <TableRow>
+                                    <TableCell component="th">損益額</TableCell>
+                                    <TableCell align="right">
+                                        <span
+                                            className={
+                                                profitOrLossPrice > 0 ? classes.plus :
+                                                profitOrLossPrice < 0 ? classes.minus :
+                                                classes.flat
+                                            }
+                                        >
+                                            {profitOrLossPrice > 0 && '+'}
+                                            {profitOrLossPrice === 0 && '±'}
+                                            {profitOrLossPrice.toLocaleString()}円
+                                        </span>
+                                    </TableCell>
+                                </TableRow>
+                            )}
                         </TableBody>
                     </Table>
                 </div>
