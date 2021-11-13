@@ -2,7 +2,7 @@ import { FC, memo } from "react";
 import { Route, Switch, Redirect, RouteProps, BrowserRouter } from "react-router-dom";
 import Login from "../components/pages/Login";
 import AuthLayout from "../components/templates/AuthLayout";
-import { getRoute } from "../functions/router";
+import ScrollToTop from "../providers/ScrollToTop";
 import { RouteType } from "../types/others";
 import { AuthRoutes, homeURL } from "./AuthRoutes";
 
@@ -31,16 +31,17 @@ export const Router: FC = memo(() => {
     return (
         <BrowserRouter>
             <Switch>
-
                 {AuthRoutes.map((route) => (
                     <AuthRoute 
                         key={route.path} 
                         exact={route.exact} 
                         path={route.path}
                     >
-                        <AuthLayout> 
-                            {route.children}
-                        </AuthLayout>
+                        <ScrollToTop>
+                            <AuthLayout> 
+                                {route.children}
+                            </AuthLayout>
+                        </ScrollToTop>
                     </AuthRoute>
                 ))}
 
