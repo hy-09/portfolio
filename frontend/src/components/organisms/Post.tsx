@@ -1,7 +1,8 @@
 import { Avatar, Box, Button, Checkbox, Chip, Dialog, Grid, IconButton, makeStyles, Theme, Typography, useTheme } from "@material-ui/core"
-import { pink } from "@material-ui/core/colors"
+import { blue, pink } from "@material-ui/core/colors"
 import { Favorite, FavoriteBorder, MoreVert, NotListedLocation } from "@material-ui/icons"
 import { AvatarGroup } from "@material-ui/lab"
+import { registerables } from "chart.js"
 import { FC, useCallback } from "react"
 import { useHistory } from "react-router-dom"
 import { useAppSelector, useAppDispatch } from "../../app/hooks"
@@ -16,6 +17,9 @@ import PostDeleteContent from "../molecules/PostDeleteContent"
 import MenuList from "./MenuList"
 
 const useStyles = makeStyles<Theme, Props>(theme => ({
+    paper: {
+        border: props => `1px solid ${props.post.buy_or_sell === 'buy' ? pink[100] : blue[100]}`,
+    },
     avatar: {
         width: theme.spacing(5),
         height: theme.spacing(5),
@@ -23,8 +27,7 @@ const useStyles = makeStyles<Theme, Props>(theme => ({
     companyInfo: {
         padding: theme.spacing(1.5,2,2,2),
         borderRadius: '5px',
-        border: props => `1px solid ${props.post.buy_or_sell === 'buy' ? theme.palette.secondary.main : theme.palette.info.main}`,
-        backgroundColor: theme.palette.grey[50],
+        backgroundColor: props => props.post.buy_or_sell === 'buy' ? 'rgba(233,30,99,0.04)' : 'rgba(33,150,243,0.04)'
     },
     chip: {
         color: 'white',
@@ -130,7 +133,7 @@ const Post: FC<Props> = (props) => {
     }
     
     return (
-        <PaperWithPadding>
+        <PaperWithPadding className={classes.paper}>
             <Grid 
                 container 
                 spacing={2} 
