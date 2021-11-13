@@ -3,7 +3,6 @@ import { Route, Switch, Redirect, RouteProps, BrowserRouter } from "react-router
 import Login from "../components/pages/Login";
 import AuthLayout from "../components/templates/AuthLayout";
 import ScrollToTop from "../providers/ScrollToTop";
-import { RouteType } from "../types/others";
 import { AuthRoutes, homeURL } from "./AuthRoutes";
 
 const AuthRoute: FC<RouteProps> = ({...props}) => {
@@ -20,11 +19,6 @@ const RedirectRoute: FC<RouteProps> = () => {
     } else {
         return <><Redirect to="/login" /><Login /></>
     }
-}
-
-type Props = {
-    route: RouteType;
-    parentURL: string;
 }
 
 export const Router: FC = memo(() => { 
