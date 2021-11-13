@@ -2,32 +2,18 @@ import { Box, Button, Divider, Grid, makeStyles, Paper, Tab, Table, TableBody, T
 import { grey } from '@material-ui/core/colors'
 import { FC, memo, useCallback } from 'react'
 import { Company, MyStockInfo } from '../../types/stock'
-import clsx from 'clsx'
 import Title from '../atoms/Title'
 import NowPrice from '../molecules/NowPrice'
 import { useHistory, Link } from 'react-router-dom'
 import { getRoute } from '../../functions/router'
+import BoughtStockInfo from '../molecules/BoughtStockInfo'
+import BoughtStockInfoAndHead from '../molecules/BoughtStockInfoAndHead'
 
 type Props = {
     myStockInfo: MyStockInfo;
 }
 
 const useStyles = makeStyles(theme => ({
-    profitOrLossPrice: {
-        padding: theme.spacing(0.3, 0.7),
-        borderRadius:  theme.spacing(0.5),
-        display: 'inline-flex',
-        alignItems: 'center',
-    },
-    plus: {
-        color: theme.palette.success.main,
-    },
-    minus: {
-        color: theme.palette.secondary.main,
-    },
-    flat: {
-        color: theme.palette.text.secondary,
-    },
     sellButton: {
         marginTop: theme.spacing(2), 
         backgroundColor: theme.palette.info.main, 
@@ -43,9 +29,18 @@ const HoldingStock: FC<Props> = memo((props) => {
     const classes = useStyles()
     const theme = useTheme()
     const { myStockInfo  } = props
-    const profit = clsx(classes.profitOrLossPrice, classes.plus)
-    const loss = clsx(classes.profitOrLossPrice, classes.minus)
-    const noChange = clsx(classes.profitOrLossPrice, classes.flat)
+
+    const handleClickSellButton = () => {
+        history.push({
+            pathname: getRoute('sellStockForm', myStockInfo.company.id), 
+            state: { 
+                format: 'sell',
+                nowPrice: myStockInfo.company.nowPrice,
+                totalQuantity: myStockInfo.totalQuantity,
+                myStockInfo: myStockInfo,
+            }
+        })
+    }
 
     return (
         <Paper>
@@ -67,57 +62,25 @@ const HoldingStock: FC<Props> = memo((props) => {
             </Box>
             <Divider />
             <Box p={2}>
-                <div>
-                    <Grid container justifyContent="space-evenly" style={{color: grey[600], marginBottom: theme.spacing(1.2)}}>
-                        <Grid item>
-                            取得単価（株数）
-                        </Grid>
-                        <Grid item>
-                            評価損益額
-                        </Grid>
-                    </Grid>
+                <BoughtStockInfoAndHead>
                     {myStockInfo.boughtStockInfoList.map(boughtStockInfo => (
-                        <Grid container key={boughtStockInfo.id} justifyContent="space-evenly" style={{marginTop: '-6px', fontSize: '0.8rem'}}>
-                            <Grid item>
-                                {boughtStockInfo.price.toLocaleString()}（{boughtStockInfo.quantity.toLocaleString()}株）
-                            </Grid>
-                            <Grid item>
-                                <span
-                                    className={
-                                        boughtStockInfo.profitOrLossPrice > 0 ? profit :
-                                        boughtStockInfo.profitOrLossPrice < 0 ? loss :
-                                        noChange
-                                    }
-                                >
-                                    {boughtStockInfo.profitOrLossPrice > 0 && '+'}
-                                    {boughtStockInfo.profitOrLossPrice === 0 && '±'}
-                                    {boughtStockInfo.profitOrLossPrice.toLocaleString()}
-                                </span>
-                            </Grid>
-                        </Grid>
+                        <BoughtStockInfo 
+                            key={boughtStockInfo.id} 
+                            price={boughtStockInfo.price}
+                            quantity={boughtStockInfo.quantity}
+                            profitOrLossPrice={boughtStockInfo.profitOrLossPrice}
+                        />
                     ))}
-                </div>
-                <Link 
-                    to={{ 
-                        pathname: getRoute('sellStockForm', myStockInfo.company.id), 
-                        state: { 
-                            format: 'sell',
-                            nowPrice: myStockInfo.company.nowPrice,
-                            totalQuantity: myStockInfo.totalQuantity,
-                            myStockInfo: myStockInfo,
-                        }
-                    }} 
-                    style={{textDecoration: 'none'}}
+                </BoughtStockInfoAndHead>
+                <Button 
+                    variant="contained" 
+                    fullWidth 
+                    size="small" 
+                    className={classes.sellButton}
+                    onClick={handleClickSellButton}
                 >
-                    <Button 
-                        variant="contained" 
-                        fullWidth 
-                        size="small" 
-                        className={classes.sellButton}
-                    >
-                        売却
-                    </Button>
-                </Link>
+                    売却
+                </Button>
             </Box>
         </Paper>
     )

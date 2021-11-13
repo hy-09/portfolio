@@ -40,7 +40,14 @@ const Posts: FC<Props> = (props) => {
         </Paper>
         <Grid container spacing={2}>
             {postsFilteredByWordAndNum.map(post => (
-                <Grid item xs={12} sm={6} lg={4} key={post.id}>
+                <Grid 
+                    item 
+                    xs={12}
+                    sm={6}
+                    lg={4}
+                    xl={3}
+                    key={post.id}
+                >
                     <Post post={post} searchWords={words} isDeletable={isDeletable} />
                 </Grid>
             ))}

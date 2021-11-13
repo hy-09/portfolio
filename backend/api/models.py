@@ -101,6 +101,7 @@ class Post(models.Model):
     price = models.IntegerField()
     quantity = models.IntegerField()
     buy_or_sell = models.CharField(max_length=4)
+    profit_or_loss_price = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField()
 
     def __str__(self):

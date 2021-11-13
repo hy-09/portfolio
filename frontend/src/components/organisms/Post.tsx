@@ -10,6 +10,8 @@ import { handleOpenModal } from "../../slices/othersSlice"
 import { endLikeProcess, fetchAsyncDeletePost, fetchAsyncPatchPost, startLikeProcess } from "../../slices/postSlice"
 import { Post as TypePost } from "../../types/post"
 import PaperWithPadding from "../atoms/PaperWithPadding"
+import BoughtStockInfo from "../molecules/BoughtStockInfo"
+import BoughtStockInfoAndHead from "../molecules/BoughtStockInfoAndHead"
 import PostDeleteContent from "../molecules/PostDeleteContent"
 import MenuList from "./MenuList"
 
@@ -50,6 +52,9 @@ const useStyles = makeStyles<Theme, Props>(theme => ({
         '& .MuiSvgIcon-root': {
             fontSize: '4rem'
         }
+    },
+    font08: {
+        fontSize: '0.8rem'
     }
 }))
 
@@ -185,24 +190,34 @@ const Post: FC<Props> = (props) => {
                         </Grid>
                     </Grid>
                 </Box>
-                <Grid container spacing={1}>
-                    <Grid item container alignItems="center" direction="column" xs={6}>
-                        <Grid item>
-                            <Typography variant="body2" color="textSecondary">
-                                投稿時点の株価
-                            </Typography>
+                {post.buy_or_sell === 'buy' ? (
+                    <Grid container spacing={1}>
+                        <Grid item container alignItems="center" direction="column" xs={6}>
+                            <Grid item>
+                                <Typography variant="body2" color="textSecondary">
+                                    投稿時点の株価
+                                </Typography>
+                            </Grid>
+                            <Grid item className={classes.font08}>{post.price.toLocaleString()}</Grid>
                         </Grid>
-                        <Grid item>{post.price.toLocaleString()}円</Grid>
-                    </Grid>
-                    <Grid item container alignItems="center" direction="column" xs={6}>
-                        <Grid item>
-                            <Typography variant="body2" color="textSecondary">
-                                数量
-                            </Typography>
+                        <Grid item container alignItems="center" direction="column" xs={6}>
+                            <Grid item>
+                                <Typography variant="body2" color="textSecondary">
+                                    数量
+                                </Typography>
+                            </Grid>
+                            <Grid item className={classes.font08}>{post.quantity.toLocaleString()}株</Grid>
                         </Grid>
-                        <Grid item>{post.quantity.toLocaleString()}株</Grid>
                     </Grid>
-                </Grid>
+                ) : (
+                    <BoughtStockInfoAndHead isFixedPL={true}>
+                        <BoughtStockInfo
+                            price={post.price}
+                            quantity={post.quantity}
+                            profitOrLossPrice={post.profit_or_loss_price!}
+                        />
+                    </BoughtStockInfoAndHead>
+                )}
             </div>
             <Box mt={1.5}>
                 <Grid container spacing={1} alignItems="center">

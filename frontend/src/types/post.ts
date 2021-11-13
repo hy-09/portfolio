@@ -7,6 +7,7 @@ export type Post = {
     price: number;
     quantity: number;
     buy_or_sell: 'buy' | 'sell';
+    profit_or_loss_price: number | null;
     created_at: string;
     user: User;
     company: Company;
@@ -18,6 +19,7 @@ export type CreatPost = {
     price: number;
     quantity: number;
     buy_or_sell: 'buy' | 'sell';
+    profit_or_loss_price?: number | null;
     user_id: number;
     company_id: number;
     created_at: string;

@@ -95,6 +95,7 @@ class PostSerializer(serializers.ModelSerializer):
             "price",
             "quantity",
             "buy_or_sell",
+            "profit_or_loss_price",
             "created_at",
             "user",
             "company",
