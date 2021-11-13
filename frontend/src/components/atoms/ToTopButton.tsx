@@ -1,8 +1,7 @@
 import { IconButton, makeStyles } from "@material-ui/core"
 import { ArrowBack, ArrowBackIos, KeyboardArrowLeft, KeyboardArrowUp } from "@material-ui/icons"
-import { FC } from "react"
-import { useHistory } from "react-router-dom"
-import { drawerWidth } from "../../config"
+import { FC, useEffect, useState } from "react"
+import clsx from "clsx"
 
 const useStyles = makeStyles(theme => ({
     backIcon: {
@@ -18,23 +17,50 @@ const useStyles = makeStyles(theme => ({
         '&:hover': {
             backgroundColor: theme.palette.primary.light
         },
-        boxShadow: theme.shadows[5]
+        boxShadow: theme.shadows[5],
+        transition: 'all .4s'
+    },
+    hidden: {
+        opacity: 0,
+        visibility: 'hidden',
     }
 }))
 
-const handleClick = () => {
-    window.scroll({
-        top: 0,
-        behavior: "smooth",
-    })
-}
-
 const ToTopButton: FC = () => {
+    const [show, setShow] = useState(false)
     const classes = useStyles()
-    
+  
+    useEffect(() => {
+        document.addEventListener('scroll', onScroll)
+        return () => document.removeEventListener('scroll', onScroll)
+    })
+
+    const onScroll = () => {
+        if (getScrollY() >= 200) {
+            setShow(true)
+        } else {
+            setShow(false)
+        }
+    }
+
+    const getScrollY = () => {
+       return Math.max(
+            window.pageYOffset, 
+            document.documentElement.scrollTop, 
+            document.body.scrollTop
+        )
+    }
+
+    const handleClick = () => {
+        window.scroll({
+            top: 0,
+            behavior: 'smooth',
+        })
+    }
+  
     return (
         <IconButton 
-            className={classes.backIcon}
+            className={show ? classes.backIcon : clsx(classes.backIcon, classes.hidden)}
             onClick={handleClick}
         >
             <KeyboardArrowUp
@@ -44,5 +70,9 @@ const ToTopButton: FC = () => {
         </IconButton>
     )
 }
+  
+
+    
+
 
 export default ToTopButton
