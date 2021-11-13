@@ -16,6 +16,7 @@ import SmallButton from "../../atoms/SmallButton"
 import ErrorMessage from "../../atoms/ErrorMessage"
 import { fetchAsyncCreatePost } from "../../../slices/postSlice"
 import { escapeHtml } from "../../../functions/escape"
+import { CreatPost } from "../../../types/post"
 
 const useStyles = makeStyles(theme => ({
     tableWrapper: {
@@ -65,7 +66,7 @@ type Props = {
     nowPrice: number;
     quantity: number;
     loginUser: User;
-    profitOrLossPrice: number;
+    profitOrLossPrice: number | null;
     color: 'primary' | 'secondary';
     titleClass: string;
 }
@@ -100,18 +101,19 @@ const Step3: FC<Props> = (props) => {
         const date = new Date()
         const datetime = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`
 
-        let data = {
+        const data: CreatPost = {
             content: escapeHtml(postcontent).split('\n').join('<br>'),
             price: nowPrice,
             quantity: quantity,
             buy_or_sell: format,
+            profit_or_loss_price: profitOrLossPrice,
             user_id: loginUser.id,
             company_id: company.id,
             created_at: datetime,
         }
-        if (format === 'sell') {
-            data = {...data, profit_or_loss_price: profitOrLossPrice}
-        }
+        // if (format === 'sell') {
+        //     data.profit_or_loss_price = profitOrLossPrice
+        // }
         const res = await dispatch(fetchAsyncCreatePost(data))
         if (fetchAsyncCreatePost.fulfilled.match(res)) {
             history.push(getRoute('home'))
@@ -158,14 +160,14 @@ const Step3: FC<Props> = (props) => {
                                     <TableCell align="right">
                                         <span
                                             className={
-                                                profitOrLossPrice > 0 ? classes.plus :
-                                                profitOrLossPrice < 0 ? classes.minus :
+                                                profitOrLossPrice! > 0 ? classes.plus :
+                                                profitOrLossPrice! < 0 ? classes.minus :
                                                 classes.flat
                                             }
                                         >
-                                            {profitOrLossPrice > 0 && '+'}
+                                            {profitOrLossPrice! > 0 && '+'}
                                             {profitOrLossPrice === 0 && '±'}
-                                            {profitOrLossPrice.toLocaleString()}円
+                                            {profitOrLossPrice!.toLocaleString()}円
                                         </span>
                                     </TableCell>
                                 </TableRow>
