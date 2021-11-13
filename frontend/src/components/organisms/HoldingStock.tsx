@@ -35,7 +35,7 @@ const HoldingStock: FC<Props> = memo((props) => {
             pathname: getRoute('sellStockForm', myStockInfo.company.id), 
             state: { 
                 format: 'sell',
-                nowPrice: myStockInfo.company.nowPrice,
+                company: myStockInfo.company,
                 totalQuantity: myStockInfo.totalQuantity,
                 myStockInfo: myStockInfo,
             }

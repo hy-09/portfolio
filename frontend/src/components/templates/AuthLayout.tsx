@@ -30,8 +30,8 @@ const AuthLayout: FC<Props> = memo((props) => {
     const [mobileOpen, setMobileOpen] = useState(false);
 
     const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
+        setMobileOpen(!mobileOpen)
+    }
 
     useEffect(() => {
         if (firstTimeAfterRegister) {

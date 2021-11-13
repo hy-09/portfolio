@@ -52,7 +52,7 @@ const StockChart: FC<Props> = (props) => {
             pathname: getRoute('buyStockForm', company.id), 
             state: { 
                 format: 'buy',
-                nowPrice: company.nowPrice,
+                company: company,
                 totalQuantity: myStockInfo ? myStockInfo.totalQuantity : 0,
                 myStockInfo: myStockInfo,
             }

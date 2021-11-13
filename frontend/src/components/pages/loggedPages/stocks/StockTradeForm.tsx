@@ -1,9 +1,9 @@
-import { Box, Button, ButtonGroup, Container, createTheme, Divider, FormControl, FormControlLabel, Grid, InputAdornment, InputLabel, makeStyles, MenuItem, Radio, RadioGroup, Select, Table, TableBody, TableCell, TableRow, TextField, ThemeProvider, Typography, useTheme } from "@material-ui/core"
-import { FC, useCallback, useState } from "react"
-import { useHistory, useParams, useLocation, Redirect } from "react-router-dom"
-import { useAppDispatch, useAppSelector } from "../../../../app/hooks"
+import {  Container, createTheme, Grid, makeStyles, ThemeProvider } from "@material-ui/core"
+import { FC, useState } from "react"
+import { useHistory, useLocation } from "react-router-dom"
+import { useAppSelector } from "../../../../app/hooks"
 import { getRoute } from "../../../../functions/router"
-import { MyStockInfo } from "../../../../types/stock"
+import { Company, MyStockInfo } from "../../../../types/stock"
 import Main from "../../../organisms/layout/Main"
 import SectionPaper from "../../../organisms/SectionPaper"
 import Step1 from "../../../organisms/stockForm/Step1"
@@ -24,12 +24,8 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-type Params = {
-    id: string;
-}
-
 type Location = {
-    nowPrice: number;
+    company: Company;
     format: 'buy' | 'sell';
     totalQuantity: number;
     myStockInfo: MyStockInfo;
@@ -38,16 +34,14 @@ type Location = {
 const StockTradeForm: FC = () => {
     const history = useHistory()
     const classes = useStyles()
-    const { id } = useParams<Params>()
     const { state } = useLocation<Location>()
     if (!state) {
         history.push(getRoute('home'))
         window.location.reload()
     }
-    console.log(state)
-    const { nowPrice, format, totalQuantity, myStockInfo } = state
-    const companies = useAppSelector(state => state.stock.companies)
-    const company = companies.find(company => company.id === Number(id))!
+    
+    const { company, format, totalQuantity, myStockInfo } = state
+    const nowPrice = company.nowPrice
     const loginUser = useAppSelector(state => state.auth.loginUser)
     const fund = loginUser.fund
     const [quantity, setQuantity] = useState(100)
@@ -67,7 +61,7 @@ const StockTradeForm: FC = () => {
         }
         window.location.reload()
     }
-
+    
     return (
         <Main title={format === 'buy' ? '購入フォーム' : '売却フォーム'}>
             <Grid item xs={12}>
