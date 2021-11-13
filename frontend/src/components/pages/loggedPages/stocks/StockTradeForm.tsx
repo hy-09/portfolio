@@ -1,6 +1,6 @@
 import { Box, Button, ButtonGroup, Container, createTheme, Divider, FormControl, FormControlLabel, Grid, InputAdornment, InputLabel, makeStyles, MenuItem, Radio, RadioGroup, Select, Table, TableBody, TableCell, TableRow, TextField, ThemeProvider, Typography, useTheme } from "@material-ui/core"
 import { FC, useCallback, useState } from "react"
-import { useHistory, useParams, useLocation } from "react-router-dom"
+import { useHistory, useParams, useLocation, Redirect } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../../../app/hooks"
 import { getRoute } from "../../../../functions/router"
 import { MyStockInfo } from "../../../../types/stock"
@@ -39,7 +39,13 @@ const StockTradeForm: FC = () => {
     const history = useHistory()
     const classes = useStyles()
     const { id } = useParams<Params>()
-    const { state: { nowPrice, format, totalQuantity, myStockInfo }  } = useLocation<Location>()
+    const { state } = useLocation<Location>()
+    if (!state) {
+        history.push(getRoute('home'))
+        window.location.reload()
+    }
+    console.log(state)
+    const { nowPrice, format, totalQuantity, myStockInfo } = state
     const companies = useAppSelector(state => state.stock.companies)
     const company = companies.find(company => company.id === Number(id))!
     const loginUser = useAppSelector(state => state.auth.loginUser)
@@ -51,7 +57,7 @@ const StockTradeForm: FC = () => {
     const [newHoldingQuantity, setNewHoldingQuantity] = useState(format === 'buy' ? totalQuantity + quantity : totalQuantity - quantity)
     const [step, setStep] = useState(1)
     const color = format === 'buy' ? 'secondary' : 'primary'
-    
+
     if (company == undefined || company.id == 0) {
         if (format === 'buy') {
             history.push(getRoute('stocks'))
