@@ -15,7 +15,7 @@ const UserTimeline: FC = memo(() => {
     const userPosts = useAppSelector(state => state.post.posts).filter(post => post.user.id === Number(id))
 
     return (
-        <Main title="タイムライン">
+        <Main title="タイムライン" showBackButton={true}>
             <DivWithPadding>
                 <Posts allPosts={userPosts} />
             </DivWithPadding>
