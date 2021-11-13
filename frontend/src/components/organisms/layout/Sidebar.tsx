@@ -1,5 +1,6 @@
 
-import { Box, Link } from '@material-ui/core';
+import { Link } from '@material-ui/core';
+import { cyan } from '@material-ui/core/colors';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';
@@ -10,7 +11,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { makeStyles, useTheme, Theme, createStyles } from '@material-ui/core/styles';
 import { ChatOutlined, HomeOutlined, TrendingUp } from '@material-ui/icons';
 import { useHistory } from 'react-router-dom';
-import { drawerWidth } from '../../../config';
+import { appTitle, drawerWidth } from '../../../config';
 import { homeURL, stockURL, timelineURL } from '../../../router/AuthRoutes';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -25,14 +26,26 @@ const useStyles = makeStyles((theme: Theme) =>
       }
     },
     toolbar: theme.mixins.toolbar,
+    title: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        color: theme.palette.primary.contrastText,
+        whiteSpace: 'nowrap',
+        fontSize: '1.03rem'
+    },
     drawerPaper: {
       width: drawerWidth,
+      boxShadow: theme.shadows[1],
       backgroundColor: theme.palette.primary.main,
-      boxShadow: theme.shadows[1]
     },
     content: {
       flexGrow: 1,
       padding: theme.spacing(3),
+    },
+    list: {
+        backgroundColor: 'rgb(48, 155, 167)',
     },
     listItemIcon: {
         color: 'rgba(239, 239, 239, 0.7)',
@@ -76,9 +89,11 @@ export default function Sidebar(props: Props) {
 
   const drawer = (
     <div>
-      <div className={classes.toolbar} />
+      <div className={classes.toolbar} style={{position: 'relative'}}>
+          <div className={classes.title}>{appTitle}</div>
+      </div>
       <Divider />
-      <List>
+      <List className={classes.list}>
             {routes.map((route) => (
                 <Link key={route.title} onClick={() => history.push(`${route.path}`)}>
                     <ListItem button>

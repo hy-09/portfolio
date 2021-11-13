@@ -1,4 +1,4 @@
-import { AppBar, Avatar, Badge, Button, Divider, IconButton, makeStyles, Toolbar } from '@material-ui/core'
+import { AppBar, Avatar, Badge, Button, Divider, IconButton, makeStyles, Toolbar, Tooltip } from '@material-ui/core'
 import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
 import MenuIcon from '@material-ui/icons/Menu';
 import React, { FC, ReactNode, useState } from 'react'
@@ -113,18 +113,20 @@ const Header: FC<Props> = (props) => {
                     )}
                     items={items}
                 />
-                <IconButton
-                    onClick={() => {
-                        localStorage.removeItem('localJWT')
-                        dispatch(resetAuthState())
-                        dispatch(resetStockState())
-                        dispatch(resetOthersState())
-                        dispatch(resetPostState())
-                        history.push('/login')
-                    }}
-                >
-                    <ExitToApp className={classes.icon} />
-                </IconButton>
+                <Tooltip title="ログアウト">
+                    <IconButton
+                        onClick={() => {
+                            localStorage.removeItem('localJWT')
+                            dispatch(resetAuthState())
+                            dispatch(resetStockState())
+                            dispatch(resetOthersState())
+                            dispatch(resetPostState())
+                            history.push('/login')
+                        }}
+                    >
+                        <ExitToApp className={classes.icon} />
+                    </IconButton>
+                </Tooltip>
             </div>
           </Toolbar>
         </AppBar>

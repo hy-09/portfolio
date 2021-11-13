@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { noneAvatarImg } from '../config';
 import { EditProfile, Name, Auth, User, Profile, UpdateFund } from '../types/user'
 
 const rootUrl = process.env.REACT_APP_DEV_ROOT_URL
