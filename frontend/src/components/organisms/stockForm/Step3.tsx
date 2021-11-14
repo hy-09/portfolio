@@ -17,6 +17,7 @@ import ErrorMessage from "../../atoms/ErrorMessage"
 import { fetchAsyncCreatePost } from "../../../slices/postSlice"
 import { escapeHtml } from "../../../functions/escape"
 import { CreatPost } from "../../../types/post"
+import NumberWithCodeAndColor from "../../atoms/NumberWithCodeAndColor"
 
 const useStyles = makeStyles(theme => ({
     tableWrapper: {
@@ -48,15 +49,6 @@ const useStyles = makeStyles(theme => ({
         '& tr:last-of-type td': {
             borderBottom: 'none',
         },
-    },
-    plus: {
-        color: theme.palette.success.main,
-    },
-    minus: {
-        color: theme.palette.secondary.main,
-    },
-    flat: {
-        color: theme.palette.text.secondary,
     },
 }))
 
@@ -158,17 +150,9 @@ const Step3: FC<Props> = (props) => {
                                 <TableRow>
                                     <TableCell component="th">損益額</TableCell>
                                     <TableCell align="right">
-                                        <span
-                                            className={
-                                                profitOrLossPrice! > 0 ? classes.plus :
-                                                profitOrLossPrice! < 0 ? classes.minus :
-                                                classes.flat
-                                            }
-                                        >
-                                            {profitOrLossPrice! > 0 && '+'}
-                                            {profitOrLossPrice === 0 && '±'}
-                                            {profitOrLossPrice!.toLocaleString()}円
-                                        </span>
+                                        <NumberWithCodeAndColor num={profitOrLossPrice!}>
+                                            円
+                                        </NumberWithCodeAndColor>
                                     </TableCell>
                                 </TableRow>
                             )}

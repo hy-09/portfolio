@@ -7,10 +7,16 @@ import clsx from 'clsx'
 import { useAppSelector } from "../../../../app/hooks"
 import { MyStockInfo } from "../../../../types/stock"
 import { green, grey, pink } from "@material-ui/core/colors"
+import NumberWithCodeAndColor from "../../../atoms/NumberWithCodeAndColor"
 
 const useStyles = makeStyles(theme => ({
     totalProfitOrLossPriceStyle: {
         textAlign: 'right',
+        display: 'block',
+        fontSize: '2.125rem',
+        [theme.breakpoints.up('sm')]: {
+            fontSize: '3rem',
+        },
         [theme.breakpoints.up('lg')]: {
             position: 'absolute',
             top: '50%',
@@ -21,31 +27,12 @@ const useStyles = makeStyles(theme => ({
             padding: theme.spacing(0, 2)
         }
     },
-    up: {
-        color: theme.palette.success.main,
-    },
-    down: {
-        color: theme.palette.secondary.main,
-    },
-    flat: {
-        color: theme.palette.text.secondary,
-    },
-    yen: {
-        fontSize: '0.6em',
-        marginLeft: '0.2em',
-    },
 }))
 
 const PriceStatuses: FC = () => {
     const classes = useStyles()
     const theme = useTheme()
 
-
-    const totalProfitOrLossPriceUp = clsx(classes.totalProfitOrLossPriceStyle, classes.up)
-    const totalProfitOrLossPriceDown = clsx(classes.totalProfitOrLossPriceStyle, classes.down)
-    const totalProfitOrLossPriceFlat = clsx(classes.totalProfitOrLossPriceStyle, classes.flat)
-
-    const companies = useAppSelector(state => state.stock.companies)
     const myStockInfoList = useAppSelector(state => state.stock.myStockInfoList)
     const loginUser = useAppSelector(state => state.auth.loginUser)
 
@@ -79,19 +66,9 @@ const PriceStatuses: FC = () => {
                     >
                             評価損益額
                         </Title>
-                    <Typography 
-                        component="div" 
-                        variant="h3" 
-                        className={
-                            totalProfitOrLossPrice > 0 ? totalProfitOrLossPriceUp :
-                            totalProfitOrLossPrice < 0 ? totalProfitOrLossPriceDown :
-                            totalProfitOrLossPriceFlat
-                        }
-                    >
-                        {totalProfitOrLossPrice > 0 && '+'}
-                        {totalProfitOrLossPrice === 0 && '±'}
-                        {totalProfitOrLossPrice.toLocaleString()}<Yen />
-                    </Typography>
+                    <NumberWithCodeAndColor className={classes.totalProfitOrLossPriceStyle} num={totalProfitOrLossPrice!}>
+                        <Yen />
+                    </NumberWithCodeAndColor>
                 </SectionPaper>
             </Grid>
             <Grid item container direction="column" xs={12} lg={6}>
