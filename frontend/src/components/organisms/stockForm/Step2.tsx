@@ -150,7 +150,7 @@ const Step2: FC<Props> = (props) => {
         setStep(3)
         dispatch(endLoading())
     }
-    
+
     return (
         <>
         <div>

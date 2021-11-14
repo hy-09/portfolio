@@ -39,21 +39,9 @@ const StockTradeForm: FC = () => {
         history.push(getRoute('home'))
         window.location.reload()
     }
-    
-    const { company, format, totalQuantity, myStockInfo } = state
-    const nowPrice = company.nowPrice
-    const loginUser = useAppSelector(state => state.auth.loginUser)
-    const fund = loginUser.fund
-    const [quantity, setQuantity] = useState(100)
-    const [changeRate, setChangeRate] = useState(100)
-    const [totalPrice, setTotalPrice] = useState(nowPrice * quantity)
-    const [newFund, setNewFund] = useState(format === 'buy' ? fund - totalPrice : fund + totalPrice)
-    const [newHoldingQuantity, setNewHoldingQuantity] = useState(format === 'buy' ? totalQuantity + quantity : totalQuantity - quantity)
-    const [profitOrLossPrice, setProfitOrLossPrice] = useState<null | number>(null)
-    const [step, setStep] = useState(1)
-    const color = format === 'buy' ? 'secondary' : 'primary'
 
-    if (company == undefined || company.id == 0) {
+    const { company, format, totalQuantity, myStockInfo } = state
+    if (history.action === 'POP') {
         if (format === 'buy') {
             history.push(getRoute('stocks'))
 
@@ -63,6 +51,20 @@ const StockTradeForm: FC = () => {
         window.location.reload()
     }
     
+    const nowPrice = company.nowPrice
+    const loginUser = useAppSelector(state => state.auth.loginUser)
+    const fund = loginUser.fund
+    const [quantity, setQuantity] = useState(100)
+    const [changeRate, setChangeRate] = useState(100)
+    const [totalPrice, setTotalPrice] = useState(nowPrice * quantity)
+    const initialNewFund = format === 'buy' ? fund - totalPrice : fund + totalPrice
+    const [newFund, setNewFund] = useState(initialNewFund)
+
+    const [newHoldingQuantity, setNewHoldingQuantity] = useState(format === 'buy' ? totalQuantity + quantity : totalQuantity - quantity)
+    const [profitOrLossPrice, setProfitOrLossPrice] = useState<null | number>(null)
+    const [step, setStep] = useState(1)
+    const color = format === 'buy' ? 'secondary' : 'primary'
+
     return (
         <Main title={format === 'buy' ? '購入フォーム' : '売却フォーム'}>
             <Grid item xs={12}>
