@@ -56,7 +56,7 @@ const Login: FC = () => {
     const dispatch = useAppDispatch()
     const users = useAppSelector(state => state.auth.users)
     const [isLoginForm, setIsLoginForm] = useState(true)
-    const [loginFailed, setLoginFailed] = useState(false) 
+    const [failed, setFailed] = useState(false) 
     const [showDammyUserButton, setShowDammyUserButton] = useState(false)
 
     return (
@@ -84,7 +84,7 @@ const Login: FC = () => {
                                 history.push(homeURL)
 
                             } else if (fetchAsyncLogin.rejected.match(result)) {
-                                setLoginFailed(true)
+                                setFailed(true)
                             }
                             dispatch(endLoading())
                             
@@ -115,7 +115,7 @@ const Login: FC = () => {
                                     type="input"
                                     name="email"
                                     onChange={e => {
-                                        if (loginFailed) setLoginFailed(false)
+                                        if (failed) setFailed(false)
                                         handleChange(e)
                                     }}
                                     onBlur={handleBlur}
@@ -132,7 +132,7 @@ const Login: FC = () => {
                                     type="password"
                                     name="password"
                                     onChange={e => {
-                                        if (loginFailed) setLoginFailed(false)
+                                        if (failed) setFailed(false)
                                         handleChange(e)
                                     }}
                                     onBlur={handleBlur}
@@ -140,7 +140,7 @@ const Login: FC = () => {
                                     helperText={errors.password && touched.password && errors.password}
                                     error={errors.password && touched.password ? true : false}
                                 />
-                                <ErrorMessage show={loginFailed} message="メールアドレスかパスワードが間違っています" />
+                                <ErrorMessage show={failed} message="メールアドレスかパスワードが間違っています" />
                                 <Button
                                     className={classes.submit}
                                     fullWidth
@@ -155,7 +155,7 @@ const Login: FC = () => {
                                     href="#"
                                     onClick={async () => {
                                         setIsLoginForm(false)
-                                        setLoginFailed(false)
+                                        setFailed(false)
                                         setShowDammyUserButton(false)
                                         errors.email = ''
                                         errors.password = ''
@@ -207,9 +207,9 @@ const Login: FC = () => {
                         initialValues={{email: '', password: '', passwordConfirm: ''}}
                         onSubmit={async (values) => {
                             await dispatch(startLoading())
-                            const resultReg = await dispatch(fetchAsyncRegister(values))
+                            const result = await dispatch(fetchAsyncRegister(values))
 
-                            if (fetchAsyncRegister.fulfilled.match(resultReg)) {
+                            if (fetchAsyncRegister.fulfilled.match(result)) {
                                 await dispatch(fetchAsyncLogin(values))
                                 await dispatch(fetchAsyncCreateProf({name: 'anonymous'}))
 
@@ -219,6 +219,9 @@ const Login: FC = () => {
                                 
                                 await dispatch(setFirstTimeAfterRegister(true))
                                 history.push(homeURL)
+
+                            } else if (fetchAsyncRegister.rejected.match(result)) {
+                                setFailed(true)
                             }
                             dispatch(endLoading())
                         }}
@@ -261,7 +264,10 @@ const Login: FC = () => {
                                     label="メールアドレス"
                                     type="input"
                                     name="email"
-                                    onChange={handleChange}
+                                    onChange={e => {
+                                        if (failed) setFailed(false)
+                                        handleChange(e)
+                                    }}
                                     onBlur={handleBlur}
                                     value={values.email}
                                     helperText={errors.email && touched.email && errors.email}
@@ -275,7 +281,10 @@ const Login: FC = () => {
                                     label="パスワード"
                                     type="password"
                                     name="password"
-                                    onChange={handleChange}
+                                    onChange={e => {
+                                        if (failed) setFailed(false)
+                                        handleChange(e)
+                                    }}
                                     onBlur={handleBlur}
                                     value={values.password}
                                     helperText={errors.password && touched.password && errors.password}
@@ -289,13 +298,16 @@ const Login: FC = () => {
                                     label="パスワードの再入力"
                                     type="password"
                                     name="passwordConfirm"
-                                    onChange={handleChange}
+                                    onChange={e => {
+                                        if (failed) setFailed(false)
+                                        handleChange(e)
+                                    }}
                                     onBlur={handleBlur}
                                     value={values.passwordConfirm}
                                     helperText={errors.passwordConfirm && touched.passwordConfirm && errors.passwordConfirm}
                                     error={errors.passwordConfirm && touched.passwordConfirm ? true : false}
                                 />
-
+                                <ErrorMessage show={failed} message="メールアドレスの形式で入力してください" />
                                 <Button
                                     className={classes.submit}
                                     fullWidth
@@ -310,6 +322,7 @@ const Login: FC = () => {
                                     href="#"
                                     onClick={async () => {
                                         setIsLoginForm(true)
+                                        setFailed(false)
                                         errors.email = ''
                                         errors.password = ''
                                         errors.passwordConfirm = ''
