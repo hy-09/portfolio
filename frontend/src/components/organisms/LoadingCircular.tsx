@@ -1,5 +1,5 @@
 import { CircularProgress, makeStyles } from '@material-ui/core'
-import React, { FC } from 'react'
+import { FC } from 'react'
 import { useAppSelector } from '../../app/hooks'
 
 const useStyles = makeStyles(theme => ({

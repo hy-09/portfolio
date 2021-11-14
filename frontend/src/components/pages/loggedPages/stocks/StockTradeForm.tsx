@@ -1,4 +1,4 @@
-import {  Container, createTheme, Grid, makeStyles, ThemeProvider } from "@material-ui/core"
+import { Container, createTheme, Grid, makeStyles, ThemeProvider } from "@material-ui/core"
 import { FC, useState } from "react"
 import { useHistory, useLocation } from "react-router-dom"
 import { useAppSelector } from "../../../../app/hooks"

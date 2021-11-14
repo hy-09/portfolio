@@ -1,5 +1,5 @@
-import { AppBar, Grid, makeStyles, Tab, Tabs } from "@material-ui/core"
-import { Favorite, Person, PersonPinCircleOutlined } from "@material-ui/icons"
+import { AppBar, Grid, Tab, Tabs } from "@material-ui/core"
+import { Favorite, Person } from "@material-ui/icons"
 import { ChangeEvent, FC, useState } from "react"
 import { useAppSelector } from "../../../../app/hooks"
 import Posts from "../../Posts"

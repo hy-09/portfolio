@@ -1,5 +1,5 @@
-import { Avatar, Button, InputAdornment, makeStyles, TextField } from '@material-ui/core'
-import React, { FC, useState } from 'react'
+import { InputAdornment, makeStyles, TextField } from '@material-ui/core'
+import { FC, useState } from 'react'
 import SmallButton from '../atoms/SmallButton'
 
 

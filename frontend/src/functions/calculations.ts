@@ -1,4 +1,4 @@
-import { BoughtStockInfo, Company, MyStockInfo } from "../types/stock"
+import { BoughtStockInfo, Company } from "../types/stock"
 
 export const getChangeRate = (before: number, after: number) => {
     let rate: number

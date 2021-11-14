@@ -1,4 +1,4 @@
-import { Avatar, Box, Button, Container, Divider, Grid, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
+import { Avatar, Button, Container, Divider, Grid, Link, makeStyles, Paper, TextField, Typography } from '@material-ui/core'
 import { LockOutlined } from '@material-ui/icons'
 import { Formik } from 'formik'
 import { FC, useState } from 'react'
@@ -9,12 +9,8 @@ import { fetchAsyncGetDataFuncs } from '../../functions/fetchAsyncGetDataFuncs'
 import { homeURL } from '../../router/AuthRoutes'
 import { 
     fetchAsyncCreateProf,
-    fetchAsyncGetMyProf,
-    fetchAsyncGetProfs,
     fetchAsyncLogin,
     fetchAsyncRegister,
-    setLoginUser,
-    fetchAsyncGetUsers,
 } from '../../slices/authSlice'
 import { setFirstTimeAfterRegister } from '../../slices/authSlice'
 import { endLoading, startLoading } from '../../slices/othersSlice'

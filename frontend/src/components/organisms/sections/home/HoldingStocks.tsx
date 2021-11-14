@@ -1,8 +1,6 @@
-import { Grid, makeStyles } from "@material-ui/core"
+import { Grid } from "@material-ui/core"
 import { FC } from "react"
 import { useAppSelector } from "../../../../app/hooks"
-import { MyStockInfo } from "../../../../types/stock"
-import Title from "../../../atoms/Title"
 import HoldingStock from "../../HoldingStock"
 import Section from "../../Section"
 

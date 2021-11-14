@@ -1,6 +1,6 @@
 import { makeStyles, Theme, Typography } from '@material-ui/core'
 import { Variant } from '@material-ui/core/styles/createTypography'
-import React, { ElementType, FC, ReactNode } from 'react'
+import { ElementType, FC, ReactNode } from 'react'
 
 const useStyles = makeStyles<Theme, Props>(theme => ({
     root: {

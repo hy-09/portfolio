@@ -1,5 +1,4 @@
-import { Container, Grid, IconButton, makeStyles } from "@material-ui/core"
-import { ArrowBack } from "@material-ui/icons"
+import { Container, Grid, makeStyles } from "@material-ui/core"
 import { FC, ReactNode } from "react"
 import BackButton from "../../atoms/BackButton"
 import ToTopButton from "../../atoms/ToTopButton"

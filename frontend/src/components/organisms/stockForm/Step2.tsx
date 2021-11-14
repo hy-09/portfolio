@@ -1,6 +1,5 @@
-import { Box, Button, ButtonGroup, FormControl, FormControlLabel, Grid, InputAdornment, makeStyles, Radio, RadioGroup, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, useTheme } from "@material-ui/core"
+import { makeStyles, Table, TableBody, TableCell, TableHead, TableRow } from "@material-ui/core"
 import { FC } from "react"
-import { useHistory } from "react-router-dom"
 import { useAppDispatch } from "../../../app/hooks"
 import { fetchAsyncPatchUser } from "../../../slices/authSlice"
 import { endLoading, startLoading } from "../../../slices/othersSlice"
@@ -97,7 +96,6 @@ const Step2: FC<Props> = (props) => {
 
     const classes = useStyles()
     const dispatch = useAppDispatch()
-    const theme = useTheme()
 
     const handleClickOrderButton = async () => {
         await dispatch(startLoading())

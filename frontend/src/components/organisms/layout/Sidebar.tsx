@@ -1,6 +1,5 @@
 
 import { Link } from '@material-ui/core';
-import { cyan } from '@material-ui/core/colors';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
 import Hidden from '@material-ui/core/Hidden';

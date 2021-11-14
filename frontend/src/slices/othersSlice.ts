@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { Backdrop, Dialog, Modal, Notify } from '../types/others';
+import { Backdrop, Modal, Notify } from '../types/others';
 
 type InitialState = {
     isLoading: boolean;

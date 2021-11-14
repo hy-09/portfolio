@@ -1,6 +1,6 @@
-import { Button, DialogActions, DialogContent, DialogContentText, makeStyles } from "@material-ui/core"
+import { Button, makeStyles } from "@material-ui/core"
 import { FC } from "react"
-import { useAppDispatch, useAppSelector } from "../../app/hooks"
+import { useAppDispatch } from "../../app/hooks"
 import { handleCloseModal, handleOpenNotifyAndBackdrop } from "../../slices/othersSlice"
 import { fetchAsyncDeletePost } from "../../slices/postSlice"
 

@@ -3,7 +3,6 @@ import { FC } from "react"
 import Title from "../../../atoms/Title"
 import Yen from "../../../atoms/Yen"
 import SectionPaper from "../../SectionPaper"
-import clsx from 'clsx'
 import { useAppSelector } from "../../../../app/hooks"
 import { MyStockInfo } from "../../../../types/stock"
 import { green, grey, pink } from "@material-ui/core/colors"

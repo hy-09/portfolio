@@ -1,4 +1,4 @@
-import { Divider, makeStyles, Typography, useTheme } from "@material-ui/core"
+import { Divider, Typography, useTheme } from "@material-ui/core"
 import { FC } from "react"
 import DivWithPadding from "../atoms/DivWithPadding"
 

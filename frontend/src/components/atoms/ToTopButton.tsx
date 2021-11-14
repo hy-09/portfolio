@@ -1,5 +1,5 @@
 import { IconButton, makeStyles } from "@material-ui/core"
-import { ArrowBack, ArrowBackIos, KeyboardArrowLeft, KeyboardArrowUp } from "@material-ui/icons"
+import { KeyboardArrowUp } from "@material-ui/icons"
 import { FC, useEffect, useState } from "react"
 import clsx from "clsx"
 

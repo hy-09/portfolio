@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Box, Modal as MuiModal, Paper, Typography} from '@material-ui/core';
+import { Box, Modal as MuiModal } from '@material-ui/core';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { handleCloseModal } from '../../slices/othersSlice';

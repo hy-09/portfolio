@@ -1,7 +1,5 @@
-import { Box, Grid, makeStyles, Paper, Theme } from '@material-ui/core'
+import { makeStyles, Paper, Theme } from '@material-ui/core'
 import { CSSProperties, FC, memo, ReactNode } from 'react'
-import DivWithPadding from '../atoms/DivWithPadding'
-import Title from '../atoms/Title'
 
 type Props = {
     children: ReactNode;

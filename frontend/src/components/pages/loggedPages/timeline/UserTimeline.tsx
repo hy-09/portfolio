@@ -1,6 +1,6 @@
 
 import { FC, memo } from 'react'
-import { useParams, useHistory, Redirect } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { useAppSelector } from '../../../../app/hooks'
 import { getRoute } from '../../../../functions/router'
 import DivWithPadding from '../../../atoms/DivWithPadding'

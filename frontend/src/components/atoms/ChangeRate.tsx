@@ -1,4 +1,4 @@
-import { makeStyles, Theme, useTheme } from "@material-ui/core"
+import { makeStyles, Theme } from "@material-ui/core"
 import { green, pink } from "@material-ui/core/colors"
 import { TrendingDown, TrendingFlat, TrendingUp } from "@material-ui/icons"
 import clsx from 'clsx'

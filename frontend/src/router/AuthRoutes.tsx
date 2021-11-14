@@ -1,4 +1,3 @@
-import { ChatOutlined, HomeOutlined, TrendingUp } from "@material-ui/icons";
 import { Redirect } from "react-router-dom";
 import Home from "../components/pages/loggedPages/home/Home";
 import StockTradeForm from "../components/pages/loggedPages/stocks/StockTradeForm";

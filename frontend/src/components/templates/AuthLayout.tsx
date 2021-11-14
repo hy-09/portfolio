@@ -1,15 +1,11 @@
-import { Box, Button, Container, CssBaseline, Divider, Grid, IconButton, makeStyles, Theme, Typography, useTheme } from "@material-ui/core";
+import { makeStyles, Theme } from "@material-ui/core";
 import { FC, memo, ReactNode, useEffect, useState } from "react";
 import Sidebar from "../organisms/layout/Sidebar";
 import Header from "../organisms/layout/Header";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { handleOpenModal, handleOpenNotify } from "../../slices/othersSlice";
 import ProfileForm from "../molecules/ProfileForm";
-import DivWithPadding from "../atoms/DivWithPadding";
 import { setFirstTimeAfterRegister } from "../../slices/authSlice";
-import Heading from "../molecules/Heading";
-import Main from "../organisms/layout/Main";
-import { ArrowBack } from "@material-ui/icons";
 
 type Props = {
     children: ReactNode;

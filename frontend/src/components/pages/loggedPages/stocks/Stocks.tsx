@@ -1,6 +1,5 @@
-import { Box, Button, Grid, Hidden, makeStyles, Paper, Typography, useTheme } from '@material-ui/core'
-import clsx from 'clsx'
-import { FC, memo, useEffect, useState } from 'react'
+import { Box, Button, Grid, Hidden, makeStyles, useTheme } from '@material-ui/core'
+import { FC, memo } from 'react'
 import { useHistory } from 'react-router-dom'
 import { useAppSelector } from '../../../../app/hooks'
 import { getRoute } from '../../../../functions/router'

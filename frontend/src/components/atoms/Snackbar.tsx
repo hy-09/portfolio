@@ -3,7 +3,6 @@ import { Alert } from '@material-ui/lab'
 import React, { FC } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { handleCloseNotify, handleCloseNotifyAndBackdrop } from '../../slices/othersSlice'
-import { Notify } from '../../types/others'
 
 const useStyles = makeStyles(theme => ({
     root: {

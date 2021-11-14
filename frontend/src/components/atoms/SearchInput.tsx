@@ -1,4 +1,4 @@
-import { IconButton, InputBase, makeStyles, useTheme } from "@material-ui/core"
+import { IconButton, InputBase, makeStyles } from "@material-ui/core"
 import { SearchOutlined } from "@material-ui/icons"
 import { FC, useState } from "react"
 
@@ -22,7 +22,6 @@ type Props = {
 
 const SearchInput: FC<Props> = (props) => {
     const classes = useStyles()
-    const theme = useTheme()
     const { setSearchWord } = props
     const [tmpSearchWord, settmpSearchWord] = useState('')
 

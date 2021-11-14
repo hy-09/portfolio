@@ -1,5 +1,5 @@
 import { IconButton, makeStyles } from "@material-ui/core"
-import { ArrowBack, ArrowBackIos, KeyboardArrowLeft } from "@material-ui/icons"
+import { KeyboardArrowLeft } from "@material-ui/icons"
 import { FC } from "react"
 import { useHistory } from "react-router-dom"
 import { drawerWidth } from "../../config"

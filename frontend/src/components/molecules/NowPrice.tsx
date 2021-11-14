@@ -1,4 +1,4 @@
-import { makeStyles, useTheme } from "@material-ui/core"
+import { useTheme } from "@material-ui/core"
 import { FC } from "react"
 import { Company } from "../../types/stock"
 import ChangeRate from "../atoms/ChangeRate"

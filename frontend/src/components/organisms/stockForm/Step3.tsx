@@ -1,14 +1,11 @@
-import { Box, Button, ButtonGroup, FormControl, FormControlLabel, Grid, InputAdornment, makeStyles, Radio, RadioGroup, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, useTheme } from "@material-ui/core"
+import { Box, makeStyles, Table, TableBody, TableCell, TableRow, TextField, useTheme } from "@material-ui/core"
 import { FC, useState } from "react"
 import { useHistory } from "react-router-dom"
 import { useAppDispatch } from "../../../app/hooks"
-import { fetchAsyncPatchUser } from "../../../slices/authSlice"
-import { endLoading, handleOpenBackdrop, handleOpenNotify, handleOpenNotifyAndBackdrop, startLoading } from "../../../slices/othersSlice"
-import { fetchAsyncCreateBoughtStockInfo, fetchAsyncDeleteBoughtStockInfo, fetchAsyncPatchBoughtStockInfo } from "../../../slices/stockSlice"
-import { Company, MyStockInfo } from "../../../types/stock"
+import { endLoading, handleOpenNotifyAndBackdrop, startLoading } from "../../../slices/othersSlice"
+import { Company } from "../../../types/stock"
 import { User } from "../../../types/user"
 import Title from "../../atoms/Title"
-import clsx from "clsx"
 import { getRoute } from "../../../functions/router"
 import TwoButtons from "../../molecules/TwoButtons"
 import { grey } from "@material-ui/core/colors"
@@ -103,9 +100,7 @@ const Step3: FC<Props> = (props) => {
             company_id: company.id,
             created_at: datetime,
         }
-        // if (format === 'sell') {
-        //     data.profit_or_loss_price = profitOrLossPrice
-        // }
+        
         const res = await dispatch(fetchAsyncCreatePost(data))
         if (fetchAsyncCreatePost.fulfilled.match(res)) {
             history.push(getRoute('home'))

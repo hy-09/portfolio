@@ -1,18 +1,15 @@
-import { AppBar, Avatar, Badge, Button, Divider, IconButton, makeStyles, Toolbar, Tooltip } from '@material-ui/core'
-import NotificationsNoneOutlinedIcon from '@material-ui/icons/NotificationsNoneOutlined';
+import { AppBar, Avatar, IconButton, makeStyles, Toolbar, Tooltip } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu';
-import React, { FC, ReactNode, useState } from 'react'
+import { FC } from 'react'
 import { drawerWidth } from '../../../config';
 import MenuList from '../MenuList';
 import { useHistory } from 'react-router';
 import { handleOpenModal, resetOthersState } from '../../../slices/othersSlice';
 import { useAppDispatch, useAppSelector } from '../../../app/hooks';
 import ProfileForm from '../../molecules/ProfileForm';
-import clsx from 'clsx'
 import { resetAuthState } from '../../../slices/authSlice';
 import { resetStockState } from '../../../slices/stockSlice';
-import { grey } from '@material-ui/core/colors';
-import { ExitToApp, Person } from '@material-ui/icons';
+import { ExitToApp } from '@material-ui/icons';
 import ChangeStockPriceUpdateFrequency from '../../molecules/ChangeStockPriceUpdateFrequency';
 import { resetPostState } from '../../../slices/postSlice';
 
