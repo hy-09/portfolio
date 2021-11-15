@@ -20,7 +20,6 @@ class UserViewSet(viewsets.ModelViewSet):
 class ProfileViewSet(viewsets.ModelViewSet):
     queryset = Profile.objects.all()
     serializer_class = serializers.ProfileSerializer
-    permission_classes = (AllowAny,)
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -29,7 +28,6 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class MyProfileListView(generics.ListAPIView):
     queryset = Profile.objects.all()
     serializer_class = serializers.ProfileSerializer
-    permission_classes = (AllowAny,)
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
@@ -44,13 +42,11 @@ class CompanyListView(generics.ListAPIView):
 class BoughtStockInfoViewSet(viewsets.ModelViewSet):
     queryset = BoughtStockInfo.objects.all()
     serializer_class = serializers.BoughtStockInfoSerializer
-    permission_classes = (AllowAny,)
 
 
 class MyBoughtStockInfoListView(generics.ListAPIView):
     queryset = BoughtStockInfo.objects.all()
     serializer_class = serializers.BoughtStockInfoSerializer
-    permission_classes = (AllowAny,)
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
@@ -59,13 +55,11 @@ class MyBoughtStockInfoListView(generics.ListAPIView):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = serializers.PostSerializer
-    permission_classes = (AllowAny,)
 
 
 class MyPostListView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = serializers.PostSerializer
-    permission_classes = (AllowAny,)
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
