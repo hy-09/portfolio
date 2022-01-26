@@ -88,7 +88,7 @@ const Step3: FC<Props> = (props) => {
         await dispatch(startLoading())
 
         const date = new Date()
-        const datetime = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`
+        const datetime = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}.${date.getMilliseconds()}`
 
         const data: CreatPost = {
             content: escapeHtml(postcontent).split('\n').join('<br>'),
