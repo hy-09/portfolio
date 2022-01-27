@@ -157,6 +157,8 @@ const Login: FC = () => {
                                         setIsLoginForm(false)
                                         setFailed(false)
                                         setShowDammyUserButton(false)
+                                        values.email = ''
+                                        values.password = ''
                                         errors.email = ''
                                         errors.password = ''
                                     }}
@@ -323,6 +325,9 @@ const Login: FC = () => {
                                     onClick={async () => {
                                         setIsLoginForm(true)
                                         setFailed(false)
+                                        values.email = ''
+                                        values.password = ''
+                                        values.passwordConfirm = ''
                                         errors.email = ''
                                         errors.password = ''
                                         errors.passwordConfirm = ''
