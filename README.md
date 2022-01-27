@@ -1,3 +1,5 @@
+URL:http://ec2-54-248-107-74.ap-northeast-1.compute.amazonaws.com
+
 ## ポートフォリオの概要
 簡易的な株取引のシミュレーションアプリです。  
 実際のお金は使用せず、株価もJavaScriptでランダムに変動させています。 
