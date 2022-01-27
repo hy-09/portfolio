@@ -5,6 +5,7 @@ import { AvatarGroup } from "@material-ui/lab"
 import { FC, useCallback } from "react"
 import { useHistory } from "react-router-dom"
 import { useAppSelector, useAppDispatch } from "../../app/hooks"
+import { getAvatarImg } from "../../functions/getData"
 import { getRoute } from "../../functions/router"
 import { handleOpenModal } from "../../slices/othersSlice"
 import { endLikeProcess, fetchAsyncPatchPost, startLikeProcess } from "../../slices/postSlice"
@@ -73,6 +74,7 @@ const Post: FC<Props> = (props) => {
     const classes = useStyles(props)
     const { post, searchWords, isDeletable=false } = props
     const isLikeProcessing = useAppSelector(state => state.post.isLikeProcessing)
+    const users = useAppSelector(state => state.auth.users)
     const loginUser = useAppSelector(state => state.auth.loginUser)
     const profiles = useAppSelector(state => state.auth.profiles)
     const profile = profiles.find(profile => profile.user.id === post.user.id)!
@@ -146,7 +148,7 @@ const Post: FC<Props> = (props) => {
                     onClick={handleClickUserName}
                 >
                     <Grid item>
-                        <Avatar src={profile.img} className={classes.avatar} />
+                        <Avatar src={getAvatarImg(post.user!.id, post.user!.email, profile)} className={classes.avatar} />
                     </Grid>
                     <Grid item>
                         <div style={{fontWeight: 'bold'}}>{profile.name}</div>
@@ -236,7 +238,13 @@ const Post: FC<Props> = (props) => {
                             {post.likeUsers.map(userId => (
                                 <Avatar
                                     key={userId}
-                                    src={profiles.find(profile => profile.user.id === userId)!.img} 
+                                    src={
+                                        getAvatarImg(
+                                            userId, 
+                                            users.find(user => user.id === userId)!.email,
+                                            profiles.find(profile => profile.user.id === userId)!
+                                        )
+                                    } 
                                 />
                             ))}
                         </AvatarGroup>

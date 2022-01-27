@@ -1,6 +1,7 @@
 import { Avatar, Button, makeStyles, TextField } from '@material-ui/core'
 import { FC, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { getAvatarImg } from '../../functions/getData'
 import { fetchAsyncUpdateProf } from '../../slices/authSlice'
 import { endLoading, handleCloseModal, startLoading, handleOpenNotifyAndBackdrop } from '../../slices/othersSlice'
 import { File } from '../../types/user'
@@ -34,6 +35,7 @@ const useStyles = makeStyles(theme => ({
 const ProfileForm: FC = () => {
     const dispatch = useAppDispatch()
     const classes = useStyles()
+    const loginUser = useAppSelector(state => state.auth.loginUser)
     const myprofile = useAppSelector(state => state.auth.myprofile)
     const [nameInEdit, setNameInEdit] = useState<string>(myprofile.name)
     const [image, setImage] = useState<File | null>(null)
@@ -89,7 +91,7 @@ const ProfileForm: FC = () => {
                         onChange={(e) => handleSetPreviewImage(e.target.files![0])}
                     />
                 </Button>
-                <Avatar src={previewImage ?? myprofile.img} className={classes.avatar} />
+                <Avatar src={previewImage ?? getAvatarImg(loginUser!.id, loginUser!.email, myprofile)} className={classes.avatar} />
 
             </div>
             <SmallButton

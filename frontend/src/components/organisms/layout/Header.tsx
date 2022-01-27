@@ -12,6 +12,7 @@ import { resetStockState } from '../../../slices/stockSlice';
 import { ExitToApp } from '@material-ui/icons';
 import ChangeStockPriceUpdateFrequency from '../../molecules/ChangeStockPriceUpdateFrequency';
 import { resetPostState } from '../../../slices/postSlice';
+import { getAvatarImg } from '../../../functions/getData';
 
 type Props = {
     handleDrawerToggle: () => void;
@@ -58,6 +59,7 @@ const useStyles = makeStyles(theme => ({
 
 const Header: FC<Props> = (props) => {
     const { handleDrawerToggle } = props
+    const loginUser = useAppSelector(state => state.auth.loginUser)
     const myprofile = useAppSelector(state => state.auth.myprofile)
     const dispatch = useAppDispatch()
     const history = useHistory()
@@ -106,7 +108,7 @@ const Header: FC<Props> = (props) => {
             <div className={classes.icons}>
                 <MenuList 
                     ButtonContent={() => (
-                        <Avatar src={myprofile.img} className={classes.avatar} />
+                        <Avatar src={getAvatarImg(loginUser!.id, loginUser!.email, myprofile)} className={classes.avatar} />
                     )}
                     items={items}
                 />

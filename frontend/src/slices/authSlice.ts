@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { getAvatarImg } from '../functions/getData';
 import { EditProfile, Name, Auth, User, Profile, UpdateFund } from '../types/user'
 
 const rootUrl = process.env.REACT_APP_DEV_ROOT_URL
@@ -173,9 +174,7 @@ export const authSlice = createSlice({
                 const loginUser = state.users.find(user => user.id === profile.user.id)
                 state.myprofile = {
                     ...profile,
-                    img: loginUser!.email.startsWith('vl2id0aow1qkrt') && profile.img === null ? `https://picsum.photos/${100+loginUser!.id}` :
-                        profile.img === null ? undefined :
-                        profile.img           
+                    img: getAvatarImg(loginUser!.id, loginUser!.email, profile)          
                 }
             })
             .addCase(fetchAsyncPatchUser.fulfilled, (state, action) => {
@@ -190,9 +189,7 @@ export const authSlice = createSlice({
                     const user = state.users.find(user => user.id === profile.user.id)
                     return {
                         ...profile,
-                        img: user!.email.startsWith('vl2id0aow1qkrt') && profile.img == null ? `https://picsum.photos/${100+user!.id}` :
-                            profile.img === null ? undefined :
-                            profile.img
+                        img: getAvatarImg(user!.id, user!.email, profile)
                     }
                 })
             })
