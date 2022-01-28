@@ -1,4 +1,4 @@
-URL:http://ec2-54-248-107-74.ap-northeast-1.compute.amazonaws.com
+URL：http://ec2-54-248-107-74.ap-northeast-1.compute.amazonaws.com
 
 ## ポートフォリオの概要
 簡易的な株取引のシミュレーションアプリです。  
