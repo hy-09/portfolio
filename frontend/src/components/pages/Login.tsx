@@ -107,7 +107,7 @@ const Login: FC = () => {
                             isValid,
                         }) => 
                             <form id="loginForm" onSubmit={handleSubmit} className={classes.form}>
-                                <TextField
+                                {/* <TextField
                                     variant="outlined"
                                     margin="normal"
                                     fullWidth
@@ -165,7 +165,10 @@ const Login: FC = () => {
                                 >
                                     アカウント作成はこちら
                                 </Link>
-                                <Divider style={{margin: '40px 0'}} />
+                                <Divider style={{margin: '40px 0'}} /> */}
+                                <p style={{marginBottom: 16}}>
+                                    なぜか本番環境では、ログイン・新規登録のバリデーションがうまく機能しないためフォームを非表示にしています。
+                                </p>
                                 <p>
                                     <Link 
                                         href="#" 
